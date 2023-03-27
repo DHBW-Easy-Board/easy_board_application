@@ -6,8 +6,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./auth-dialog.component.css']
 })
 export class AuthDialogComponent {
-    logoUrl: string = '../../assets/img/logo.png';
+    @Input() 
+    public title: string = 'AuthDialogTitle';
+    @Input() 
+    public subTitle: string = 'AuthDialogSubTitle';
 
-    @Input() title: string = 'AuthDialogTitle';
-    @Input() subTitle: string = 'AuthDialogSubTitle';
+    public logoUrl: string = '../../assets/img/logo.png';
 }
