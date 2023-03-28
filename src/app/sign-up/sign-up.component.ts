@@ -5,7 +5,7 @@ import { supabase } from 'src/env/supabase';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
     private supabase = supabase;
