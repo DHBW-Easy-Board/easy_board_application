@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { supabase } from 'src/env/supabase';
 
 @Component({
   selector: 'app-sign-up',
@@ -7,6 +8,8 @@ import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors }
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent {
+    private supabase = supabase;
+
     // Form with validators
     public signUpForm = new FormGroup({
         name: new FormControl('', [
@@ -50,7 +53,7 @@ export class SignUpComponent {
     }
 
     /**
-     * Sign ups the use.
+     * Sign ups the user.
      * 
      * @returns Promise<void>
      */
@@ -58,6 +61,17 @@ export class SignUpComponent {
         if (this.name?.errors || this.email?.errors || this.password?.errors || this.confirmPassword?.errors)
             return;
 
-        console.log('Sign Up');
+        if (!this.name?.value || !this.email?.value || !this.password?.value || !this.confirmPassword?.value)
+            return;
+
+        let response = await this.supabase.auth.signUp({
+            email: this.email.value,
+            password: this.password.value
+        });
+
+        console.log(response);
+        if (response.error === null) {
+            alert('Signed up successfully!');
+        }
     }
 }
