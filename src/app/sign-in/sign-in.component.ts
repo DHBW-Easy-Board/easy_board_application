@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { supabase } from 'src/env/supabase';
@@ -8,7 +8,7 @@ import { supabase } from 'src/env/supabase';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
     public signInFailed = false;
     public errorMsg = '';
 

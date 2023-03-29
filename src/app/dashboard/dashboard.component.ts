@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { supabase } from 'src/env/supabase';
 
@@ -7,7 +7,7 @@ import { supabase } from 'src/env/supabase';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
     public email: string | undefined;
 
     constructor (private router: Router) { }
