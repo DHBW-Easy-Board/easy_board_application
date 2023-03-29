@@ -8,6 +8,9 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
+    // Customize brand name
+    public companyBrand = 'EasyBoard'
+
     // Form with validators
     public signUpForm = new FormGroup({
         name: new FormControl('', [
