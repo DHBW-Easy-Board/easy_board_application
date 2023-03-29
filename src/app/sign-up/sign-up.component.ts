@@ -8,8 +8,6 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
-    private supabase = supabase;
-
     // Form with validators
     public signUpForm = new FormGroup({
         name: new FormControl('', [
@@ -64,7 +62,7 @@ export class SignUpComponent {
         if (!this.name?.value || !this.email?.value || !this.password?.value || !this.confirmPassword?.value)
             return;
 
-        let response = await this.supabase.auth.signUp({
+        let response = await supabase.auth.signUp({
             email: this.email.value,
             password: this.password.value
         });
