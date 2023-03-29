@@ -7,6 +7,7 @@
         <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
             <input id="password" type="password" matInput formControlName="password">
+            <mat-error *ngIf="signInFailed">{{ errorMsg }}</mat-error>
         </mat-form-field>
         <button type="submit" class="full-width" mat-flat-button color="primary">Sign in</button>
     </form>
