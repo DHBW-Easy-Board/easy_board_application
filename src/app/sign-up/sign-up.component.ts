@@ -19,7 +19,8 @@ export class SignUpComponent {
         ]),
         password: new FormControl('', [
             Validators.required,
-            Validators.minLength(8)
+            Validators.minLength(8),
+            Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!$%&()?*_])/)
         ]),
         confirmPassword: new FormControl('', [
             Validators.required
@@ -54,7 +55,7 @@ export class SignUpComponent {
      * 
      * @returns Promise<void>
      */
-    public async signUp(): Promise<void> {        
+    public async signUp(): Promise<void> {
         if (this.email?.errors || this.password?.errors || this.confirmPassword?.errors)
             return;
 

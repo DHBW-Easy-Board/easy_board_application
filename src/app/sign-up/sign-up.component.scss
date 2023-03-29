@@ -1,3 +1,8 @@
+// Only display one mat-error at a time
+mat-error + mat-error {
+    display: none;
+}
+
 #sign-in-ref {
     margin-top: 10px;
     padding: 16px 16px 0;

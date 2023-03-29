@@ -1,5 +1,5 @@
 <app-auth-dialog title="Sign Up" subTitle="Welcome to {{ companyBrand }} - Create your account now!">
-    <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+    <form class="form-column" [formGroup]="signUpForm" (ngSubmit)="signUp()">
         <mat-form-field class="full-width">
             <mat-label>Email Address</mat-label>
             <input id="email" type="email" matInput formControlName="email" required>
@@ -11,6 +11,7 @@
             <input id="password" type="password" matInput formControlName="password" required>
             <mat-error *ngIf="password?.errors?.['required']">Password is required.</mat-error>
             <mat-error *ngIf="password?.errors?.['minlength']">Password has to be at least 8 characters long.</mat-error>
+            <mat-error *ngIf="password?.errors?.['pattern']">At least a combination of uppercase and lowercase letters, numbers and one of !$%&()?*_ is required.</mat-error>
         </mat-form-field>
         <mat-form-field class="full-width">
             <mat-label>Confirm Password</mat-label>

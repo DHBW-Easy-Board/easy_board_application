@@ -4,6 +4,16 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Global helper classes */
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-column button {
+    padding: 24px;
+}
+
 .full-width {
     width: 100%;
 }
