@@ -1,5 +1,5 @@
 <app-auth-dialog title="Sign In" subTitle="Welcome back!">
-    <form [formGroup]="signInForm" (ngSubmit)="signIn()">
+    <form class="form-column" [formGroup]="signInForm" (ngSubmit)="signIn()">
         <mat-form-field class="full-width">
             <mat-label>Email Address</mat-label>
             <input id="email" type="email" matInput formControlName="email">
