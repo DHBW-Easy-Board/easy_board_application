@@ -51,7 +51,7 @@ export class SignUpComponent {
     }
 
     /**
-     * Sign ups the user.
+     * Signs up the user.
      * 
      * @returns Promise<void>
      */
