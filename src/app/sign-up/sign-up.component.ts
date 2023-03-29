@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Router } from '@angular/router';
 import { supabase } from 'src/env/supabase';
 
 @Component({
@@ -26,6 +27,9 @@ export class SignUpComponent {
             Validators.required
         ])
     }, { validators: this.checkPassword });
+
+    // Inject router to redirect after successful sign up
+    constructor (private router: Router) { }
 
     // Getters for the form data for easier access in the template
     get email() { return this.signUpForm.get('email'); }
@@ -62,14 +66,13 @@ export class SignUpComponent {
         if (!this.email?.value || !this.password?.value || !this.confirmPassword?.value)
             return;
 
-        let response = await supabase.auth.signUp({
+        await supabase.auth.signUp({
             email: this.email.value,
             password: this.password.value
+        }).then((response) => {
+            if (response.error === null) {
+                this.router.navigate(['dashboard']);
+            }
         });
-
-        console.log(response);
-        if (response.error === null) {
-            alert('Signed up successfully!');
-        }
     }
 }

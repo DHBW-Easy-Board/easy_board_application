@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { supabase } from 'src/env/supabase';
 
 @Component({
@@ -17,6 +18,9 @@ export class SignInComponent {
         password: new FormControl('')
     });
 
+    // Inject router to redirect after successful sign in
+    constructor (private router: Router) { }
+
     // Getters for the form data for easier access in the template
     get email() { return this.signInForm.get('email'); }
     get password() { return this.signInForm.get('password'); }
@@ -30,19 +34,18 @@ export class SignInComponent {
         if (!this.email?.value || !this.password?.value)
             return;
 
-        let response = await supabase.auth.signInWithPassword({
+        await supabase.auth.signInWithPassword({
             email: this.email.value,
             password: this.password.value
+        }).then((response) => {
+            if (response.error === null) {
+                this.router.navigate(['dashboard']);
+            } else {
+                this.signInFailed = true;
+                this.errorMsg = response.error.message;
+                this.email!.setErrors({ failed: true });
+                this.password!.setErrors({ failed: true });
+            }
         });
-
-        console.log(response);
-        if (response.error === null) {
-            alert('Signed in successfully!');
-        } else {
-            this.signInFailed = true;
-            this.errorMsg = response.error.message;
-            this.email.setErrors({ failed: true });
-            this.password.setErrors({ failed: true });
-        }
     }
 }

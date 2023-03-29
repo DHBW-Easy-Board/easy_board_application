@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AuthDialogComponent } from './components/auth-dialog/auth-dialog.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     AuthDialogComponent,
     SignInComponent,
     SignUpComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
