@@ -12,12 +12,14 @@ import { MatInputModule } from '@angular/material/input';
 
 // Components
 import { AuthDialogComponent } from './components/auth-dialog/auth-dialog.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthDialogComponent,
+    SignInComponent,
     SignUpComponent,
   ],
   imports: [

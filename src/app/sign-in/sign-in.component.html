@@ -1,0 +1,17 @@
+<app-auth-dialog title="Sign In" subTitle="Welcome back!">
+    <form [formGroup]="signInForm" (ngSubmit)="signIn()">
+        <mat-form-field class="full-width">
+            <mat-label>Email Address</mat-label>
+            <input id="email" type="email" matInput formControlName="email">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input id="password" type="password" matInput formControlName="password">
+        </mat-form-field>
+        <button type="submit" class="full-width" mat-flat-button color="primary">Sign in</button>
+    </form>
+    <div id="sign-up-ref">
+        <span>Don't have an Account? </span>
+        <a routerLink="/sign-up">Sign up here</a>
+    </div>
+</app-auth-dialog>
