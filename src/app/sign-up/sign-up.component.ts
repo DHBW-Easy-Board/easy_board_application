@@ -13,9 +13,6 @@ export class SignUpComponent {
 
     // Form with validators
     public signUpForm = new FormGroup({
-        name: new FormControl('', [
-            Validators.required
-        ]),
         email: new FormControl('', [
             Validators.required,
             Validators.email
@@ -30,7 +27,6 @@ export class SignUpComponent {
     }, { validators: this.checkPassword });
 
     // Getters for the form data for easier access in the template
-    get name() { return this.signUpForm.get('name'); }
     get email() { return this.signUpForm.get('email'); }
     get password() { return this.signUpForm.get('password'); }
     get confirmPassword() { return this.signUpForm.get('confirmPassword'); }
@@ -59,10 +55,10 @@ export class SignUpComponent {
      * @returns Promise<void>
      */
     public async signUp(): Promise<void> {        
-        if (this.name?.errors || this.email?.errors || this.password?.errors || this.confirmPassword?.errors)
+        if (this.email?.errors || this.password?.errors || this.confirmPassword?.errors)
             return;
 
-        if (!this.name?.value || !this.email?.value || !this.password?.value || !this.confirmPassword?.value)
+        if (!this.email?.value || !this.password?.value || !this.confirmPassword?.value)
             return;
 
         let response = await supabase.auth.signUp({
