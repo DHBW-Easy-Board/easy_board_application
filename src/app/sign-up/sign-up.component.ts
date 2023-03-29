@@ -31,6 +31,15 @@ export class SignUpComponent {
     // Inject router to redirect after successful sign up
     constructor (private router: Router) { }
 
+    // Navigate to dashboard if user is already signed in
+    async ngOnInit() {
+        await supabase.auth.getUser()
+        .then((response) => {
+            if (response.data.user?.aud === 'authenticated')
+                this.router.navigate(['dashboard']);
+        })
+    }
+
     // Getters for the form data for easier access in the template
     get email() { return this.signUpForm.get('email'); }
     get password() { return this.signUpForm.get('password'); }

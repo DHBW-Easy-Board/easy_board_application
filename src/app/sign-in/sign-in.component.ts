@@ -21,6 +21,15 @@ export class SignInComponent {
     // Inject router to redirect after successful sign in
     constructor (private router: Router) { }
 
+    // Navigate to dashboard if user is already signed in
+    async ngOnInit() {
+        await supabase.auth.getUser()
+        .then((response) => {
+            if (response.data.user?.aud === 'authenticated')
+                this.router.navigate(['dashboard']);
+        })
+    }
+
     // Getters for the form data for easier access in the template
     get email() { return this.signInForm.get('email'); }
     get password() { return this.signInForm.get('password'); }
