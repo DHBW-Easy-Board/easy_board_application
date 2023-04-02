@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
         await supabase.auth.getUser()
             .then((response) => {
                 this.email = response.data.user?.email;
-            })
+            });
     }
 
     // Test sign out

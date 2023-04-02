@@ -12,6 +12,6 @@ export class AuthDialogComponent {
     public subTitle: string = 'AuthDialogSubTitle';
 
     // Customization
-    public logoUrl: string = '../../assets/img/logo.png';
-    public background: string = '../../assets/img/background.png';
+    public logoUrl: string = 'assets/img/logo.png';
+    public background: string = 'assets/img/background.png';
 }

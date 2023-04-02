@@ -27,7 +27,7 @@ export class SignInComponent implements OnInit {
         .then((response) => {
             if (response.data.user?.aud === 'authenticated')
                 this.router.navigate(['dashboard']);
-        })
+        });
     }
 
     // Getters for the form data for easier access in the template
