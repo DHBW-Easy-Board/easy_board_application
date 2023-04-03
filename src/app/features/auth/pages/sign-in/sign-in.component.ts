@@ -26,7 +26,7 @@ export class SignInComponent implements OnInit {
         await supabase.auth.getUser()
         .then((response) => {
             if (response.data.user?.aud === 'authenticated')
-                this.router.navigate(['dashboard']);
+                this.router.navigate(['kanban/dashboard']);
         });
     }
 
@@ -48,7 +48,7 @@ export class SignInComponent implements OnInit {
             password: this.password.value
         }).then((response) => {
             if (response.error === null) {
-                this.router.navigate(['dashboard']);
+                this.router.navigate(['kanban/dashboard']);
             } else {
                 this.signInFailed = true;
                 this.errorMsg = response.error.message;

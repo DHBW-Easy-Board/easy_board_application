@@ -8,15 +8,15 @@ const routes: Routes = [
     { 
         path: '', 
         pathMatch: 'full', 
-        redirectTo: 'sign-in'
+        redirectTo: 'auth/sign-in'
     },
     {
-        path: '', 
+        path: 'auth', 
         loadChildren: () => import('./features/auth/auth.module')
             .then(m => m.AuthModule)
     },
     {
-        path: '',
+        path: 'kanban',
         loadChildren: () => import('./features/kanban/kanban.module')
             .then(m => m.KanbanModule),
         canActivate: [authGuard]
