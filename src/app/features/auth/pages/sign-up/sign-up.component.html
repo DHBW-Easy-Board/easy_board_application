@@ -1,0 +1,28 @@
+<app-auth-dialog title="Sign Up" subTitle="Welcome to {{ companyBrand }} - Create your account now!">
+    <form class="form-column" [formGroup]="signUpForm" (ngSubmit)="signUp()">
+        <mat-form-field class="full-width">
+            <mat-label>Email Address</mat-label>
+            <input id="email" type="email" matInput formControlName="email" required>
+            <mat-error *ngIf="email?.errors?.['required']">Email is required.</mat-error>
+            <mat-error *ngIf="email?.errors?.['email']">Please use a valid email address.</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input id="password" type="password" matInput formControlName="password" required>
+            <mat-error *ngIf="password?.errors?.['required']">Password is required.</mat-error>
+            <mat-error *ngIf="password?.errors?.['minlength']">Password has to be at least 8 characters long.</mat-error>
+            <mat-error *ngIf="password?.errors?.['pattern']">At least a combination of uppercase and lowercase letters, numbers and one of !$%&()?*_ is required.</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Confirm Password</mat-label>
+            <input id="confirm-password" type="password" matInput formControlName="confirmPassword" required>
+            <mat-error *ngIf="confirmPassword?.errors?.['required']">Confirming your password is required.</mat-error>
+            <mat-error *ngIf="confirmPassword?.errors?.['passwordUnconfirmed']">Please confirm your password.</mat-error>
+        </mat-form-field>
+        <button type="submit" class="full-width" mat-flat-button color="primary">Sign up</button>
+    </form>
+    <div id="sign-in-ref">
+        <span>Already have an account? </span>
+        <a routerLink="/sign-in">Sign in here</a>
+    </div>
+</app-auth-dialog>
