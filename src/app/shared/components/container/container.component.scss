@@ -1,13 +1,11 @@
 .app-container {
     height: 100%;
-
-    // Debug
-    // background-color: orange;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-// Debug
-.app-container h1 {
-    position: fixed;
-    top: 0;
-    left: 0;
+.app-content {
+    flex: 1;
+    overflow: auto,
 }
