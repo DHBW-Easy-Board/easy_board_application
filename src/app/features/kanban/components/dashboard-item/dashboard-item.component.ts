@@ -7,13 +7,13 @@ import { Component, Input } from '@angular/core';
 })
 export class DashboardItemComponent {
     @Input()
-    public boardId = 0;
+    public boardId: number = 0;
 
     @Input()
-    public boardName = 'Board';
+    public boardName: string = 'Board';
 
     @Input()
-    public boardLastUpdated = 'Last updated';
+    public boardLastUpdated: Date = new Date();
 
     /**
      * ToDo
