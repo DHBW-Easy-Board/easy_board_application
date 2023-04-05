@@ -1,0 +1,18 @@
+.nav-bar-spacer {
+    flex: 1 1 auto;
+}
+
+.nav-bar-home {
+    background: none;
+    border: none;
+    padding: 7px 8px;
+}
+
+.nav-bar-home:hover {
+    cursor: pointer;
+}
+
+.nav-bar-logo {
+    height: 32px;
+    width: 32px;
+}
