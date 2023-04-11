@@ -2,6 +2,17 @@
     <button class="nav-bar-home">
         <img class="nav-bar-logo" src="{{ logoUrl }}">
     </button>
+    <button mat-button [matMenuTriggerFor]="boardMenu">
+        Boards
+        <mat-icon iconPositionEnd>expand_more</mat-icon>
+    </button>
+    <mat-menu #boardMenu="matMenu">
+        <span class="menu-section-title">ZULETZT</span>
+        <button *ngFor="let board of latestBoards" mat-menu-item>{{ board.board_name }}</button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item>Board Übersicht</button>
+        <button mat-menu-item>Board erstellen</button>
+    </mat-menu>
     <span class="nav-bar-spacer"></span>
     <button mat-icon-button>
         <mat-icon>person</mat-icon>
