@@ -9,8 +9,6 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    // Various tests
-    public email: string | undefined;
     public boards: Board[] = [];
 
     constructor (private router: Router) { }
