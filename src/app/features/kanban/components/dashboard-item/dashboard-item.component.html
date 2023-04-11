@@ -2,6 +2,6 @@
     <img class="dashboard-item-thumbnail" mat-card-image src="assets/img/thumbnail.png" alt="Dashboard item">
     <mat-card-content>
         <p class="dashboard-item-title">{{ boardName }}</p>
-        <p>{{ boardLastUpdated }}</p>
+        <p>Zuletzt geändert am {{ boardLastUpdated | date:"dd.MM.yy" }}</p>
     </mat-card-content>
 </mat-card>

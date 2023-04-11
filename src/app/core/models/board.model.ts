@@ -1,9 +1,8 @@
 export interface Board {
-    id: number;
-    name: string;
-    description: string;
+    board_id: number;
+    board_name: string;
+    board_description: string;
     owner_id: string;
-    created_at: Date;
-    updated_at: Date;
-    deleted_at: Date;
+    board_created_at: Date;
+    board_modify_ts: Date;
 }
