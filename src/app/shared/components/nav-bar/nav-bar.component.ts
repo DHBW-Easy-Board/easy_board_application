@@ -56,4 +56,12 @@ export class NavBarComponent {
                     });
             });
     }
+
+    /**
+     * ToDo
+     * Create a new board.
+     */
+    public createBoard() {
+        alert('ToDo');
+    }
 }

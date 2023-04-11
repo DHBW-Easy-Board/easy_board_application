@@ -16,6 +16,12 @@ const routes: Routes = [
             .then(m => m.AuthModule)
     },
     {
+        path: 'user',
+        loadChildren: () => import('./features/user/user.module')
+            .then(m => m.UserModule),
+        canActivateChild: [authGuard]
+    },
+    {
         path: 'kanban',
         loadChildren: () => import('./features/kanban/kanban.module')
             .then(m => m.KanbanModule),
