@@ -11,6 +11,7 @@ import { supabase } from 'src/env/supabase';
 export class DashboardComponent implements OnInit {
     public boards: Board[] = [];
 
+    // Inject router to redirect for test purposes
     constructor (private router: Router) { }
 
     ngOnInit() {
@@ -18,7 +19,7 @@ export class DashboardComponent implements OnInit {
     }
 
     /**
-     * ToDo
+     * ToDo - Refactor
      * Get all boards from the user.
      */
     public async getBoards() {
@@ -47,7 +48,7 @@ export class DashboardComponent implements OnInit {
         alert('ToDo');
     }
 
-    // Test sign out
+    // Testing sign out
     public async signOut() {
         await supabase.auth.signOut()
             .then((response) => {

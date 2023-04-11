@@ -35,7 +35,7 @@ export class NavBarComponent {
     }
 
     /**
-     * ToDo
+     * ToDo - Refactor
      * Get all the latest boards from the user.
      */
     private async getLatestBoards() {
