@@ -32,6 +32,10 @@ export class NavBarComponent {
         this.getLatestBoards();
     }
 
+    /**
+     * ToDo
+     * Get all the latest boards from the user.
+     */
     private async getLatestBoards() {
         await supabase.auth.getUser()
             .then((response) => {
