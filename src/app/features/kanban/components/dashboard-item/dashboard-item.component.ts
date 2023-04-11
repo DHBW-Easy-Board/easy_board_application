@@ -14,12 +14,4 @@ export class DashboardItemComponent {
 
     @Input()
     public boardLastUpdated: Date = new Date();
-
-    /**
-     * ToDo
-     * Open the selected board.
-     */
-    public openBoard() {
-        alert('ToDo - ID Test: ' + this.boardId);
-    }
 }

@@ -1,4 +1,4 @@
-<mat-card class="dashboard-item" (click)="openBoard()">
+<mat-card class="dashboard-item" [routerLink]="['/app/boards', boardId]">
     <img class="dashboard-item-thumbnail" mat-card-image src="assets/img/thumbnail.png" alt="Dashboard item">
     <mat-card-content>
         <p class="dashboard-item-title">{{ boardName }}</p>

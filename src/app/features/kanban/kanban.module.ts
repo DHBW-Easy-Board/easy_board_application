@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { KanbanRoutingModule } from './kanban-routing.module';
 
 // Components
@@ -14,10 +15,11 @@ import { MatCardModule } from '@angular/material/card';
 @NgModule({
   declarations: [
     DashboardComponent,
-    DashboardItemComponent
+    DashboardItemComponent,
   ],
   imports: [
     CommonModule,
+    RouterModule,
     KanbanRoutingModule,
     ContainerComponent,
     MatButtonModule,
