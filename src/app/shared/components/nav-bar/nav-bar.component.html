@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-    <button class="nav-bar-home">
+    <button class="nav-bar-home" [routerLink]="['/kanban/dashboard']">
         <img class="nav-bar-logo" src="{{ logoUrl }}">
     </button>
     <button mat-button [matMenuTriggerFor]="boardMenu">
@@ -10,7 +10,7 @@
         <span class="menu-section-title">ZULETZT</span>
         <button *ngFor="let board of latestBoards" mat-menu-item>{{ board.board_name }}</button>
         <mat-divider></mat-divider>
-        <button mat-menu-item>Board Übersicht</button>
+        <button mat-menu-item [routerLink]="['/kanban/dashboard']">Board Übersicht</button>
         <button mat-menu-item>Board erstellen</button>
     </mat-menu>
     <span class="nav-bar-spacer"></span>
