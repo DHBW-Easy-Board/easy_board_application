@@ -1,0 +1,11 @@
+.board-container {
+    padding: 20px;
+    position: relative;
+}
+
+.column-container {
+    margin: 50px 0;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+}

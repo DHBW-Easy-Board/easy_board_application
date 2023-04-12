@@ -1,5 +1,8 @@
 <app-container>
     <div class="board-container">
-        <p>Board works!</p>
+        <h1>{{ title }}</h1>
+        <div class="column-container">
+            <div *ngFor="let column of columns">COLUMNS HERE</div>
+        </div>
     </div>
 </app-container>
