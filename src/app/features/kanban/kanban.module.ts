@@ -5,6 +5,7 @@ import { KanbanRoutingModule } from './kanban-routing.module';
 
 // Components
 import { BoardComponent } from './pages/board/board.component';
+import { ColumnComponent } from './components/column/column.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ContainerComponent } from 'src/app/shared/components/container/container.component';
 import { DashboardItemComponent } from './components/dashboard-item/dashboard-item.component';
@@ -16,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 @NgModule({
   declarations: [
     BoardComponent,
+    ColumnComponent,
     DashboardComponent,
     DashboardItemComponent,
   ],
