@@ -1,0 +1,12 @@
+.app-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: rgb(240, 240, 243);
+}
+
+.app-content {
+    flex: 1;
+    overflow: auto,
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Board } from 'src/app/core/models/board.model';
 import { supabase } from 'src/env/supabase';
 
 @Component({
@@ -8,19 +9,46 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    public email: string | undefined;
+    public boards: Board[] = [];
 
+    // Inject router to redirect for test purposes
     constructor (private router: Router) { }
 
-    // Test if sign in was successful
-    async ngOnInit() {
+    ngOnInit() {
+        this.getBoards();
+    }
+
+    /**
+     * ToDo - Refactor
+     * Get all boards from the user.
+     */
+    public async getBoards() {
         await supabase.auth.getUser()
             .then((response) => {
-                this.email = response.data.user?.email;
+                response.data.user?.id
+
+                supabase.from('board_ov_vw')
+                    .select('*')
+                    .eq('owner_id', response.data.user?.id)
+                    .order('board_modify_ts', { ascending: false })
+                    .then((response) => {
+                        if (response.error)
+                            return;
+
+                        this.boards = response.data as Board[];
+                    });
             });
     }
 
-    // Test sign out
+    /**
+     * ToDo
+     * Create a new board.
+     */
+    public createBoard() {
+        alert('ToDo');
+    }
+
+    // Testing sign out
     public async signOut() {
         await supabase.auth.signOut()
             .then((response) => {

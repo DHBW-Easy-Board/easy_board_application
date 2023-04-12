@@ -9,7 +9,7 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
-    // Customize brand name
+    // Customization
     public companyBrand = 'EasyBoard'
 
     // Form with validators
@@ -31,12 +31,12 @@ export class SignUpComponent implements OnInit {
     // Inject router to redirect after successful sign up
     constructor (private router: Router) { }
 
-    // Navigate to dashboard if user is already signed in
     async ngOnInit() {
+        // Navigate to dashboard if user is already signed in
         await supabase.auth.getUser()
         .then((response) => {
             if (response.data.user?.aud === 'authenticated')
-                this.router.navigate(['kanban/dashboard']);
+                this.router.navigate(['app/dashboard']);
         });
     }
 
@@ -80,7 +80,7 @@ export class SignUpComponent implements OnInit {
             password: this.password.value
         }).then((response) => {
             if (response.error === null) {
-                this.router.navigate(['kanban/dashboard']);
+                this.router.navigate(['app/dashboard']);
             }
         });
     }

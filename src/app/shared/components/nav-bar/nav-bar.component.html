@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+    <button class="nav-bar-home" [routerLink]="['/app/dashboard']">
+        <img class="nav-bar-logo" src="{{ logoUrl }}">
+    </button>
+    <button mat-button [matMenuTriggerFor]="boardMenu">
+        Boards
+        <mat-icon iconPositionEnd>expand_more</mat-icon>
+    </button>
+    <mat-menu #boardMenu="matMenu">
+        <span class="menu-section-title">ZULETZT</span>
+        <button *ngFor="let board of latestBoards" mat-menu-item [routerLink]="['/app/boards', board.board_id]">{{ board.board_name }}</button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item [routerLink]="['/app/dashboard']">Board Übersicht</button>
+        <button mat-menu-item (click)="createBoard()">Board erstellen</button>
+    </mat-menu>
+    <span class="nav-bar-spacer"></span>
+    <button mat-icon-button [routerLink]="['/user/profile']">
+        <mat-icon>person</mat-icon>
+    </button>
+</mat-toolbar>
