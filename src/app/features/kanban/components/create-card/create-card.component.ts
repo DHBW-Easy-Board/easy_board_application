@@ -37,11 +37,24 @@ export class CreateCardComponent {
     }
   );
 
+  /*
   public async submitCreateCardForm(){
     await supabase.from('card').insert([
       {name: this.addCardForm.value.fName, description: this.addCardForm.value.fDescription,
       assigned_to: this.userId, column_id: this.columnId, created_at: new Date(), due_date: this.addCardForm.value.fDueDate},
     ])
+  }
+  */
+  public async submitCreateCardForm() {
+      const element = {
+          name: "TestCard",
+          description: 'TestDescription',
+          columns_id:  1,
+      }
+      const response = await supabase.from('card').insert([
+        element
+      ]);
+      console.log(response);
   }
 
   public async getValidUsers(){
