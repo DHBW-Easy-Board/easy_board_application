@@ -2,9 +2,12 @@ import {Component, Input, ViewChild} from '@angular/core';
 import {FormBuilder} from "@angular/forms";
 import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 import {supabase} from "../../../../../env/supabase";
+import {cardModel} from "../../../../core/models/card-model";
+import {MatDialogRef} from "@angular/material/dialog";
 
-export interface assignee{
-  id: string
+interface userpair{
+  id: any,
+  email: any
 }
 
 @Component({
@@ -14,18 +17,27 @@ export interface assignee{
 })
 export class CreateCardComponent {
 
-  @Input()
-  public boardId: number = 0;
+  //these get provided by dialog open method
+  public boardId: any = '0';
+  public columnId: any = 0;
+  public cardId: any = '0';
+  public isEdit: any = false;
 
-  @Input()
-  public columnId: number = 0;
 
-  userId: any = 0;
-  userMail: any = "isitdefault";
+  asignees: userpair[] = [];
 
-  asignees: string[] = ["123"];
+  /*
+  cardContext : cardModel = {id: '0', name: '', description: '',
+    assignedTo: '0', columnId: 0, creationDate: null, dueDate: null, boardId: '0'}
 
-  constructor(private formBuilder:FormBuilder) { }
+   */
+
+  //Dialog close function
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  constructor(public dialogRef: MatDialogRef<CreateCardComponent> ,private formBuilder:FormBuilder) { }
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize | undefined;
 
@@ -37,36 +49,54 @@ export class CreateCardComponent {
     }
   );
 
-  /*
-  public async submitCreateCardForm(){
-    await supabase.from('card').insert([
-      {name: this.addCardForm.value.fName, description: this.addCardForm.value.fDescription,
-      assigned_to: this.userId, column_id: this.columnId, created_at: new Date(), due_date: this.addCardForm.value.fDueDate},
-    ])
-  }
-  */
+  //todo add board id to submit when available in database
   public async submitCreateCardForm() {
-      const element = {
-          name: "TestCard",
-          description: 'TestDescription',
-          columns_id:  1,
-      }
-      const response = await supabase.from('card').insert([
-        element
-      ]);
-      console.log(response);
+    console.log(this.addCardForm.value.fAssignee)
+    const element = {
+        name: this.addCardForm.value.fName,
+        assigned_to: this.addCardForm.value.fAssignee,
+        description: this.addCardForm.value.fDescription,
+        columns_id: this.columnId,
+        due_date: this.addCardForm.value.fDueDate,
+    }
+    const response = await supabase.from('card').insert([
+      element
+    ]);
+    console.log(response);
   }
 
   public async getValidUsers(){
     await supabase.auth.getUser().then((response) => {
-      this.userId = response.data.user?.id
-      this.userMail = response.data.user?.email
+      this.asignees.push({id: response.data.user?.id,
+        email: response.data.user?.email});
+      console.log(response)
     })
   }
 
+  /*
+  card context für edit (nicht funktional wegen board id missing)
+  public async getCardInfo(){
+    await supabase.from('card').select('*').eq('id', this.cardId).then((response) =>{
+      if(response.error) {
+        console.log('cant preload card information')
+        return;
+      }
+      else {
+        this.cardContext = response.data as cardModel
+      }
+    })
+  }
+
+   */
+
   ngOnInit(): void {
     this.getValidUsers()
-    this.asignees.push(this.userMail)
+
+    /*
+    if(this.isEdit){
+      this.getCardInfo()
+    }
+     */
   }
 
 }

@@ -1,3 +1,4 @@
+<h1 mat-dialog-title>Add a card:</h1>
 <form [formGroup]="addCardForm" (ngSubmit)="submitCreateCardForm()" class="form">
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
@@ -9,8 +10,8 @@
   <mat-form-field appearance="fill">
     <mat-label>select assignee</mat-label>
     <mat-select formControlName="fAssignee" required>
-      <mat-option *ngFor="let assignee of asignees" [value]="assignee">
-        {{assignee}}
+      <mat-option *ngFor="let assignee of asignees" [value]="assignee.id">
+        {{assignee.email}}
       </mat-option>
     </mat-select>
     <mat-error>
@@ -29,5 +30,9 @@
     <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
               cdkAutosizeMaxRows="20" formControlName="fDescription"></textarea>
   </mat-form-field>
-  <button type="button" mat-flat-button color="primary" (click)="submitCreateCardForm()">Add</button>
+  <br />
+  <div mat-dialog-actions>
+    <button type="button" mat-raised-button color="primary" (click)="submitCreateCardForm()">Add</button>
+    <button mat-button class="mat-focus-indicator mat-raised-button mat-button-base mat-raised" (click)="onNoClick()">Back</button>
+  </div>
 </form>

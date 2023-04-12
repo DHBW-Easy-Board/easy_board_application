@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { supabase } from 'src/env/supabase';
+import {CreateCardComponent} from "../../components/create-card/create-card.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +12,7 @@ import { supabase } from 'src/env/supabase';
 export class DashboardComponent implements OnInit {
     public email: string | undefined;
 
-    constructor (private router: Router) { }
+    constructor (private router: Router, public dialog: MatDialog) { }
 
     // Test if sign in was successful
     async ngOnInit() {
@@ -31,4 +33,16 @@ export class DashboardComponent implements OnInit {
                 }
             });
     }
+
+  openCardDialog() {
+    const dialogRef = this.dialog.open(CreateCardComponent,
+      {
+        width: '75%',
+        height: '70%'
+      });
+    dialogRef.componentInstance.boardId = 1
+    dialogRef.componentInstance.columnId = 1
+    dialogRef.componentInstance.cardId = 0
+    dialogRef.componentInstance.isEdit = false
+  }
 }
