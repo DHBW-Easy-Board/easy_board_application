@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-column',
@@ -6,5 +6,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./column.component.scss']
 })
 export class ColumnComponent {
+    @Input()
+    public id?: number;
 
+    @Input()
+    public title = 'Column';
+
+    @Input()
+    public boardId?: number;
+
+    /**
+     * ToDo
+     */
+    public addCard() {
+        alert('ToDo - This is column No. ' + this.id + ' of board No. ' + this.boardId);
+    }
 }

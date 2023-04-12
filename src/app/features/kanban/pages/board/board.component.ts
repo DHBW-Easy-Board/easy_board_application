@@ -9,6 +9,7 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent {
+    public id?: number;
     public title = 'Board';
     public columns: Column[] = [];
 
@@ -17,8 +18,12 @@ export class BoardComponent {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.getBoard(params['id']);
-            this.getColums(params['id']);
+            this.id = params['id'];
+
+            if (this.id) {
+                this.getBoard(this.id);
+                this.getColums(this.id);
+            }
         });
     }
 

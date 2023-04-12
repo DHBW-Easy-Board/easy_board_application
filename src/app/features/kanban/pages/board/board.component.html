@@ -2,7 +2,7 @@
     <div class="board-container">
         <h1>{{ title }}</h1>
         <div class="column-container">
-            <app-column *ngFor="let column of columns"></app-column>
+            <app-column *ngFor="let column of columns" [id]="column.id" [title]="column.name" [boardId]="id"></app-column>
         </div>
     </div>
 </app-container>

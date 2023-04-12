@@ -1,11 +1,16 @@
 .board-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     padding: 20px;
-    position: relative;
 }
 
 .column-container {
-    margin: 50px 0;
+    margin: 50px 0 0;
     display: flex;
     flex-wrap: nowrap;
-    gap: 20px;
+    gap: 30px;
+    flex: 1;
+    overflow: auto;
 }
