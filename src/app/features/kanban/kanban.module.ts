@@ -1,38 +1,41 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KanbanRoutingModule } from './kanban-routing.module';
-import { MatButtonModule } from '@angular/material/button';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { TestpageComponent } from './pages/testpage/testpage.component';
-import { CreateCardComponent } from './components/create-card/create-card.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
+
+// Components
+import { CreateCardComponent } from './components/create-card/create-card.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+
+// Material
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from "@angular/material/dialog";
 import { MatInputModule } from '@angular/material/input';
-import {MatDialogModule} from "@angular/material/dialog";
+import { MatSelectModule } from '@angular/material/select';
 
-
+// Testing
+import { TestpageComponent } from './pages/testpage/testpage.component';
 
 @NgModule({
   declarations: [
+    CreateCardComponent,
     DashboardComponent,
+
+    // Testing
     TestpageComponent,
-    CreateCardComponent
   ],
   imports: [
     CommonModule,
-    MatButtonModule,
     KanbanRoutingModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatDatepickerModule,
     ReactiveFormsModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatDialogModule,
     MatInputModule,
     MatNativeDateModule,
-    MatDialogModule,
+    MatSelectModule,
   ]
 })
 export class KanbanModule { }
