@@ -1,9 +1,8 @@
-import {Component, Input, ViewChild} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
-import {CdkTextareaAutosize} from "@angular/cdk/text-field";
-import {supabase} from "../../../../../env/supabase";
-import {cardModel} from "../../../../core/models/card-model";
-import {MatDialogRef} from "@angular/material/dialog";
+import { Component, ViewChild } from '@angular/core';
+import { FormBuilder } from "@angular/forms";
+import { CdkTextareaAutosize } from "@angular/cdk/text-field";
+import { MatDialogRef } from "@angular/material/dialog";
+import { supabase } from "src/env/supabase";
 
 interface userpair{
   id: any,
@@ -24,7 +23,7 @@ export class CreateCardComponent {
   public isEdit: any = false;
 
 
-  asignees: userpair[] = [];
+  assignees: userpair[] = [];
 
   /*
   cardContext : cardModel = {id: '0', name: '', description: '',
@@ -67,7 +66,7 @@ export class CreateCardComponent {
 
   public async getValidUsers(){
     await supabase.auth.getUser().then((response) => {
-      this.asignees.push({id: response.data.user?.id,
+      this.assignees.push({id: response.data.user?.id,
         email: response.data.user?.email});
       console.log(response)
     })

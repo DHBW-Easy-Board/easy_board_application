@@ -1,38 +1,40 @@
-<h1 mat-dialog-title>Add a card:</h1>
-<form [formGroup]="addCardForm" (ngSubmit)="submitCreateCardForm()" class="form">
-  <mat-form-field appearance="fill">
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="fName" required>
-    <mat-error>
-      enter a card name!
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>select assignee</mat-label>
-    <mat-select formControlName="fAssignee" required>
-      <mat-option *ngFor="let assignee of asignees" [value]="assignee.id">
-        {{assignee.email}}
-      </mat-option>
-    </mat-select>
-    <mat-error>
-      select an assignee!
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker" name="Due date" formControlName="fDueDate">
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Description</mat-label>
-    <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
-              cdkAutosizeMaxRows="20" formControlName="fDescription"></textarea>
-  </mat-form-field>
-  <br />
-  <div mat-dialog-actions>
-    <button type="button" mat-raised-button color="primary" (click)="submitCreateCardForm()">Add</button>
-    <button mat-button class="mat-focus-indicator mat-raised-button mat-button-base mat-raised" (click)="onNoClick()">Back</button>
-  </div>
-</form>
+<div mat-dialog-content class="save-card-container">
+    <h1 mat-dialog-title>Add a card:</h1>
+    <form [formGroup]="addCardForm" (ngSubmit)="submitCreateCardForm()" class="form">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="fName" required>
+        <mat-error>
+          Enter a card name!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Select assignee</mat-label>
+        <mat-select formControlName="fAssignee" required>
+          <mat-option *ngFor="let assignee of assignees" [value]="assignee.id">
+            {{ assignee.email }}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          Select an assignee!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" name="Due date" formControlName="fDueDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                  cdkAutosizeMaxRows="20" formControlName="fDescription"></textarea>
+      </mat-form-field>
+      <br />
+      <div mat-dialog-actions>
+        <button type="button" mat-raised-button color="primary" (click)="submitCreateCardForm()">Add</button>
+        <button mat-button class="mat-focus-indicator mat-raised-button mat-button-base mat-raised" (click)="onNoClick()">Back</button>
+      </div>
+    </form>
+</div>
