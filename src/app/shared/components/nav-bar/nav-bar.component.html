@@ -7,11 +7,11 @@
         <mat-icon iconPositionEnd>expand_more</mat-icon>
     </button>
     <mat-menu #boardMenu="matMenu">
-        <span class="menu-section-title">ZULETZT</span>
+        <span class="menu-section-title">RECENT</span>
         <button *ngFor="let board of latestBoards" mat-menu-item [routerLink]="['/app/boards', board.board_id]">{{ board.board_name }}</button>
         <mat-divider></mat-divider>
-        <button mat-menu-item [routerLink]="['/app/dashboard']">Board Übersicht</button>
-        <button mat-menu-item (click)="createBoard()">Board erstellen</button>
+        <button mat-menu-item [routerLink]="['/app/dashboard']">View all boards</button>
+        <button mat-menu-item (click)="openCreateBoard()">Create board</button>
     </mat-menu>
     <span class="nav-bar-spacer"></span>
     <button mat-icon-button [routerLink]="['/user/profile']">
