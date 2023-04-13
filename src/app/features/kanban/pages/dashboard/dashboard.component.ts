@@ -29,9 +29,8 @@ export class DashboardComponent implements OnInit {
             .then((response) => {
                 response.data.user?.id
 
-                supabase.from('board_ov_vw')
+                supabase.from('board_ov_auth_vw')
                     .select('*')
-                    .eq('owner_id', response.data.user?.id)
                     .order('board_modify_ts', { ascending: false })
                     .then((response) => {
                         if (response.error)
