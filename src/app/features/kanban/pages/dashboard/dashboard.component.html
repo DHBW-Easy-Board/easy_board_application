@@ -1,8 +1,11 @@
-<div class="container">
-    <div>
-        <h1>Welcome</h1>
-        <p>Your email is {{ email }}!</p>
+<app-container>
+    <div class="dashboard-container">
+        <h1>Welcome back!</h1>
         <button type="button" mat-flat-button color="primary" (click)="signOut()">Sign Out</button>
-      <button mat-raised-button (click)="openCardDialog()">add card</button>
+        <button mat-raised-button (click)="openCardDialog()">add card</button>
+        <div class="dashboard-item-list">
+            <button class="dashboard-add-item" mat-flat-button color="primary" (click)="openCreateBoard()">+</button>
+            <app-dashboard-item *ngFor="let board of boards" [boardId]="board.board_id" [boardName]="board.board_name" [boardLastUpdated]="board.board_modify_ts"></app-dashboard-item>
+        </div>
     </div>
-</div>
+</app-container>

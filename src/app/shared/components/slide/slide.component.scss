@@ -1,0 +1,29 @@
+.slide {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1000;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    transition: 0.5s;
+    background-color: white;
+}
+
+.slide-content {
+    padding: 20px;
+}
+
+.slide.open {
+    width: 100%;
+}
+
+.slide.closed {
+    width: 0;
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}

@@ -1,7 +1,17 @@
-.container {
-    height: 100%;
+.dashboard-container {
+    padding: 20px;
+}
+
+.dashboard-item-list {
+    margin-top: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dashboard-add-item {
+    min-height: 300px;
+    min-width: 200px;
+    font-weight: bold;
+    font-size: 32px;
 }

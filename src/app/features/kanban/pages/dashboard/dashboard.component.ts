@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Board } from 'src/app/core/models/board.model';
+import { SlideService } from 'src/app/shared/services/slide.service';
 import { supabase } from 'src/env/supabase';
 import {CreateCardComponent} from "../../components/create-card/create-card.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -10,19 +12,46 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    public email: string | undefined;
+    public boards: Board[] = [];
 
-    constructor (private router: Router, public dialog: MatDialog) { }
+    // Inject slide service to emit open slide events
+    // Inject router to redirect for test purposes
+    constructor (private slideService: SlideService, private router: Router, public dialog: MatDialog) { }
 
-    // Test if sign in was successful
-    async ngOnInit() {
+    ngOnInit() {
+        this.getBoards();
+    }
+
+    /**
+     * ToDo - Refactor
+     * Get all boards from the user.
+     */
+    public async getBoards() {
         await supabase.auth.getUser()
             .then((response) => {
-                this.email = response.data.user?.email;
+                response.data.user?.id
+
+                supabase.from('board_ov_vw')
+                    .select('*')
+                    .eq('owner_id', response.data.user?.id)
+                    .order('board_modify_ts', { ascending: false })
+                    .then((response) => {
+                        if (response.error)
+                            return;
+
+                        this.boards = response.data as Board[];
+                    });
             });
     }
 
-    // Test sign out
+    /**
+     * Opens create board slide.
+     */
+    public openCreateBoard() {
+        this.slideService.openSlide()
+    }
+
+    // Testing sign out
     public async signOut() {
         await supabase.auth.signOut()
             .then((response) => {

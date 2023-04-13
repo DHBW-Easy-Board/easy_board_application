@@ -21,13 +21,13 @@ export class SignInComponent implements OnInit {
     // Inject router to redirect after successful sign in
     constructor (private router: Router) { }
 
-    // Navigate to dashboard if user is already signed in
     async ngOnInit() {
+        // Navigate to dashboard if user is already signed in
         await supabase.auth.getUser()
-        .then((response) => {
-            if (response.data.user?.aud === 'authenticated')
-                this.router.navigate(['kanban/dashboard']);
-        });
+            .then((response) => {
+                if (response.data.user?.aud === 'authenticated')
+                    this.router.navigate(['app/dashboard']);
+            });
     }
 
     // Getters for the form data for easier access in the template
@@ -48,7 +48,7 @@ export class SignInComponent implements OnInit {
             password: this.password.value
         }).then((response) => {
             if (response.error === null) {
-                this.router.navigate(['kanban/dashboard']);
+                this.router.navigate(['app/dashboard']);
             } else {
                 this.signInFailed = true;
                 this.errorMsg = response.error.message;
