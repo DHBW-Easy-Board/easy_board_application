@@ -1,0 +1,18 @@
+<div class="save-board-container">
+    <h1>{{ title }}</h1>
+    <form [formGroup]="saveBoardForm" (ngSubmit)="saveBoard()">
+        <mat-form-field class="full-width">
+            <mat-label>Name</mat-label>
+            <input id="name" type="text" matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Description</mat-label>
+            <input id="description" type="text" matInput formControlName="description">
+        </mat-form-field>
+        <button type="submit" class="full-width" mat-flat-button color="primary">Create Board</button>
+    </form>
+    <p class="disclaimer">
+        The current version of EasyBoard doesn't support creating custom columns yet. Instead a board gets
+        created with the default columns ToDo, In Progress and Done.
+    </p>
+</div>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { supabase } from 'src/env/supabase';
 import { RouterModule } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
+import { SlideService } from '../../services/slide.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,6 +30,9 @@ export class NavBarComponent {
 
     // Customization
     public logoUrl: string = 'assets/img/logo.png';
+
+    // Inject slide service to emit open slide events
+    constructor(private slideService: SlideService) { }
 
     ngOnInit() {
         this.getLatestBoards();
@@ -58,10 +62,9 @@ export class NavBarComponent {
     }
 
     /**
-     * ToDo
-     * Create a new board.
+     * Opens create board slide.
      */
-    public createBoard() {
-        alert('ToDo');
+    public openCreateBoard() {
+        this.slideService.openSlide()
     }
 }
