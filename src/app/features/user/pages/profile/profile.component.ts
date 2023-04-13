@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit{
     const dialogRef = this.dialog.open(EditDialogComponent, {
       data: {type: type},
     });
-
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });

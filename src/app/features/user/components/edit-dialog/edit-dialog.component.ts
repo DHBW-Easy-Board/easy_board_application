@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { User } from '@supabase/supabase-js';
 import { checkPassword, confirmPasswordFormControl, emailFormControl, passwordFormControl } from 'src/app/core/utils/input.validation';
+import { signOut } from 'src/app/core/utils/user.actions';
 import { supabase } from 'src/env/supabase';
 
 interface DialogData {
@@ -52,16 +53,16 @@ export class EditDialogComponent implements OnInit {
   public async changeEmail(): Promise<void> {
     if (this.email?.errors || !this.email?.value)
       return;
-
+    
     await supabase.auth.updateUser({
       email: this.email.value
     }).catch((error) => {
       this.operationFailed = true;
       this.errorMsg = error;
+    }).finally(() => {
+      if (this.operationFailed == false)
+        signOut(this.router);
     });
-
-    if (this.operationFailed == false)
-      this.signOut
   }
 
   /**
@@ -86,20 +87,9 @@ export class EditDialogComponent implements OnInit {
     }).catch((error) => {
       this.operationFailed = true;
       this.errorMsg = error;
+    }).finally(() => {
+      if (this.operationFailed == false)
+        signOut(this.router);
     });
-
-    if (this.operationFailed == false)
-      this.signOut
   }
-
-  public async signOut() {
-    await supabase.auth.signOut()
-        .then((response) => {
-            if (response.error === null) {
-                this.router.navigate(['']);
-            } else {
-                console.log(response);
-            }
-        });
-}
 }
