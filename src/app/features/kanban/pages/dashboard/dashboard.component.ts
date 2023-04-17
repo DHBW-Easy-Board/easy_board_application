@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
 
     // Inject slide service to emit open slide events
     // Inject router to redirect for test purposes
-    constructor (private slideService: SlideService, private router: Router, public dialog: MatDialog) { }
+    constructor (private slideService: SlideService, private router: Router) { }
 
     ngOnInit() {
         this.getBoards();

@@ -1,7 +1,7 @@
 export interface BoardAssignee{
-  board_id: any,
-  user_id: any,
-  user_name: any,
-  role_id: any,
-  role_name: any
+  board_id: number,
+  user_id: string,
+  user_name: number,
+  role_id: number,
+  role_name: string
 }
