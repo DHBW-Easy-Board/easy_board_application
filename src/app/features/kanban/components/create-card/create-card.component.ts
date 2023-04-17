@@ -44,18 +44,26 @@ export class CreateCardComponent {
     }
   );
 
-  public async submitCreateCardForm() {
-    console.log(this.addCardForm.value.fAssignee)
-    const element = {
+  public async submitCardForm() {
+    if(this.isEdit){
+      const response = await supabase
+        .from('card')
+        .update({ name: this.addCardForm.value.fName, description: this.addCardForm.value.fDescription,
+        assigned_to: this.addCardForm.value.fAssignee, due_date: this.addCardForm.value.fDueDate})
+        .eq('id', this.cardContext.card_id)
+    }
+    else{
+      const element = {
         name: this.addCardForm.value.fName,
         assigned_to: this.addCardForm.value.fAssignee,
         description: this.addCardForm.value.fDescription,
         columns_id: this.columnId,
         due_date: this.addCardForm.value.fDueDate,
+      }
+      const response = await supabase.from('card').insert([
+        element
+      ]);
     }
-    const response = await supabase.from('card').insert([
-      element
-    ]);
     this.dialogRef.close();
   }
 

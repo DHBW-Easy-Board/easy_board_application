@@ -2,6 +2,7 @@
     <div class="dashboard-container">
         <h1>Welcome back!</h1>
         <button type="button" mat-flat-button color="primary" (click)="signOut()">Sign Out</button>
+        <button type="button" mat-flat-button color="primary" (click)="openEditCardDialog()">edit</button>
         <div class="dashboard-item-list">
             <button class="dashboard-add-item" mat-flat-button color="primary" (click)="openCreateBoard()">+</button>
             <app-dashboard-item *ngFor="let board of boards" [boardId]="board.board_id" [boardName]="board.board_name" [boardLastUpdated]="board.board_modify_ts"></app-dashboard-item>

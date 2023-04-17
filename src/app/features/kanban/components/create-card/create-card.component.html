@@ -1,6 +1,6 @@
 <div mat-dialog-content class="save-card-container">
     <h1 mat-dialog-title>{{dialogHeader}}</h1>
-    <form [formGroup]="addCardForm" (ngSubmit)="submitCreateCardForm()" class="form">
+    <form [formGroup]="addCardForm" (ngSubmit)="submitCardForm()" class="form">
       <mat-form-field appearance="fill">
         <mat-label>{{cardContext.card_name}}</mat-label>
         <input matInput formControlName="fName" [value]="cardContext.card_name">
@@ -33,7 +33,7 @@
       </mat-form-field>
       <br />
       <div mat-dialog-actions>
-        <button type="button" mat-raised-button color="primary" (click)="submitCreateCardForm()">{{buttonText}}</button>
+        <button type="button" mat-raised-button color="primary" (click)="submitCardForm()">{{buttonText}}</button>
         <button mat-button class="mat-focus-indicator mat-raised-button mat-button-base mat-raised" (click)="onNoClick()">Back</button>
       </div>
     </form>

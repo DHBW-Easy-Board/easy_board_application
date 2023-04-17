@@ -4,6 +4,7 @@ import { Board } from 'src/app/core/models/board.model';
 import { SlideService } from 'src/app/shared/services/slide.service';
 import { supabase } from 'src/env/supabase';
 import {MatDialog} from "@angular/material/dialog";
+import {CreateCardComponent} from "../../components/create-card/create-card.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -61,4 +62,16 @@ export class DashboardComponent implements OnInit {
                 }
             });
     }
+
+  openEditCardDialog() {
+    const dialogRef = this.dialog.open(CreateCardComponent,
+      {
+        width: '75%',
+        height: '70%'
+      });
+    dialogRef.componentInstance.boardId = 1
+    dialogRef.componentInstance.columnId = 98
+    dialogRef.componentInstance.cardId = 19
+    dialogRef.componentInstance.isEdit = true
+  }
 }
