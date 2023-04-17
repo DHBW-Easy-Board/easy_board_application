@@ -20,18 +20,12 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
-// Testing
-import { TestpageComponent } from './pages/testpage/testpage.component';
-
 @NgModule({
   declarations: [
     BoardComponent,
     CreateCardComponent,
     DashboardComponent,
     DashboardItemComponent,
-
-    // Testing
-    TestpageComponent,
   ],
   imports: [
     CommonModule,

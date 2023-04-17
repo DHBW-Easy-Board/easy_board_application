@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
 import { SlideService } from 'src/app/shared/services/slide.service';
 import { supabase } from 'src/env/supabase';
-import {CreateCardComponent} from "../../components/create-card/create-card.component";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
@@ -62,16 +61,4 @@ export class DashboardComponent implements OnInit {
                 }
             });
     }
-
-  openCardDialog() {
-    const dialogRef = this.dialog.open(CreateCardComponent,
-      {
-        width: '75%',
-        height: '70%'
-      });
-    dialogRef.componentInstance.boardId = 1
-    dialogRef.componentInstance.columnId = 1
-    dialogRef.componentInstance.cardId = 0
-    dialogRef.componentInstance.isEdit = false
-  }
 }
