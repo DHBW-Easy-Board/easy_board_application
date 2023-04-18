@@ -18,7 +18,14 @@
 }
 
 .menu-section-title {
+    display: block;
     color: grey;
     font-size: 12px;
     padding: 0 16px;
+}
+
+.menu-section-info {
+    display: block;
+    color: grey;
+    padding: 16px;
 }
