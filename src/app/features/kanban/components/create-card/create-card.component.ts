@@ -3,8 +3,9 @@ import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 import {MatDialogRef} from "@angular/material/dialog";
 import {supabase} from "src/env/supabase";
-import {cardModel} from "../../../../core/models/card-model";
-import {BoardAssignee} from "../../../../core/models/boardAssignee";
+import {CardModel} from "../../../../core/models/cardModel";
+import {BoardAssigneeModel} from "../../../../core/models/board.assignee.model";
+import {BoardColumn} from "../../../../core/models/board-column.model";
 
 @Component({
   selector: 'app-create-card',
@@ -21,14 +22,19 @@ export class CreateCardComponent {
   public cardId: number = 0;
   public isEdit: boolean = false;
 
+  /**
+   * Depending on edit or create mode these get set (look onInit)
+   */
   dialogHeader: string = "Add a card:";
   buttonText: string = "Confirm add"
+  columnName: any = "testCol2";
 
-  assignees: BoardAssignee[] = [];
+  assignees: BoardAssigneeModel[] = [];
+  boardColumns: BoardColumn[] = [];
 
-  cardContext: cardModel = {
-    card_id: 0, card_name: '', card_description: '', card_assigned_to: '0', columns_id: 0, card_due_date: null, position: 1
-  };
+  cardContext: CardModel = {
+    id: 0, name: '', description: '', assigned_to: '0', columns_id: 0, created_at: null,
+    due_date: null, position: 1, column_name: ''};
 
   /**
    * Dialog close function
@@ -45,6 +51,7 @@ export class CreateCardComponent {
   addCardForm = this.formBuilder.group({
       fName: new FormControl('', [Validators.pattern(".*")]),
       fAssignee: '',
+      fColumn: '',
       fDueDate: '',
       fDescription: ''
     }
@@ -59,15 +66,16 @@ export class CreateCardComponent {
         .from('card')
         .update({
           name: this.addCardForm.value.fName, description: this.addCardForm.value.fDescription,
-          assigned_to: this.addCardForm.value.fAssignee, due_date: this.addCardForm.value.fDueDate
+          assigned_to: this.addCardForm.value.fAssignee, due_date: this.addCardForm.value.fDueDate,
+          columns_id: this.addCardForm.value.fColumn,
         })
-        .eq('id', this.cardContext.card_id)
+        .eq('id', this.cardId)
     } else {
       const element = {
         name: this.addCardForm.value.fName,
         assigned_to: this.addCardForm.value.fAssignee,
         description: this.addCardForm.value.fDescription,
-        columns_id: this.columnId,
+        columns_id: this.addCardForm.value.fColumn,
         due_date: this.addCardForm.value.fDueDate,
       }
       await supabase.from('card').insert([
@@ -80,8 +88,8 @@ export class CreateCardComponent {
   /**
    * Get valid users for edit/create card (is searched by board id)
    */
-  public async getValidUsers() {
-    await supabase.from('valid_board_assignees_vw')
+  public getValidUsers() {
+    supabase.from('valid_board_assignees_vw')
       .select('*')
       .eq('board_id', this.boardId)
       .then((response) => {
@@ -89,7 +97,7 @@ export class CreateCardComponent {
         console.log('cant preload valid assignees')
         return;
       } else {
-        this.assignees = response.data as BoardAssignee[]
+        this.assignees = response.data as BoardAssigneeModel[]
       }
     })
   }
@@ -97,8 +105,8 @@ export class CreateCardComponent {
   /**
    * Gets the card context for the edit view (is done for presetting values)
    */
-  public async getCardInfo() {
-    await supabase.from('card')
+  public getCardInfo() {
+    supabase.from('card')
       .select('*')
       .eq('id', this.cardId)
       .then((response) => {
@@ -106,37 +114,74 @@ export class CreateCardComponent {
         console.log('cant preload card information')
         return;
       } else {
-        console.log(response)
-        this.cardContext.card_id = response.data[0]['id']
-        this.cardContext.card_assigned_to = response.data[0]['assigned_to']
-        this.cardContext.card_description = response.data[0]['description']
-        this.cardContext.card_name = response.data[0]['name']
-        this.cardContext.card_due_date = response.data[0]['due_date']
+        this.cardContext.id = response.data[0]['id']
+        this.cardContext.assigned_to = response.data[0]['assigned_to']
+        this.cardContext.description = response.data[0]['description']
+        this.cardContext.name = response.data[0]['name']
+        this.cardContext.due_date = response.data[0]['due_date']
         this.cardContext.columns_id = response.data[0]['columns_id']
         this.cardContext.position = response.data[0]['position']
       }
     })
   }
 
-  ngOnInit(): void {
-    this.cardContext = {
-      card_id: 0, card_name: 'Name', card_description: 'Description',
-      card_assigned_to: '0', columns_id: 0, card_due_date: null, position: 1
-    }
+  /**
+   * Gets Columns per board for status drop down
+   */
+  public getValidCardStatus(){
+    return supabase.from('board_column_ov_sm_vw')
+      .select('*')
+      .eq('board_id', this.boardId)
+      .then((response) =>{
+        if(response.error){
+          console.log(response.error)
+          console.log('Cant load card columns');
+          return;
+        }
+        else {
+          this.boardColumns = response.data as BoardColumn[]
+          console.log("(get method) columns sind:")
+          console.log(this.boardColumns)
+        }
+      });
+  }
 
-    this.getValidUsers();
+  async ngOnInit(){
+    this.cardContext = {
+      id: 0, name: 'Name', description: 'Description', assigned_to: '0', columns_id: 0,
+      created_at: null,due_date: null, position: 1, column_name: ''}
+
+    await this.getValidUsers();
+    await this.getValidCardStatus();
+
+    console.log("(onInit) columns sind:")
+    console.log(this.boardColumns)
+
 
     if (this.isEdit) {
       this.dialogHeader = "Edit a card:";
       this.buttonText = "Confirm edit";
 
-      this.getCardInfo();
+      await this.getCardInfo();
       this.assignees.forEach((value) => {
-        if (this.cardContext.card_assigned_to == value.user_id) {
-          this.cardContext.card_assigned_to = value.user_name.toString();
+        if (this.cardContext.assigned_to == value.user_id) {
+          this.cardContext.assigned_to = value.user_name;
         }
       });
     }
+
+    console.log(this.cardContext)
+    this.boardColumns.forEach((value, index) => {
+      if(this.cardContext.columns_id == value.column_id){
+        this.cardContext.column_name = value.column_name;
+      }
+      else if(value.has_limit == 1){
+        if(<number>value.max_cards_per_column <= value.act_cards_per_column){
+          this.boardColumns.splice(index, 1)
+        }
+      }
+    });
+    console.log(this.cardContext)
   }
 
 }
