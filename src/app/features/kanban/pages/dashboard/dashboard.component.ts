@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
+import { SlideService } from 'src/app/shared/services/slide.service';
 import { supabase } from 'src/env/supabase';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,8 +13,9 @@ import { supabase } from 'src/env/supabase';
 export class DashboardComponent implements OnInit {
     public boards: Board[] = [];
 
+    // Inject slide service to emit open slide events
     // Inject router to redirect for test purposes
-    constructor (private router: Router) { }
+    constructor (private slideService: SlideService, private router: Router) { }
 
     ngOnInit() {
         this.getBoards();
@@ -27,9 +30,8 @@ export class DashboardComponent implements OnInit {
             .then((response) => {
                 response.data.user?.id
 
-                supabase.from('board_ov_vw')
+                supabase.from('board_ov_auth_vw')
                     .select('*')
-                    .eq('owner_id', response.data.user?.id)
                     .order('board_modify_ts', { ascending: false })
                     .then((response) => {
                         if (response.error)
@@ -41,11 +43,10 @@ export class DashboardComponent implements OnInit {
     }
 
     /**
-     * ToDo
-     * Create a new board.
+     * Opens create board slide.
      */
-    public createBoard() {
-        alert('ToDo');
+    public openCreateBoard() {
+        this.slideService.openSlide()
     }
 
     // Testing sign out
