@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
 import { SlideService } from 'src/app/shared/services/slide.service';
 import { supabase } from 'src/env/supabase';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-dashboard',
