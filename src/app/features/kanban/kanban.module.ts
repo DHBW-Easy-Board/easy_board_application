@@ -20,6 +20,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserRoleListComponent } from './components/user-role-list/user-role-list.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     CreateCardComponent,
     DashboardComponent,
     DashboardItemComponent,
+    UserRoleListComponent,
   ],
   imports: [
     CommonModule,
