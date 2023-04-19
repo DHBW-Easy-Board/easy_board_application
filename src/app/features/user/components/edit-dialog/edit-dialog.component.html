@@ -1,19 +1,25 @@
-<h1 mat-dialog-title>Change {{ data.type }}</h1>
+<div style="display: flex; justify-content: space-between; padding-right: 20px; align-items: center;">
+    <h1 mat-dialog-title>Change {{ data.type }}</h1>
+    <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+
+
 <div *ngIf="data.type == 'email'">
     <form class="form-column" [formGroup]="emailForm" (ngSubmit)="changeEmail()">
         <div mat-dialog-content>
             <mat-form-field class="full-width">
-                <mat-label>New email address</mat-label>
+                <mat-label>Current email address: {{currentUser?.email}}</mat-label>
                 <input id="email" type="email" matInput formControlName="email" required>
                 <mat-error *ngIf="email?.errors?.['required']">Email is required.</mat-error>
                 <mat-error *ngIf="email?.errors?.['email']">Please use a valid email address.</mat-error>
                 <mat-error *ngIf="operationFailed">{{ errorMsg }}</mat-error>
             </mat-form-field>
-            <a>Attention: New email will only be set after email confirmation!</a>
+            <div *ngIf="isSuccess == true">Confirmation mail has been send to {{email?.value}}</div>
+            <div *ngIf="isSuccess == false">Attention: New email will only be set after email confirmation!</div>
         </div>        
         <div mat-dialog-actions>
             <button mat-button mat-dialog-close>Cancel</button>
-            <button type="submit" mat-flat-button mat-dialog-close color="primary" cdkFocusInitial>Confirm</button>
+            <button type="submit" mat-flat-button color="primary" cdkFocusInitial>Confirm</button>
           </div>
     </form>
 </div>
@@ -35,10 +41,11 @@
                 <mat-error *ngIf="confirmPassword?.errors?.['required']">Confirming your password is required.</mat-error>
                 <mat-error *ngIf="confirmPassword?.errors?.['passwordUnconfirmed']">Please confirm your password.</mat-error>
             </mat-form-field>
+            <div *ngIf="isSuccess == true">New password has been set</div>
         </div>
         <div mat-dialog-actions>
             <button mat-button mat-dialog-close>Cancel</button>
-            <button type="submit" mat-flat-button mat-dialog-close color="primary" cdkFocusInitial>Confirm</button>
+            <button type="submit" mat-flat-button color="primary" cdkFocusInitial>Confirm</button>
           </div>
     </form>
 </div>

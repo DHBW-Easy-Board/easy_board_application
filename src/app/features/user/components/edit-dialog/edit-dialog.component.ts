@@ -8,7 +8,6 @@ import { signOut } from 'src/app/core/utils/user.actions';
 import { supabase } from 'src/env/supabase';
 
 interface DialogData {
-  // define the properties of DialogData here
   type: string;
 }
 
@@ -22,6 +21,7 @@ export class EditDialogComponent implements OnInit {
   currentUser: User | undefined;
 
   public errorMsg = '';
+  public isSuccess = false;
   public operationFailed = false;
 
   async ngOnInit(): Promise<void> {
@@ -54,15 +54,15 @@ export class EditDialogComponent implements OnInit {
     if (this.email?.errors || !this.email?.value)
       return;
     
-    await supabase.auth.updateUser({
+    var result = await supabase.auth.updateUser({
       email: this.email.value
     }).catch((error) => {
       this.operationFailed = true;
       this.errorMsg = error;
-    }).finally(() => {
-      if (this.operationFailed == false)
-        signOut(this.router);
     });
+
+    if (result != null && result.data != null)
+      this.isSuccess = true;
   }
 
   /**
@@ -77,19 +77,14 @@ export class EditDialogComponent implements OnInit {
     if (!this.password?.value || !this.confirmPassword?.value)
         return;
 
-    // if (this.currentUser?.email == undefined)
-    //   return;
-  
-    // await supabase.auth.resetPasswordForEmail(this.currentUser.email)
-
-    await supabase.auth.updateUser({
+    var result = await supabase.auth.updateUser({
       password: this.password.value
     }).catch((error) => {
       this.operationFailed = true;
       this.errorMsg = error;
-    }).finally(() => {
-      if (this.operationFailed == false)
-        signOut(this.router);
     });
+
+    if (result != null && result.data != null)
+      this.isSuccess = true;
   }
 }

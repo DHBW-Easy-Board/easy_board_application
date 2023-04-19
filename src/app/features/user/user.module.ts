@@ -10,6 +10,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {MatInputModule} from '@angular/material/input';
     MatDialogModule,
     ReactiveFormsModule,
     FormsModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule
   ]
 })
 export class UserModule { }
