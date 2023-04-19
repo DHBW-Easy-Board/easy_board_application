@@ -1,1 +1,35 @@
-<p>user-role-list works!</p>
+<div>
+  <h2>role selection</h2>
+
+  <div>
+    <mat-list>
+      <mat-list-item *ngFor="let assignee of boardAssignees">
+        <div class="assigneeItem">
+         <div>
+           {{ assignee.user_name }}
+         </div>
+
+         <div>
+           <mat-form-field appearance='fill'>
+             <mat-label>Role Selector</mat-label>
+             <mat-select [(value)]="assignee.role_id" >
+               <mat-option [value]="role.id" *ngFor="let role of rolesAvailable">
+                 {{ role.name }}
+               </mat-option>
+             </mat-select>
+           </mat-form-field>
+         </div>
+
+         <div>
+           <button mat-mini-fab>
+             <mat-icon fontIcon="delete"></mat-icon>
+           </button>
+           <button mat-mini-fab>
+             <mat-icon fontIcon="save"></mat-icon>
+           </button>
+         </div>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

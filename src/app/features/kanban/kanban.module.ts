@@ -22,6 +22,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserRoleListComponent } from './components/user-role-list/user-role-list.component';
 import { UserRoleTestpageComponent } from './pages/user-role-testpage/user-role-testpage.component';
+import {MatListModule} from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { UserRoleTestpageComponent } from './pages/user-role-testpage/user-role-
     MatNativeDateModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatListModule,
+    MatIconModule
   ]
 })
 export class KanbanModule { }
