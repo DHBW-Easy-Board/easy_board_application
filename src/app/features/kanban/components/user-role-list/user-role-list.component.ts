@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-user-role-list',
@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./user-role-list.component.scss']
 })
 export class UserRoleListComponent {
+
+  /**
+    * The boardId, used to identify the board.
+    * provided by parent page
+  */
+  @Input('boardId')
+  boardId!: number;
 
 }
