@@ -22,9 +22,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserRoleListComponent } from './components/user-role-list/user-role-list.component';
 import { UserRoleTestpageComponent } from './pages/user-role-testpage/user-role-testpage.component';
-import {MatListModule} from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatTableModule} from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -49,9 +50,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatNativeDateModule,
     MatSelectModule,
     MatSnackBarModule,
-    MatListModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule
   ]
 })
 export class KanbanModule { }

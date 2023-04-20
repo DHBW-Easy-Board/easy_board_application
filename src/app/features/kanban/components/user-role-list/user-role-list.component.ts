@@ -22,13 +22,13 @@ export class UserRoleListComponent implements OnInit{
     * The boardId, used to identify the board.
     * provided by parent page
   */
-  @Input('boardId')
-  boardId!: number;
+  @Input('boardId') boardId!: number;
 
   /** used to filter all user which can be invited */
   inviteUserControl = new FormControl<string | User>('');
 
   public options: User[] = [];
+
   /** list with all user, possible to add */
   public userList!: Observable<User[]>;
 
@@ -38,13 +38,15 @@ export class UserRoleListComponent implements OnInit{
   /** all roles which are available in this board */
   public rolesAvailable: Role[] = [];
 
+  displayedColumns: string[] = ["user_name", "role_name"];
+
   async ngOnInit(): Promise<void> {
     this.loadAssignedUser();
     this.loadAllRoles();
 
 
-
     const res = await supabase.from('user').select('*');
+
     if(!res.error)
       this.options = res.data as User[]
 
@@ -58,7 +60,6 @@ export class UserRoleListComponent implements OnInit{
       })
     );
   }
-   /** loads all user in the userList */
 
   /** loads all user colaborating on the current board */
   async loadAssignedUser() {
@@ -89,5 +90,9 @@ export class UserRoleListComponent implements OnInit{
       console.error('Could not load all roles');
       console.error(response);
     }
+  }
+
+  displayUserString(user: User) {
+    return user.user_name;
   }
 }

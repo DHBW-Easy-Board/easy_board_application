@@ -2,45 +2,42 @@
   <h2>role selection</h2>
 
   <div>
+
     <div>
       <h3>Add new collaborator</h3>
       <mat-form-field>
         <mat-label>Assignee</mat-label>
         <input type="text" matInput [formControl]="inviteUserControl" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
+        <mat-autocomplete [displayWith]="displayUserString" #auto="matAutocomplete">
           <mat-option *ngFor="let user of userList | async" [value]="user">
             {{user.user_name}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
     </div>
+
     <div>
-      <mat-list>
-        <mat-list-item *ngFor="let assignee of boardAssignees">
-          <div class="assigneeItem">
-            <div>
-              {{ assignee.user_name }}
-            </div>
+      <table mat-table [dataSource]="boardAssignees" *ngIf="boardAssignees.length > 0">
+       <ng-container matColumnDef=user_name>
+         <th mat-header-cell *matHeaderCellDef>username</th>
+         <td mat-cell *matCellDef="let element">{{ element.user_name }}</td>
+        </ng-container>
 
-            <div>
-              <mat-form-field appearance='fill'>
-                <mat-label>Role Selector</mat-label>
-                <mat-select [(value)]="assignee.role_id" >
-                  <mat-option [value]="role.id" *ngFor="let role of rolesAvailable">
-                    {{ role.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
+        <ng-container matColumnDef=role_name>
+         <th mat-header-cell *matHeaderCellDef>role</th>
+         <td mat-cell *matCellDef="let element">{{ element.role_name }}</td>
+        </ng-container>
 
-            <div>
-              <button mat-icon-button>
-                <mat-icon color="warn" fontIcon="delete"></mat-icon>
-              </button>
-            </div>
-          </div>
-        </mat-list-item>
-      </mat-list>
+        <ng-container matColumnDef=delete_action>
+         <th mat-header-cell *matHeaderCellDef>test</th>
+         <td mat-cell *matCellDef="let element">
+           {{ element.user_name }}
+         </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </div>
   </div>
 </div>
