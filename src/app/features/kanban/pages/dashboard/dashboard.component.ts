@@ -3,8 +3,6 @@ import { Router } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
 import { SlideService } from 'src/app/shared/services/slide.service';
 import { supabase } from 'src/env/supabase';
-import {MatDialog} from "@angular/material/dialog";
-import {CreateCardComponent} from "../../components/create-card/create-card.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +14,7 @@ export class DashboardComponent implements OnInit {
 
     // Inject slide service to emit open slide events
     // Inject router to redirect for test purposes
-    constructor (private slideService: SlideService, private router: Router, public dialog: MatDialog) { }
+    constructor (private slideService: SlideService, private router: Router) { }
 
     ngOnInit() {
         this.getBoards();
@@ -61,28 +59,4 @@ export class DashboardComponent implements OnInit {
                 }
             });
     }
-
-  openCardDialog() {
-    const dialogRef = this.dialog.open(CreateCardComponent,
-      {
-        width: '75%',
-        height: '70%'
-      });
-    dialogRef.componentInstance.boardId = 1
-    dialogRef.componentInstance.columnId = 1
-    dialogRef.componentInstance.cardId = 1
-    dialogRef.componentInstance.isEdit = false
-  }
-
-  openEditCardDialog() {
-    const dialogRef = this.dialog.open(CreateCardComponent,
-      {
-        width: '75%',
-        height: '70%'
-      });
-    dialogRef.componentInstance.boardId = 15
-    dialogRef.componentInstance.columnId = 11
-    dialogRef.componentInstance.cardId = 19
-    dialogRef.componentInstance.isEdit = true
-  }
 }

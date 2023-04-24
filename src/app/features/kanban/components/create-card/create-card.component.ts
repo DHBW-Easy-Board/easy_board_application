@@ -1,16 +1,11 @@
 import {Component, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, Validators} from "@angular/forms";
 import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 import {MatDialogRef} from "@angular/material/dialog";
 import {supabase} from "src/env/supabase";
 import {CardModel} from "../../../../core/models/cardModel";
 import {BoardAssigneeModel} from "../../../../core/models/board.assignee.model";
 import {BoardColumn} from "../../../../core/models/board-column.model";
-
-interface Column{
-  id: number,
-  name: string,
-}
 
 @Component({
   selector: 'app-create-card',
@@ -32,11 +27,14 @@ export class CreateCardComponent {
    */
   dialogHeader: string = "Add a card:";
   buttonText: string = "Confirm add"
+  descriptionLabel: string = "Input a description"
+  nameLabel: string = "Input a name"
+  dirty: boolean = true
 
   /**
    * Column Context for preloading information
    */
-  columnContext: Column = {id: 0, name: ''};
+  columnContextId: number = 0;
 
   assignees: BoardAssigneeModel[] = [];
   boardColumns: BoardColumn[] = [];
@@ -111,6 +109,7 @@ export class CreateCardComponent {
       .eq('board_id', this.boardId)
       .then((response) => {
       if (response.error) {
+        console.log(response.error)
         console.log('cant preload valid assignees')
         return;
       } else {
@@ -128,6 +127,7 @@ export class CreateCardComponent {
       .eq('id', this.cardId)
       .then((response) => {
       if (response.error) {
+        console.log(response.error)
         console.log('cant preload card information')
         return;
       } else {
@@ -157,15 +157,20 @@ export class CreateCardComponent {
         }
         else {
           this.boardColumns = response.data as BoardColumn[]
-          console.log("get Method COlumns")
-          console.log(this.boardColumns)
         }
       });
   }
 
+  /**
+   * updates on change in one form field
+   */
+  checkDirty(){
+    this.dirty = false
+  }
+
   async ngOnInit(){
     this.cardContext = {
-      id: 0, name: 'Name', description: 'Description', assigned_to: '0', columns_id: 0,
+      id: 0, name: '', description: '', assigned_to: '0', columns_id: 0,
       created_at: null,due_date: null, position: 1}
 
     await this.getValidUsers();
@@ -176,20 +181,14 @@ export class CreateCardComponent {
       this.buttonText = "Confirm edit";
 
       await this.getCardInfo();
-      this.assignees.forEach((value) => {
-        if (this.cardContext.assigned_to == value.user_id) {
-          this.cardContext.assigned_to = value.user_name;
-        }
-      });
+
+      this.descriptionLabel = this.cardContext.description
+      this.nameLabel = this.cardContext.name
     }
 
-    console.log(this.boardColumns)
-
     this.boardColumns.forEach((value, index) => {
-      console.log(value.column_id + value.column_name)
       if(this.cardContext.columns_id == value.column_id){
-        this.columnContext.id = value.column_id;
-        this.columnContext.name = value.column_name;
+        this.columnContextId = value.column_id
       }
       if(value.has_limit == 1){
         if(<number>value.max_cards_per_column <= value.act_cards_per_column){
@@ -198,13 +197,8 @@ export class CreateCardComponent {
       }
     });
 
-    console.log(this.cardContext)
-    console.log(this.columnContext)
-
     this.addCardForm.patchValue({fName: this.cardContext.name})
     this.addCardForm.patchValue({fDescription: this.cardContext.description})
     this.addCardForm.patchValue({fDueDate: this.cardContext.due_date})
-    this.addCardForm.controls.fColumn.setValue(this.columnContext.name)
-    this.addCardForm.controls.fAssignee.setValue(this.cardContext.assigned_to)
   }
 }
