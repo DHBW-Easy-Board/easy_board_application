@@ -80,8 +80,8 @@ export class DashboardComponent implements OnInit {
         width: '75%',
         height: '70%'
       });
-    dialogRef.componentInstance.boardId = 1
-    dialogRef.componentInstance.columnId = 3
+    dialogRef.componentInstance.boardId = 15
+    dialogRef.componentInstance.columnId = 11
     dialogRef.componentInstance.cardId = 19
     dialogRef.componentInstance.isEdit = true
   }

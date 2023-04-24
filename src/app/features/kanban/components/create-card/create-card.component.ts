@@ -66,11 +66,11 @@ export class CreateCardComponent {
    * Form Control for the create-card html form
    */
   addCardForm = this.formBuilder.group({
-      fName: new FormControl(this.cardContext.name, [Validators.pattern(".*")]),
-      fAssignee: new FormControl(this.cardContext.assigned_to, Validators.required),
-      fColumn: new FormControl(this.columnContext.name, Validators.required),
-      fDueDate: new FormControl(this.cardContext.due_date, Validators.required),
-      fDescription: new FormControl(this.cardContext.description, [Validators.pattern(".*")]),
+      fName: new FormControl('', [Validators.pattern(".*")]),
+      fAssignee: new FormControl('', Validators.required),
+      fColumn: new FormControl('', Validators.required),
+      fDueDate: new FormControl('', Validators.required),
+      fDescription: new FormControl('', [Validators.pattern(".*")]),
     }
   );
 
@@ -157,7 +157,7 @@ export class CreateCardComponent {
         }
         else {
           this.boardColumns = response.data as BoardColumn[]
-          console.log("(get method) columns sind:")
+          console.log("get Method COlumns")
           console.log(this.boardColumns)
         }
       });
@@ -183,16 +183,28 @@ export class CreateCardComponent {
       });
     }
 
+    console.log(this.boardColumns)
+
     this.boardColumns.forEach((value, index) => {
-      if(this.cardContext.columns_id.toString() == value.column_id.toString()){
+      console.log(value.column_id + value.column_name)
+      if(this.cardContext.columns_id == value.column_id){
         this.columnContext.id = value.column_id;
         this.columnContext.name = value.column_name;
       }
-      else if(value.has_limit == 1){
+      if(value.has_limit == 1){
         if(<number>value.max_cards_per_column <= value.act_cards_per_column){
           this.boardColumns.splice(index, 1)
         }
       }
     });
+
+    console.log(this.cardContext)
+    console.log(this.columnContext)
+
+    this.addCardForm.patchValue({fName: this.cardContext.name})
+    this.addCardForm.patchValue({fDescription: this.cardContext.description})
+    this.addCardForm.patchValue({fDueDate: this.cardContext.due_date})
+    this.addCardForm.controls.fColumn.setValue(this.columnContext.name)
+    this.addCardForm.controls.fAssignee.setValue(this.cardContext.assigned_to)
   }
 }
