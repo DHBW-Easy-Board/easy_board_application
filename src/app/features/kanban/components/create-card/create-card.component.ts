@@ -7,6 +7,11 @@ import {CardModel} from "../../../../core/models/cardModel";
 import {BoardAssigneeModel} from "../../../../core/models/board.assignee.model";
 import {BoardColumn} from "../../../../core/models/board-column.model";
 
+interface Column{
+  id: number,
+  name: string,
+}
+
 @Component({
   selector: 'app-create-card',
   templateUrl: './create-card.component.html',
@@ -27,14 +32,21 @@ export class CreateCardComponent {
    */
   dialogHeader: string = "Add a card:";
   buttonText: string = "Confirm add"
-  columnName: any = "testCol2";
+
+  /**
+   * Column Context for preloading information
+   */
+  columnContext: Column = {id: 0, name: ''};
 
   assignees: BoardAssigneeModel[] = [];
   boardColumns: BoardColumn[] = [];
 
+  /**
+   * Card Context for preloading information
+   */
   cardContext: CardModel = {
     id: 0, name: '', description: '', assigned_to: '0', columns_id: 0, created_at: null,
-    due_date: null, position: 1, column_name: ''};
+    due_date: null, position: 1};
 
   /**
    * Dialog close function
@@ -43,17 +55,22 @@ export class CreateCardComponent {
     this.dialogRef.close();
   }
 
-  constructor(public dialogRef: MatDialogRef<CreateCardComponent>, private formBuilder: FormBuilder) {
-  }
+  constructor(public dialogRef: MatDialogRef<CreateCardComponent>, private formBuilder: FormBuilder) {  }
 
+  /**
+   * important for expandle form label for the description
+   */
   @ViewChild('autosize') autosize: CdkTextareaAutosize | undefined;
 
+  /**
+   * Form Control for the create-card html form
+   */
   addCardForm = this.formBuilder.group({
-      fName: new FormControl('', [Validators.pattern(".*")]),
-      fAssignee: '',
-      fColumn: '',
-      fDueDate: '',
-      fDescription: ''
+      fName: new FormControl(this.cardContext.name, [Validators.pattern(".*")]),
+      fAssignee: new FormControl(this.cardContext.assigned_to, Validators.required),
+      fColumn: new FormControl(this.columnContext.name, Validators.required),
+      fDueDate: new FormControl(this.cardContext.due_date, Validators.required),
+      fDescription: new FormControl(this.cardContext.description, [Validators.pattern(".*")]),
     }
   );
 
@@ -89,7 +106,7 @@ export class CreateCardComponent {
    * Get valid users for edit/create card (is searched by board id)
    */
   public getValidUsers() {
-    supabase.from('valid_board_assignees_vw')
+    return supabase.from('valid_board_assignees_vw')
       .select('*')
       .eq('board_id', this.boardId)
       .then((response) => {
@@ -106,7 +123,7 @@ export class CreateCardComponent {
    * Gets the card context for the edit view (is done for presetting values)
    */
   public getCardInfo() {
-    supabase.from('card')
+    return supabase.from('card')
       .select('*')
       .eq('id', this.cardId)
       .then((response) => {
@@ -149,14 +166,10 @@ export class CreateCardComponent {
   async ngOnInit(){
     this.cardContext = {
       id: 0, name: 'Name', description: 'Description', assigned_to: '0', columns_id: 0,
-      created_at: null,due_date: null, position: 1, column_name: ''}
+      created_at: null,due_date: null, position: 1}
 
     await this.getValidUsers();
     await this.getValidCardStatus();
-
-    console.log("(onInit) columns sind:")
-    console.log(this.boardColumns)
-
 
     if (this.isEdit) {
       this.dialogHeader = "Edit a card:";
@@ -170,10 +183,10 @@ export class CreateCardComponent {
       });
     }
 
-    console.log(this.cardContext)
     this.boardColumns.forEach((value, index) => {
-      if(this.cardContext.columns_id == value.column_id){
-        this.cardContext.column_name = value.column_name;
+      if(this.cardContext.columns_id.toString() == value.column_id.toString()){
+        this.columnContext.id = value.column_id;
+        this.columnContext.name = value.column_name;
       }
       else if(value.has_limit == 1){
         if(<number>value.max_cards_per_column <= value.act_cards_per_column){
@@ -181,7 +194,5 @@ export class CreateCardComponent {
         }
       }
     });
-    console.log(this.cardContext)
   }
-
 }

@@ -8,5 +8,4 @@ export interface CardModel {
   created_at: any,
   due_date: any,
   position: number,
-  column_name: string,
 }

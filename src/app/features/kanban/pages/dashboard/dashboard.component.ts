@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit {
         height: '70%'
       });
     dialogRef.componentInstance.boardId = 1
-    dialogRef.componentInstance.columnId = 98
+    dialogRef.componentInstance.columnId = 3
     dialogRef.componentInstance.cardId = 19
     dialogRef.componentInstance.isEdit = true
   }
