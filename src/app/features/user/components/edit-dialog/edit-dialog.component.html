@@ -14,8 +14,7 @@
                 <mat-error *ngIf="email?.errors?.['email']">Please use a valid email address.</mat-error>
                 <mat-error *ngIf="operationFailed">{{ errorMsg }}</mat-error>
             </mat-form-field>
-            <div *ngIf="isSuccess == true">Confirmation mail has been send to {{email?.value}}</div>
-            <div *ngIf="isSuccess == false">Attention: New email will only be set after email confirmation!</div>
+            <div>Attention: New email will only be set after email confirmation!</div>
         </div>        
         <div mat-dialog-actions>
             <button mat-button mat-dialog-close>Cancel</button>
@@ -41,7 +40,6 @@
                 <mat-error *ngIf="confirmPassword?.errors?.['required']">Confirming your password is required.</mat-error>
                 <mat-error *ngIf="confirmPassword?.errors?.['passwordUnconfirmed']">Please confirm your password.</mat-error>
             </mat-form-field>
-            <div *ngIf="isSuccess == true">New password has been set</div>
         </div>
         <div mat-dialog-actions>
             <button mat-button mat-dialog-close>Cancel</button>

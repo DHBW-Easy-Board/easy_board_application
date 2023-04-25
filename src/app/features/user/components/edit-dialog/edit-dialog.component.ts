@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { User } from '@supabase/supabase-js';
 import { checkPassword, confirmPasswordFormControl, emailFormControl, passwordFormControl } from 'src/app/core/utils/input.validation';
-import { signOut } from 'src/app/core/utils/user.actions';
 import { supabase } from 'src/env/supabase';
 
 interface DialogData {
@@ -17,11 +17,10 @@ interface DialogData {
   styleUrls: ['./edit-dialog.component.scss']
 })
 export class EditDialogComponent implements OnInit {
-  constructor(public dialogRef: MatDialogRef<EditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private router: Router) {}
+  constructor(public dialogRef: MatDialogRef<EditDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogData, private router: Router, private snackBar: MatSnackBar) {}
   currentUser: User | undefined;
 
   public errorMsg = '';
-  public isSuccess = false;
   public operationFailed = false;
 
   async ngOnInit(): Promise<void> {
@@ -61,8 +60,17 @@ export class EditDialogComponent implements OnInit {
       this.errorMsg = error;
     });
 
-    if (result != null && result.data != null)
-      this.isSuccess = true;
+    if (result != null && result.data != null) {
+      this.snackBar.open("Eine Bestätigungsmail wurde an sie versandt.", "", {
+        duration: 3000
+      });
+      this.dialogRef.close();
+      return;
+    }
+      
+      this.snackBar.open("Das ändern der E-Mail-Adresse war nicht erfolgreich.", "", {
+        duration: 3000
+      });
   }
 
   /**
@@ -84,7 +92,16 @@ export class EditDialogComponent implements OnInit {
       this.errorMsg = error;
     });
 
-    if (result != null && result.data != null)
-      this.isSuccess = true;
+    if (result != null && result.data != null) {
+      this.snackBar.open("Ihre Passwortänderung war erfolgreich.", "", {
+        duration: 3000
+      });
+      this.dialogRef.close();
+      return;
+    }
+
+    this.snackBar.open("Das Ändern des Passworts war nicht erfolgreich", "", {
+      duration: 3000
+    });
   }
 }
