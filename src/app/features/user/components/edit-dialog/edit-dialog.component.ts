@@ -61,14 +61,14 @@ export class EditDialogComponent implements OnInit {
     });
 
     if (result != null && result.data != null) {
-      this.snackBar.open("Eine Bestätigungsmail wurde an sie versandt.", "", {
+      this.snackBar.open("Confirmation mail has been send to your new mail address", "", {
         duration: 3000
       });
       this.dialogRef.close();
       return;
     }
       
-      this.snackBar.open("Das ändern der E-Mail-Adresse war nicht erfolgreich.", "", {
+      this.snackBar.open("Mail address could not be changed", "", {
         duration: 3000
       });
   }
@@ -93,14 +93,14 @@ export class EditDialogComponent implements OnInit {
     });
 
     if (result != null && result.data != null) {
-      this.snackBar.open("Ihre Passwortänderung war erfolgreich.", "", {
+      this.snackBar.open("Your password has been changed", "", {
         duration: 3000
       });
       this.dialogRef.close();
       return;
     }
 
-    this.snackBar.open("Das Ändern des Passworts war nicht erfolgreich", "", {
+    this.snackBar.open("Your password could not be changed", "", {
       duration: 3000
     });
   }

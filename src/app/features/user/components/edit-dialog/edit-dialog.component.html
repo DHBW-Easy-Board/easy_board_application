@@ -15,11 +15,11 @@
                 <mat-error *ngIf="operationFailed">{{ errorMsg }}</mat-error>
             </mat-form-field>
             <div>Attention: New email will only be set after email confirmation!</div>
+            <div mat-dialog-actions style="padding-top: 20px;">
+                <button type="submit" mat-flat-button color="primary" cdkFocusInitial>Confirm</button>
+                <button mat-button mat-dialog-close>Cancel</button>            
+              </div>
         </div>        
-        <div mat-dialog-actions>
-            <button mat-button mat-dialog-close>Cancel</button>
-            <button type="submit" mat-flat-button color="primary" cdkFocusInitial>Confirm</button>
-          </div>
     </form>
 </div>
 
@@ -40,10 +40,10 @@
                 <mat-error *ngIf="confirmPassword?.errors?.['required']">Confirming your password is required.</mat-error>
                 <mat-error *ngIf="confirmPassword?.errors?.['passwordUnconfirmed']">Please confirm your password.</mat-error>
             </mat-form-field>
-        </div>
-        <div mat-dialog-actions>
-            <button mat-button mat-dialog-close>Cancel</button>
-            <button type="submit" mat-flat-button color="primary" cdkFocusInitial>Confirm</button>
-          </div>
+            <div mat-dialog-actions>
+                <button type="submit" mat-flat-button color="primary" cdkFocusInitial>Confirm</button>
+                <button mat-button mat-dialog-close>Cancel</button>
+              </div>
+        </div>        
     </form>
 </div>
