@@ -1,11 +1,30 @@
-.assigneeItem {
+.assigneeContainer {
   display: flex;
-  justify-content: space-between;
+  padding: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.assignee {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 5px;
 
-  padding: 90px;
+  padding: 30px;
   align-items: center;
+  background-color: white;
+  border-radius: 10px;
 }
 
-.assigneeItem:hover {
+.assignee:hover {
   background-color: lightgray;
 }
+
+.assigneeItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
