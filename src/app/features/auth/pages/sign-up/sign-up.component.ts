@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
 import { checkPassword, confirmPasswordFormControl, emailFormControl, passwordFormControl } from 'src/app/core/utils/input.validation';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { supabase } from 'src/env/supabase';
 
 @Component({
@@ -20,16 +21,14 @@ export class SignUpComponent implements OnInit {
         confirmPassword: confirmPasswordFormControl(),
     }, { validators: checkPassword });
 
-    // Inject router to redirect after successful sign up
-    constructor (private router: Router) { }
+    constructor (private router: Router, private snackbar: MatSnackBar) { }
 
     async ngOnInit() {
         // Navigate to dashboard if user is already signed in
-        await supabase.auth.getUser()
-        .then((response) => {
-            if (response.data.user?.aud === 'authenticated')
-                this.router.navigate(['app/dashboard']);
-        });
+        const response = await supabase.auth.getUser();
+        
+        if (response.data.user?.role === 'authenticated')
+            this.router.navigate(['app/dashboard']);
     }
 
     // Getters for the form data for easier access in the template
@@ -49,13 +48,16 @@ export class SignUpComponent implements OnInit {
         if (!this.email?.value || !this.password?.value || !this.confirmPassword?.value)
             return;
 
-        await supabase.auth.signUp({
+        const response = await supabase.auth.signUp({
             email: this.email.value,
             password: this.password.value
-        }).then((response) => {
-            if (response.error === null) {
-                this.router.navigate(['app/dashboard']);
-            }
         });
+        
+        if (response.error) {
+            this.snackbar.open(response.error.message, 'Close');
+            return;
+        }
+        
+        this.router.navigate(['app/dashboard']);
     }
 }
