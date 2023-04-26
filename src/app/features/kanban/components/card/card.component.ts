@@ -1,4 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ViewCardComponent } from '../view-card/view-card.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-card',
@@ -17,6 +20,8 @@ export class CardComponent implements OnChanges {
 
     public usernameInitial?: string;
 
+    constructor(private dialog: MatDialog, private snackbar: MatSnackBar) {}
+
     ngOnChanges(changes: SimpleChanges) {
         this.setInitial(changes?.['username'].currentValue);
     }
@@ -34,6 +39,14 @@ export class CardComponent implements OnChanges {
      * Open card details.
      */
     public openDetails() {
-        alert('ID: ' + this.id);
+        if (!this.id) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
+
+        const dialogRef = this.dialog.open(ViewCardComponent, {
+            width: '50vw',
+        });
+        dialogRef.componentInstance.cardId = this.id;
     }
 }
