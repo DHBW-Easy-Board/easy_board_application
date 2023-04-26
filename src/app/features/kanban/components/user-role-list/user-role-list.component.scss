@@ -24,7 +24,33 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   gap: 20px;
   width: 100%;
 }
 
+.assigneeControlPanel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-top: 20px;
+}
+
+
+.addAssigneeContainer {
+
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.addAssigneeItemContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.addAssigneeInputField {
+  width: 250px;
+}

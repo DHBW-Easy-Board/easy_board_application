@@ -25,6 +25,7 @@ import { UserRoleTestpageComponent } from './pages/user-role-testpage/user-role-
 import { MatIconModule } from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTableModule} from '@angular/material/table';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {MatTableModule} from '@angular/material/table';
     MatSnackBarModule,
     MatIconModule,
     MatAutocompleteModule,
-    MatTableModule
+    MatTableModule,
+    MatDividerModule,
   ]
 })
 export class KanbanModule { }

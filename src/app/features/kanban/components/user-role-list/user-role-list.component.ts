@@ -8,7 +8,8 @@ import { supabase } from 'src/env/supabase';
 
 export interface User {
   id: number,
-  user_name: string
+  user_name: string,
+  role_id: number
 }
 
 @Component({
@@ -37,6 +38,9 @@ export class UserRoleListComponent implements OnInit{
 
   /** all roles which are available in this board */
   public rolesAvailable: Role[] = [];
+
+  /** user which should be added */
+  public addUserItem?: User | undefined;
 
   displayedColumns: string[] = ["user_name", "role_name"];
 
@@ -94,5 +98,44 @@ export class UserRoleListComponent implements OnInit{
 
   displayUserString(user: User) {
     return user.user_name;
+  }
+
+  public addAssignee() {
+    console.log("Adding user to Backend");
+    console.log(this.addUserItem);
+  }
+
+  public changeRoleForAssignee(assignee: BoardAssignee, role: Role) {
+    console.log("Change role of user to role");
+    console.log(assignee);
+    console.log(role);
+  }
+
+  public deleteAssignee(assignee: BoardAssignee) {
+    console.log("Delete Board assignee");
+    console.log(assignee);
+  }
+
+  public addRoleToAddAssignee(role: Role) {
+    if(this.addUserItem)
+      this.addUserItem.role_id = role.id;
+    else
+      this.addUserItem = {
+        id: 0,
+        user_name: "",
+        role_id: role.id
+      }
+  }
+  public selectAssignee(user: User) {
+    if(this.addUserItem) {
+      this.addUserItem.user_name = user.user_name
+    }
+    else {
+      this.addUserItem = {
+        id: 0,
+        user_name: user.user_name,
+        role_id: 1
+      }
+    }
   }
 }

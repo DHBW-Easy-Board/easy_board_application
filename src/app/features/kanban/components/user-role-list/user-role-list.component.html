@@ -2,18 +2,30 @@
   <h2>role selection</h2>
 
   <div>
-
-    <div>
+    <div class="addAssigneeContainer">
       <h3>Add new collaborator</h3>
-      <mat-form-field>
-        <mat-label>Assignee</mat-label>
-        <input type="text" matInput [formControl]="inviteUserControl" [matAutocomplete]="auto">
-        <mat-autocomplete [displayWith]="displayUserString" #auto="matAutocomplete">
-          <mat-option *ngFor="let user of userList | async" [value]="user">
-            {{user.user_name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+      <div class="addAssigneeItemContainer">
+        <mat-form-field>
+          <mat-label>Assignee</mat-label>
+          <input class="addAssigneeInputField" type="text" matInput [formControl]="inviteUserControl" [matAutocomplete]="auto">
+          <mat-autocomplete [displayWith]="displayUserString" #auto="matAutocomplete">
+            <mat-option *ngFor="let user of userList | async" [value]="user" (click)="selectAssignee(user)">
+              {{user.user_name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Select Role</mat-label>
+          <mat-select [value]="addUserItem?.role_id">
+            <mat-option [value]="role.id" (click)="addRoleToAddAssignee(role)" *ngFor="let role of rolesAvailable">
+              {{ role.name }} 
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-button (click)="addAssignee()">Add User</button>
+      </div>
     </div>
 
   <div class="assigneeContainer">
@@ -26,21 +38,16 @@
           {{ assignee.user_name }}
         </div>
       </div>
-      <div class="assigneeRole assigneeItem">
-        <div>
-          row:
-        </div>
-        <div>
+      <div class="assigneeControlPanel" >
+        <mat-form-field>
+          <mat-label>Role</mat-label>
           <mat-select [value]="assignee.role_id">
-            <mat-option [value]="role.id" *ngFor="let role of rolesAvailable">
+            <mat-option [value]="role.id" (click)="changeRoleForAssignee(assignee, role)" *ngFor="let role of rolesAvailable">
               {{ role.name }}
             </mat-option>
           </mat-select>
-
-        </div>
-      </div>
-      <div>
-        <button mat-icon-button>
+        </mat-form-field>
+        <button mat-icon-button (click)="deleteAssignee(assignee)">
           <mat-icon color="warn">delete</mat-icon>
         </button>
       </div>
