@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Column } from 'src/app/core/models/column.model';
 import { supabase } from 'src/env/supabase';
+import { CreateCardComponent } from '../../components/create-card/create-card.component';
 
 @Component({
   selector: 'app-board',
@@ -9,63 +12,72 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent {
-    public id?: number;
+    public id: number | undefined;
     public title = 'Board';
     public columns: Column[] = [];
 
-    // Inject activated route to access route parameters
-    constructor (private route: ActivatedRoute) { }
+    constructor (private route: ActivatedRoute, private dialog: MatDialog, private snackbar: MatSnackBar) { }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.id = params['id'];
 
-            if (this.id) {
+            if (this.id)
                 this.getBoard(this.id);
-                this.getColums(this.id);
-            }
         });
     }
 
     /**
      * Get data of the specfied board.
-     * ToDo Needs proper backend call.
      * 
      * @param boardId 
      */
     private async getBoard(boardId: number) {
-        await supabase.auth.getUser()
-            .then((response) => {
-                supabase.from('board_ov_vw')
-                    .select('*')
-                    .eq('owner_id', response.data.user?.id)
-                    .eq('board_id', boardId)
-                    .then((response) => {
-                        if (response.error)
-                            return;
+        const response = await supabase.from('board_ov_auth_vw')
+            .select('*')
+            .eq('board_id', boardId);
 
-                        this.title = response.data[0]['board_name'];
-                        console.log(response);
-                    });
-            });
+        if (response.error) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
+
+        this.title = response.data[0]['board_name'];
+        this.getColumns(boardId);
     }
 
     /**
      * Get columns of the specified board.
-     * ToDo Needs proper backend call.
      * 
      * @param boardId 
      */
-    private async getColums(boardId: number) {
-        await supabase.from('columns')
+    private async getColumns(boardId: number) {
+        const response = await supabase.from('board_column_sm_auth_vw')
             .select('*')
             .eq('board_id', boardId)
-            .then((response) => {
-                if (response.error)
-                    return;
-                
-                this.columns = response.data as Column[];
-                console.log(response);
-            });
+            .order('position');
+
+        if (response.error) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
+
+        this.columns = response.data as Column[];
+    }
+
+    /**
+     * Add a card.
+     */
+    public addCard() {
+        if (!this.id) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
+        
+        const dialogRef = this.dialog.open(CreateCardComponent, {
+            width: '50vw',
+        });
+        dialogRef.componentInstance.boardId = this.id;
+        dialogRef.componentInstance.isEdit = false;
     }
 }

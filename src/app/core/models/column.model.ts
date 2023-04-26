@@ -1,5 +1,5 @@
 export interface Column {
-    id: number;
+    columns_id: number;
     board_id: number;
     name: string;
     maximum_count: number;

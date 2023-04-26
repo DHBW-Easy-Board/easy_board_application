@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { supabase } from 'src/env/supabase';
 
 @Component({
   selector: 'app-column',
@@ -15,10 +17,24 @@ export class ColumnComponent {
     @Input()
     public boardId?: number;
 
+    constructor (private snackbar: MatSnackBar) { }
+
     /**
      * ToDo
+     * 
+     * @param boardId 
      */
-    public addCard() {
-        alert('ToDo - This is column No. ' + this.id + ' of board No. ' + this.boardId);
+    private async getCards(boardId: number) {
+        const response = await supabase.from('board_card_ov_auth_vw')
+            .select('card_id')
+            .eq('board_id', boardId)
+            .not('card_id', 'is', null);
+
+        console.log(response);
+
+        if (response.error) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
     }
 }

@@ -1,16 +1,26 @@
 .board-container {
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     height: 100%;
     padding: 20px;
 }
 
-.column-container {
-    margin: 50px 0 0;
+.board-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.board-header button {
+    font-size: 24px;
+    padding: 40px;
+}
+
+.board-content {
     display: flex;
     flex-wrap: nowrap;
-    gap: 30px;
+    gap: 20px;
     flex: 1;
-    overflow: auto;
+    margin: 50px 0 0;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
