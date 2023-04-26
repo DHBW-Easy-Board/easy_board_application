@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { supabase } from 'src/env/supabase';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
 import { SlideService } from '../../services/slide.service';
 
@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { signOut } from 'src/app/core/utils/user.actions';
 
 @Component({
   selector: 'app-nav-bar',
@@ -35,7 +36,8 @@ export class NavBarComponent {
     // Customization
     public logoUrl: string = 'assets/img/logo.png';
 
-    constructor(private slideService: SlideService, private snackbar: MatSnackBar) { }
+    // Inject slide service to emit open slide events
+    constructor(private slideService: SlideService, private router: Router, private snackbar: MatSnackBar) { }
 
     ngOnInit() {
         this.getLatestBoards();
@@ -63,5 +65,9 @@ export class NavBarComponent {
      */
     public openCreateBoard() {
         this.slideService.openSlide()
+    }
+
+    public signOut() {
+        return signOut(this.router);
     }
 }
