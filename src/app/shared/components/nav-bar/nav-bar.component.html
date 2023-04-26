@@ -14,8 +14,10 @@
         <button mat-menu-item (click)="openCreateBoard()">Create board</button>
     </mat-menu>
     <span class="nav-bar-spacer"></span>
-    <button mat-button (click)="signOut()">Logout</button>
     <button mat-icon-button [routerLink]="['/user/profile']">
         <mat-icon>person</mat-icon>
+    </button>
+    <button mat-icon-button (click)="signOut()">
+        <mat-icon>logout</mat-icon>
     </button>
 </mat-toolbar>
