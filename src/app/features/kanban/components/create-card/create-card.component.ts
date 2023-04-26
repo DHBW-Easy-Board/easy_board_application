@@ -221,6 +221,8 @@ export class CreateCardComponent {
           if(<number>value.max_cards_per_column > value.act_cards_per_column){
             this.boardColumns.push(value);
           }
+        } else {
+            this.boardColumns.push(value);
         }
       });
     }
@@ -231,6 +233,8 @@ export class CreateCardComponent {
           if (<number>value.max_cards_per_column > value.act_cards_per_column) {
             this.boardColumns.push(value);
           }
+        } else {
+            this.boardColumns.push(value);
         }
       });
     }
