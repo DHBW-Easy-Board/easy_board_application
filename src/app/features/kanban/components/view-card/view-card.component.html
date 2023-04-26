@@ -1,0 +1,45 @@
+<div mat-dialog-content>
+  <div class="headerContent">
+    <h1 mat-dialog-title>{{cardContext.name}}</h1>
+    <div class="contextButtons">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu button">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openEditCardDialog()">
+          <mat-icon>edit</mat-icon>
+          <span>Edit card</span>
+        </button>
+        <button mat-menu-item (click)="openDeleteCardDialog()">
+          <mat-icon>delete</mat-icon>
+          <span>Delete Card</span>
+        </button>
+      </mat-menu>
+      <button mat-icon-button mat-dialog-close aria-label="back button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-divider class="horizontal"></mat-divider>
+  <div class="parent-view-card">
+    <div class="card-desc">
+      <h3>Description:</h3>
+      <p>{{cardContext.description}}</p>
+    </div>
+    <mat-divider [vertical]="true" class="vertical"></mat-divider>
+    <div class="rest-info">
+      <div class="assigne">
+        <h3>Assigne:</h3>
+        <p>{{userName}}</p>
+      </div>
+      <div class="column">
+        <h3>Card column/status:</h3>
+        <p>{{columnName}}</p>
+      </div>
+      <div class="due-date">
+        <h3>Due date:</h3>
+        <p>{{ dueDate | date:"MM-dd-yyyy" }}</p>
+      </div>
+    </div>
+  </div>
+</div>

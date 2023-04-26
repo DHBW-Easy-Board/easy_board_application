@@ -1,0 +1,33 @@
+.headerContent{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.parent-view-card{
+  display: flex;
+  padding: 20px;
+}
+
+mat-divider.horizontal{
+  margin: 10px 0;
+}
+
+mat-divider.vertical{
+  margin: 0 20px;
+}
+
+.card-desc{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  width: 60%;
+}
+
+.rest-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  width: 40%;
+}
