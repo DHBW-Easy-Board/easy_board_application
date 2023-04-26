@@ -92,7 +92,6 @@ export class CreateCardComponent {
         })
         .eq('id', this.cardId).then((response => {
           if(response.error){
-            console.log(response.error)
             this.snackBar.open('Failed to update card (everything except column). Please try again later.', 'Ok')
           } else{
             this.snackBar.open('Card update successful')
@@ -102,7 +101,6 @@ export class CreateCardComponent {
         .rpc('update_card_status' , {
           card_id: this.cardId, new_columns_id: this.addCardForm.value.fColumn}).then((response => {
           if(response.error){
-            console.log(response.error)
             this.snackBar.open('Failed to update card column. Please try again later.', 'Ok')
           }
         }))
