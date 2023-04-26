@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { supabase } from 'src/env/supabase';
 
 @Component({
@@ -9,25 +10,20 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
-    public signInFailed = false;
-    public errorMsg = '';
-
     // Form
     public signInForm = new FormGroup({
         email: new FormControl(''),
         password: new FormControl('')
     });
 
-    // Inject router to redirect after successful sign in
-    constructor (private router: Router) { }
+    constructor (private router: Router, private snackbar: MatSnackBar) { }
 
     async ngOnInit() {
         // Navigate to dashboard if user is already signed in
-        await supabase.auth.getUser()
-            .then((response) => {
-                if (response.data.user?.aud === 'authenticated')
-                    this.router.navigate(['app/dashboard']);
-            });
+        const response = await supabase.auth.getUser();
+        
+        if (response.data.user?.role === 'authenticated')
+            this.router.navigate(['app/dashboard']);
     }
 
     // Getters for the form data for easier access in the template
@@ -43,18 +39,16 @@ export class SignInComponent implements OnInit {
         if (!this.email?.value || !this.password?.value)
             return;
 
-        await supabase.auth.signInWithPassword({
+        const response = await supabase.auth.signInWithPassword({
             email: this.email.value,
             password: this.password.value
-        }).then((response) => {
-            if (response.error === null) {
-                this.router.navigate(['app/dashboard']);
-            } else {
-                this.signInFailed = true;
-                this.errorMsg = response.error.message;
-                this.email!.setErrors({ failed: true });
-                this.password!.setErrors({ failed: true });
-            }
         });
+
+        if (response.error) {
+            this.snackbar.open(response.error.message, 'Close');
+            return;
+        }
+        
+        this.router.navigate(['app/dashboard']);
     }
 }

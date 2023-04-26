@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { supabase } from 'src/env/supabase';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
 import { SlideService } from '../../services/slide.service';
+
+// Material
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { signOut } from 'src/app/core/utils/user.actions';
 
 @Component({
   selector: 'app-nav-bar',
@@ -20,6 +24,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatDividerModule,
     MatIconModule,
     MatMenuModule,
+    MatSnackBarModule,
     MatToolbarModule,
   ],
   templateUrl: './nav-bar.component.html',
@@ -32,33 +37,27 @@ export class NavBarComponent {
     public logoUrl: string = 'assets/img/logo.png';
 
     // Inject slide service to emit open slide events
-    constructor(private slideService: SlideService) { }
+    constructor(private slideService: SlideService, private router: Router, private snackbar: MatSnackBar) { }
 
     ngOnInit() {
         this.getLatestBoards();
     }
 
     /**
-     * ToDo - Refactor
      * Get all the latest boards from the user.
      */
     private async getLatestBoards() {
-        await supabase.auth.getUser()
-            .then((response) => {
-                response.data.user?.id
+        const response = await supabase.from('board_ov_auth_vw')
+            .select('*')
+            .limit(3)
+            .order('board_modify_ts', { ascending: false });
 
-                supabase.from('board_ov_vw')
-                    .select('*')
-                    .eq('owner_id', response.data.user?.id)
-                    .limit(3)
-                    .order('board_modify_ts', { ascending: false })
-                    .then((response) => {
-                        if (response.error)
-                            return;
+        if (response.error) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
 
-                        this.latestBoards = response.data as Board[];
-                    });
-            });
+        this.latestBoards = response.data as Board[];
     }
 
     /**
@@ -66,5 +65,9 @@ export class NavBarComponent {
      */
     public openCreateBoard() {
         this.slideService.openSlide()
+    }
+
+    public signOut() {
+        return signOut(this.router);
     }
 }

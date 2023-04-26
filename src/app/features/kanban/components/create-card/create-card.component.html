@@ -1,16 +1,16 @@
 <div mat-dialog-content class="save-card-container">
     <h1 mat-dialog-title>{{dialogHeader}}</h1>
-    <form [formGroup]="addCardForm" (ngSubmit)="submitCardForm()" class="form">
+    <form [formGroup]="addCardForm" class="form">
       <mat-form-field appearance="fill">
-        <mat-label>{{cardContext.card_name}}</mat-label>
-        <input matInput formControlName="fName" [value]="cardContext.card_name">
+        <mat-label>{{nameLabel}}</mat-label>
+        <input matInput formControlName="fName" (keyup)="checkDirty()">
         <mat-error>
-          Enter a card name!
+          Enter a card name, max. 50 characaters long!
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Select assignee</mat-label>
-        <mat-select formControlName="fAssignee" required [value]="cardContext.card_assigned_to">
+        <mat-select formControlName="fAssignee" [value]="cardContext.assigned_to" (selectionChange)="checkDirty()">
           <mat-option *ngFor="let assignee of assignees" [value]="assignee.user_id">
             {{ assignee.user_name }}
           </mat-option>
@@ -20,20 +20,31 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
+        <mat-label>Select column</mat-label>
+            <mat-select formControlName="fColumn" [(value)]="cardColumnContext" (selectionChange)="checkDirty()">
+          <mat-option *ngFor="let column of boardColumns" [value]="column.column_id">
+            {{ column.column_name }}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          Select a card column/status!
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
         <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" name="Due date" formControlName="fDueDate" [value]="cardContext.card_due_date">
+        <input matInput [matDatepicker]="picker" name="Due date" formControlName="fDueDate" (change)="checkDirty()"
+               (dateChange)="checkDirty()" readonly>
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>{{cardContext.card_description}}</mat-label>
+        <mat-label>{{descriptionLabel}}</mat-label>
         <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="20" formControlName="fDescription" [value]="cardContext.card_description"></textarea>
+                  cdkAutosizeMaxRows="20" formControlName="fDescription" (keyup)="checkDirty()"></textarea>
       </mat-form-field>
-      <br />
-      <div mat-dialog-actions>
-        <button type="button" mat-raised-button color="primary" (click)="submitCardForm()">{{buttonText}}</button>
+      <div mat-dialog-actions class="centerButtons">
+        <button type="button" mat-raised-button color="primary" [disabled]="!addCardForm.valid || dirty" (click)="submitCardForm()">{{buttonText}}</button>
         <button mat-button class="mat-focus-indicator mat-raised-button mat-button-base mat-raised" (click)="onNoClick()">Back</button>
       </div>
     </form>

@@ -1,0 +1,49 @@
+<div style="display: flex; justify-content: space-between; padding-right: 20px; align-items: center;">
+    <h1 mat-dialog-title>Change {{ data.type }}</h1>
+    <button mat-icon-button mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+
+
+<div *ngIf="data.type == 'email'">
+    <form class="form-column" [formGroup]="emailForm" (ngSubmit)="changeEmail()">
+        <div mat-dialog-content>
+            <mat-form-field class="full-width">
+                <mat-label>Current email address: {{currentUser?.email}}</mat-label>
+                <input id="email" type="email" matInput formControlName="email" required>
+                <mat-error *ngIf="email?.errors?.['required']">Email is required.</mat-error>
+                <mat-error *ngIf="email?.errors?.['email']">Please use a valid email address.</mat-error>
+                <mat-error *ngIf="operationFailed">{{ errorMsg }}</mat-error>
+            </mat-form-field>
+            <div>Attention: New email will only be set after email confirmation!</div>
+            <div mat-dialog-actions style="padding-top: 20px;">
+                <button type="submit" mat-flat-button color="primary" cdkFocusInitial>Confirm</button>
+                <button mat-button mat-dialog-close>Cancel</button>            
+              </div>
+        </div>        
+    </form>
+</div>
+
+<div *ngIf="data.type == 'password'">
+    <form class="form-column" [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+        <div mat-dialog-content>
+            <mat-form-field class="full-width">
+                <mat-label>New Password</mat-label>
+                <input id="password" type="password" matInput formControlName="password" required>
+                <mat-error *ngIf="password?.errors?.['required']">Password is required.</mat-error>
+                <mat-error *ngIf="password?.errors?.['minlength']">Password has to be at least 8 characters long.</mat-error>
+                <mat-error *ngIf="password?.errors?.['pattern']">At least a combination of uppercase and lowercase letters, numbers and one of !$%&()?*_ is required.</mat-error>
+                <mat-error *ngIf="operationFailed">{{ errorMsg }}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Confirm Password</mat-label>
+                <input id="confirm-password" type="password" matInput formControlName="confirmPassword" required>
+                <mat-error *ngIf="confirmPassword?.errors?.['required']">Confirming your password is required.</mat-error>
+                <mat-error *ngIf="confirmPassword?.errors?.['passwordUnconfirmed']">Please confirm your password.</mat-error>
+            </mat-form-field>
+            <div mat-dialog-actions>
+                <button type="submit" mat-flat-button color="primary" cdkFocusInitial>Confirm</button>
+                <button mat-button mat-dialog-close>Cancel</button>
+              </div>
+        </div>        
+    </form>
+</div>

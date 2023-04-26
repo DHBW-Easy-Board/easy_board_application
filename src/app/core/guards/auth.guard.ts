@@ -7,7 +7,7 @@ export const authGuard = () => {
 
     supabase.auth.getUser()
         .then((response) => {
-            if (response.data.user?.aud === 'authenticated')
+            if (response.data.user?.role === 'authenticated')
                 return true;
 
             return router.navigate(['']);
