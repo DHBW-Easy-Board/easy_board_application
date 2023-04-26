@@ -21,6 +21,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DeleteCardComponent } from './components/delete-card/delete-card.component';
+import { ViewCardComponent } from './components/view-card/view-card.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatIconModule} from "@angular/material/icon";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [
@@ -29,21 +33,25 @@ import { DeleteCardComponent } from './components/delete-card/delete-card.compon
     DashboardComponent,
     DashboardItemComponent,
     DeleteCardComponent,
+    ViewCardComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    KanbanRoutingModule,
-    ContainerComponent,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatInputModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatSnackBarModule,
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        KanbanRoutingModule,
+        ContainerComponent,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatInputModule,
+        MatNativeDateModule,
+        MatSelectModule,
+        MatSnackBarModule,
+        MatMenuModule,
+        MatIconModule,
+        MatDividerModule,
+    ]
 })
 export class KanbanModule { }
