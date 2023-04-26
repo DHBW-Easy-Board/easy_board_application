@@ -31,7 +31,6 @@ export class DeleteCardComponent {
   public async deleteCard() {
     await supabase.from('card').delete().eq('id', this.cardId).then((response) => {
       if(response.error){
-        console.log(response)
         this.snackBar.open('Failed to delete card. Please try again later.', 'Ok')
         this.dialogRef.close();
       } else{
