@@ -36,7 +36,7 @@ export class DeleteCardComponent {
         this.dialogRef.close();
       } else{
         this.snackBar.open('Card successfully deleted.', undefined, {
-            duration: 2000
+            duration: 3000
         })
         this.dialogRef.close();
       }

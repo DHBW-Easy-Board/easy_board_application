@@ -105,7 +105,7 @@ export class CreateCardComponent {
           if(response.error){
             this.snackBar.open('Failed to update card (everything except column). Please try again later.', 'Ok')
           } else{
-            this.snackBar.open('Card update successful')
+            this.snackBar.open('Card update successful', undefined, { duration: 3000 })
           }
         }))
       await supabase
@@ -127,7 +127,7 @@ export class CreateCardComponent {
         if(response.error) {
           this.snackBar.open('Failed to create new card. Please try again later.', 'Ok')
         } else{
-          this.snackBar.open('Card creation successful')
+          this.snackBar.open('Card creation successful', undefined, { duration: 3000 })
         }
       }));
     }
