@@ -19,9 +19,10 @@ export class CreateCardComponent {
    * These get provided by dialog open function
    *
    * For Create:
-   * column_id = preset column in view
+   * boardId = for getting valid columns
+   * column_id = preset column in view (future stuff)
    * isEdit = false
-   * boardId and cardId dont matter
+   * and cardId dont matter
    *
    * For Edit
    * boardId for getting Valid Users and Columns

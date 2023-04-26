@@ -13,6 +13,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DeleteCardComponent } from './components/delete-card/delete-card.component';
 import { ContainerComponent } from 'src/app/shared/components/container/container.component';
 import { DashboardItemComponent } from './components/dashboard-item/dashboard-item.component';
+import { ViewCardComponent } from './components/view-card/view-card.component';
 
 // Material
 import { MatButtonModule } from '@angular/material/button';
@@ -22,6 +23,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from "@angular/material/menu";
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -35,6 +37,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     DashboardComponent,
     DashboardItemComponent,
     DeleteCardComponent,
+    ViewCardComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +52,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDividerModule,
     MatIconModule,
     MatInputModule,
+    MatMenuModule,
     MatNativeDateModule,
     MatSelectModule,
     MatSnackBarModule,
