@@ -1,11 +1,12 @@
 import {Component, ViewChild} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 import {MatDialogRef} from "@angular/material/dialog";
 import {supabase} from "src/env/supabase";
 import {CardModel} from "../../../../core/models/cardModel";
 import {BoardAssigneeModel} from "../../../../core/models/board.assignee.model";
 import {BoardColumn} from "../../../../core/models/board-column.model";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-create-card',
@@ -36,6 +37,9 @@ export class CreateCardComponent {
    */
   columnContextId: number = 0;
 
+  /**
+   * Column and assigne values for view
+   */
   assignees: BoardAssigneeModel[] = [];
   boardColumns: BoardColumn[] = [];
 
@@ -53,7 +57,8 @@ export class CreateCardComponent {
     this.dialogRef.close();
   }
 
-  constructor(public dialogRef: MatDialogRef<CreateCardComponent>, private formBuilder: FormBuilder) {  }
+  constructor(public dialogRef: MatDialogRef<CreateCardComponent>, private formBuilder: FormBuilder,
+              private snackBar: MatSnackBar) {  }
 
   /**
    * important for expandle form label for the description
@@ -64,11 +69,11 @@ export class CreateCardComponent {
    * Form Control for the create-card html form
    */
   addCardForm = this.formBuilder.group({
-      fName: new FormControl('', [Validators.pattern(".*")]),
+      fName: new FormControl('', [Validators.pattern("(.|\\n)*"), Validators.maxLength(50)]),
       fAssignee: new FormControl('', Validators.required),
       fColumn: new FormControl('', Validators.required),
       fDueDate: new FormControl('', Validators.required),
-      fDescription: new FormControl('', [Validators.pattern(".*")]),
+      fDescription: new FormControl('', [Validators.pattern("(.|\\n)*")]),
     }
   );
 
@@ -84,7 +89,13 @@ export class CreateCardComponent {
           assigned_to: this.addCardForm.value.fAssignee, due_date: this.addCardForm.value.fDueDate,
           columns_id: this.addCardForm.value.fColumn,
         })
-        .eq('id', this.cardId)
+        .eq('id', this.cardId).then((response => {
+          if(response.error){
+            this.snackBar.open('Failed to update card. Please try again later.', 'Ok')
+          } else{
+            this.snackBar.open('Card update successful')
+          }
+        }))
     } else {
       const element = {
         name: this.addCardForm.value.fName,
@@ -93,9 +104,13 @@ export class CreateCardComponent {
         columns_id: this.addCardForm.value.fColumn,
         due_date: this.addCardForm.value.fDueDate,
       }
-      await supabase.from('card').insert([
-        element
-      ]);
+      await supabase.from('card').insert([element]).then((response =>{
+        if(response.error) {
+          this.snackBar.open('Failed to create new card. Please try again later.', 'Ok')
+        } else{
+          this.snackBar.open('Card creation successful')
+        }
+      }));
     }
     this.dialogRef.close();
   }
@@ -109,8 +124,7 @@ export class CreateCardComponent {
       .eq('board_id', this.boardId)
       .then((response) => {
       if (response.error) {
-        console.log(response.error)
-        console.log('cant preload valid assignees')
+        this.snackBar.open('Could not preload assignees.', 'Ok')
         return;
       } else {
         this.assignees = response.data as BoardAssigneeModel[]
@@ -127,8 +141,7 @@ export class CreateCardComponent {
       .eq('id', this.cardId)
       .then((response) => {
       if (response.error) {
-        console.log(response.error)
-        console.log('cant preload card information')
+        this.snackBar.open('Could not preload card info.', 'Ok')
         return;
       } else {
         this.cardContext.id = response.data[0]['id']
@@ -151,8 +164,7 @@ export class CreateCardComponent {
       .eq('board_id', this.boardId)
       .then((response) =>{
         if(response.error){
-          console.log(response.error)
-          console.log('Cant load card columns');
+          this.snackBar.open('Could not preload card status.', 'Ok')
           return;
         }
         else {
