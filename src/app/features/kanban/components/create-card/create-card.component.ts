@@ -33,15 +33,12 @@ export class CreateCardComponent {
   dirty: boolean = true
 
   /**
-   * Column Context for preloading information
-   */
-  columnContextId: number = 0;
-
-  /**
    * Column and assigne values for view
    */
   assignees: BoardAssigneeModel[] = [];
+  responseColumns: BoardColumn[] = [];
   boardColumns: BoardColumn[] = [];
+
 
   /**
    * Card Context for preloading information
@@ -49,6 +46,11 @@ export class CreateCardComponent {
   cardContext: CardModel = {
     id: 0, name: '', description: '', assigned_to: '0', columns_id: 0, created_at: null,
     due_date: null, position: 1};
+
+  /**
+   * this is need so that front end works
+   */
+  cardColumnContext = 0
 
   /**
    * Dialog close function
@@ -87,13 +89,21 @@ export class CreateCardComponent {
         .update({
           name: this.addCardForm.value.fName, description: this.addCardForm.value.fDescription,
           assigned_to: this.addCardForm.value.fAssignee, due_date: this.addCardForm.value.fDueDate,
-          columns_id: this.addCardForm.value.fColumn,
         })
         .eq('id', this.cardId).then((response => {
           if(response.error){
-            this.snackBar.open('Failed to update card. Please try again later.', 'Ok')
+            console.log(response.error)
+            this.snackBar.open('Failed to update card (everything except column). Please try again later.', 'Ok')
           } else{
             this.snackBar.open('Card update successful')
+          }
+        }))
+      await supabase
+        .rpc('update_card_status' , {
+          card_id: this.cardId, new_columns_id: this.addCardForm.value.fColumn}).then((response => {
+          if(response.error){
+            console.log(response.error)
+            this.snackBar.open('Failed to update card column. Please try again later.', 'Ok')
           }
         }))
     } else {
@@ -126,9 +136,8 @@ export class CreateCardComponent {
       if (response.error) {
         this.snackBar.open('Could not preload assignees.', 'Ok')
         return;
-      } else {
-        this.assignees = response.data as BoardAssigneeModel[]
       }
+      this.assignees = response.data as BoardAssigneeModel[]
     })
   }
 
@@ -143,34 +152,15 @@ export class CreateCardComponent {
       if (response.error) {
         this.snackBar.open('Could not preload card info.', 'Ok')
         return;
-      } else {
-        this.cardContext.id = response.data[0]['id']
-        this.cardContext.assigned_to = response.data[0]['assigned_to']
-        this.cardContext.description = response.data[0]['description']
-        this.cardContext.name = response.data[0]['name']
-        this.cardContext.due_date = response.data[0]['due_date']
-        this.cardContext.columns_id = response.data[0]['columns_id']
-        this.cardContext.position = response.data[0]['position']
       }
+      this.cardContext.id = response.data[0]['id']
+      this.cardContext.assigned_to = response.data[0]['assigned_to']
+      this.cardContext.description = response.data[0]['description']
+      this.cardContext.name = response.data[0]['name']
+      this.cardContext.due_date = response.data[0]['due_date']
+      this.cardContext.columns_id = response.data[0]['columns_id']
+      this.cardContext.position = response.data[0]['position']
     })
-  }
-
-  /**
-   * Gets Columns per board for status drop down
-   */
-  public getValidCardStatus(){
-    return supabase.from('board_column_ov_sm_vw')
-      .select('*')
-      .eq('board_id', this.boardId)
-      .then((response) =>{
-        if(response.error){
-          this.snackBar.open('Could not preload card status.', 'Ok')
-          return;
-        }
-        else {
-          this.boardColumns = response.data as BoardColumn[]
-        }
-      });
   }
 
   /**
@@ -180,13 +170,29 @@ export class CreateCardComponent {
     this.dirty = false
   }
 
+  /**
+   * Gets Columns per board for status drop down
+   */
+  public getValidBoardColumns(){
+    return supabase.from('board_column_ov_sm_vw')
+      .select('*')
+      .eq('board_id', this.boardId)
+      .then((response) =>{
+        if(response.error){
+          this.snackBar.open('Could not preload card status.', 'Ok')
+          return;
+        }
+        this.responseColumns = response.data as BoardColumn[]
+      });
+  }
+
   async ngOnInit(){
     this.cardContext = {
-      id: 0, name: '', description: '', assigned_to: '0', columns_id: 0,
+      id: 0, name: '', description: '', assigned_to: '0', columns_id: this.columnId,
       created_at: null,due_date: null, position: 1}
 
+    await this.getValidBoardColumns();
     await this.getValidUsers();
-    await this.getValidCardStatus();
 
     if (this.isEdit) {
       this.dialogHeader = "Edit a card:";
@@ -196,21 +202,36 @@ export class CreateCardComponent {
 
       this.descriptionLabel = this.cardContext.description
       this.nameLabel = this.cardContext.name
-    }
 
-    this.boardColumns.forEach((value, index) => {
-      if(this.cardContext.columns_id == value.column_id){
-        this.columnContextId = value.column_id
-      }
-      if(value.has_limit == 1){
-        if(<number>value.max_cards_per_column <= value.act_cards_per_column){
-          this.boardColumns.splice(index, 1)
+      this.responseColumns.forEach((value, index) => {
+        if (this.cardContext.columns_id == value.column_id){
+          this.boardColumns.push(value);
         }
-      }
-    });
-
+        else if (value.has_limit === 1){
+          //typecast ist fine has_limit ensures not null
+          if(<number>value.max_cards_per_column > value.act_cards_per_column){
+            this.boardColumns.push(value);
+          }
+        }
+      });
+    }
+    else{
+      this.responseColumns.forEach((value, index) => {
+        if (value.has_limit === 1) {
+          //typecast ist fine has_limit ensures not null
+          if (<number>value.max_cards_per_column > value.act_cards_per_column) {
+            this.boardColumns.push(value);
+          }
+        }
+      });
+    }
     this.addCardForm.patchValue({fName: this.cardContext.name})
     this.addCardForm.patchValue({fDescription: this.cardContext.description})
     this.addCardForm.patchValue({fDueDate: this.cardContext.due_date})
+
+    /**
+     * ikr genius
+     */
+    this.cardColumnContext = this.cardContext.columns_id
   }
 }
