@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Card } from 'src/app/core/models/card.model';
 import { supabase } from 'src/env/supabase';
 
 @Component({
@@ -17,24 +18,36 @@ export class ColumnComponent {
     @Input()
     public boardId?: number;
 
+    public cards: Card[] = [];
+
     constructor (private snackbar: MatSnackBar) { }
 
+    ngOnInit() {
+        if (this.boardId)
+            this.getCards();
+    }
+
     /**
-     * ToDo
+     * Get all cards of a column.
      * 
      * @param boardId 
      */
-    private async getCards(boardId: number) {
-        const response = await supabase.from('board_card_ov_auth_vw')
-            .select('card_id')
-            .eq('board_id', boardId)
-            .not('card_id', 'is', null);
+    private async getCards() {
+        if (!this.boardId) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
 
-        console.log(response);
+        const response = await supabase.from('board_card_sm_auth_vw')
+            .select('*')
+            .eq('board_id', this.boardId)
+            .eq('columns_id', this.id);
 
         if (response.error) {
             this.snackbar.open('An error occurred. Please try again later.', 'Close');
             return;
         }
+
+        this.cards = response.data as Card[];
     }
 }

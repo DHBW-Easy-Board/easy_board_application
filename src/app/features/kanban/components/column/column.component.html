@@ -2,11 +2,6 @@
     <mat-card-title>{{ title }}</mat-card-title>
     <mat-divider></mat-divider>
     <div class="column-content">
-        <div style="min-height: 500px; background: rgb(210, 210, 210); display: flex; justify-content: center; align-items: center;">Placeholder</div>
-        <div style="min-height: 500px; background: rgb(210, 210, 210); display: flex; justify-content: center; align-items: center;">Placeholder</div>
-        <div style="min-height: 500px; background: rgb(210, 210, 210); display: flex; justify-content: center; align-items: center;">Placeholder</div>
-        <div style="min-height: 500px; background: rgb(210, 210, 210); display: flex; justify-content: center; align-items: center;">Placeholder</div>
-        <div style="min-height: 500px; background: rgb(210, 210, 210); display: flex; justify-content: center; align-items: center;">Placeholder</div>
-        <div style="min-height: 500px; background: rgb(210, 210, 210); display: flex; justify-content: center; align-items: center;">Placeholder</div>
+        <app-card *ngFor="let card of cards" [id]="card.card_id" [title]="card.card_name" [username]="card.card_assignee_user_name"></app-card>
     </div>
 </mat-card>
