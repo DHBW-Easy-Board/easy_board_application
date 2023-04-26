@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
 import { SlideService } from 'src/app/shared/services/slide.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { supabase } from 'src/env/supabase';
 
 @Component({
@@ -12,33 +13,26 @@ import { supabase } from 'src/env/supabase';
 export class DashboardComponent implements OnInit {
     public boards: Board[] = [];
 
-    // Inject slide service to emit open slide events
-    // Inject router to redirect for test purposes
-    constructor (private slideService: SlideService, private router: Router) { }
+    constructor (private router: Router, private slideService: SlideService, private snackbar: MatSnackBar) { }
 
     ngOnInit() {
         this.getBoards();
     }
 
     /**
-     * ToDo - Refactor
      * Get all boards from the user.
      */
     public async getBoards() {
-        await supabase.auth.getUser()
-            .then((response) => {
-                response.data.user?.id
+        const response = await supabase.from('board_ov_auth_vw')
+            .select('*')
+            .order('board_modify_ts', { ascending: false });
 
-                supabase.from('board_ov_auth_vw')
-                    .select('*')
-                    .order('board_modify_ts', { ascending: false })
-                    .then((response) => {
-                        if (response.error)
-                            return;
+        if (response.error) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
 
-                        this.boards = response.data as Board[];
-                    });
-            });
+        this.boards = response.data as Board[];
     }
 
     /**
@@ -46,17 +40,5 @@ export class DashboardComponent implements OnInit {
      */
     public openCreateBoard() {
         this.slideService.openSlide()
-    }
-
-    // Testing sign out
-    public async signOut() {
-        await supabase.auth.signOut()
-            .then((response) => {
-                if (response.error === null) {
-                    this.router.navigate(['']);
-                } else {
-                    console.log(response);
-                }
-            });
     }
 }
