@@ -120,6 +120,9 @@ export class ViewCardComponent {
 
     dialogRef.beforeClosed().subscribe(value => {
       this.dialogRef.close()
+
+      // ToDo - Current Hack
+      location.reload();
     })
   }
 
@@ -135,6 +138,9 @@ export class ViewCardComponent {
 
     dialogRef.beforeClosed().subscribe(value => {
       this.updateView()
+
+      // ToDo - Current Hack
+      location.reload();
     })
 
   }

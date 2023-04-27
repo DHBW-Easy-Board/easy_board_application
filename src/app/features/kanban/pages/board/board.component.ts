@@ -79,5 +79,10 @@ export class BoardComponent {
         });
         dialogRef.componentInstance.boardId = this.id;
         dialogRef.componentInstance.isEdit = false;
+
+        // ToDo - Current Hack
+        dialogRef.beforeClosed().subscribe(value => {
+            location.reload();
+        });
     }
 }
