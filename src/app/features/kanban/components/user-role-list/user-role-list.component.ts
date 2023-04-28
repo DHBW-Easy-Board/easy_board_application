@@ -181,6 +181,9 @@ export class UserRoleListComponent implements OnInit{
     }
   }
 
+  /** checks if addUserItem is valid or not
+    * @returns true if it is valid and false if not
+  */
   private checkIfAddUserItemIsValid(): boolean {
     if(!this.addUserItem)
       return false;
@@ -193,7 +196,6 @@ export class UserRoleListComponent implements OnInit{
 
     if(!this.rolesAvailable.find(role => role.id === this.addUserItem?.role_id))
       return false;
-
 
     return true;
   }
