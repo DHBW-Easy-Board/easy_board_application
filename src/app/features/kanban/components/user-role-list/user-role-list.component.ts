@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { BoardAssignee } from 'src/app/core/models/boardAssignee';
@@ -9,6 +10,12 @@ import { supabase } from 'src/env/supabase';
 export interface User {
   id: number,
   user_name: string,
+  role_id: number
+}
+
+interface addAssignee {
+  board_id: number,
+  user_id: number,
   role_id: number
 }
 
@@ -38,9 +45,11 @@ export class UserRoleListComponent implements OnInit{
   public rolesAvailable: Role[] = [];
 
   /** user which should be added */
-  public addUserItem?: User | undefined;
+  public addUserItem?: addAssignee| undefined;
 
   displayedColumns: string[] = ["user_name", "role_name"];
+
+  constructor(private snackBar: MatSnackBar) { }
 
   async ngOnInit(): Promise<void> {
     this.loadAssignedUser();
@@ -102,20 +111,48 @@ export class UserRoleListComponent implements OnInit{
   }
 
   /** adds user as BoardAssignee to the board (backend call) */
-  public addAssignee() {
+   public async addAssignee() {
     console.log("Adding user to Backend");
     console.log(this.addUserItem);
+
+    if(!this.checkIfAddUserItemIsValid())
+      this.snackBar.open("Please check your input!", undefined, {duration: 2000});
+    else {
+      const response = await supabase.from('user_board_role').insert(this.addUserItem)
+      if(response.error) {
+        this.snackBar.open("An error occured, please try again later", "close")
+        console.error(response.error);
+      } else {
+        this.loadAssignedUser();
+        this.snackBar.open("New user was added successfully", undefined, { duration: 2000 })
+      }
+    }
   }
 
-  public changeRoleForAssignee(assignee: BoardAssignee, role: Role) {
+  /** change role for assignee */
+  public async changeRoleForAssignee(assignee: BoardAssignee, role: Role) {
     console.log("Change role of user to role");
-    console.log(assignee);
-    console.log(role);
+
+    const response = await supabase.from('user_board_role').update({ role_id: role.id }).eq( "user_id", assignee.user_id );
+    if(response.error) {
+      this.snackBar.open("An error occured, please try again later", "close")
+      console.error(response.error);
+    } else {
+      this.loadAssignedUser();
+      this.snackBar.open("user was successfully updated", undefined, { duration: 2000 })
+    }
   }
 
-  public deleteAssignee(assignee: BoardAssignee) {
-    console.log("Delete Board assignee");
-    console.log(assignee);
+  /** deletes user from board */
+  public async deleteAssignee(assignee: BoardAssignee) {
+    const response = await supabase.from('user_board_role').delete().eq( "user_id", assignee.user_id );
+    if(response.error) {
+      this.snackBar.open("An error occured, please try again later", "close")
+      console.error(response.error);
+    } else {
+      this.loadAssignedUser();
+      this.snackBar.open("user was successfully deleted from board", undefined, { duration: 2000 })
+    }
   }
 
   /** Fills in the addUserItem with role_id */
@@ -124,8 +161,8 @@ export class UserRoleListComponent implements OnInit{
       this.addUserItem.role_id = role.id;
     else
       this.addUserItem = {
-        id: 0,
-        user_name: "",
+        board_id: this.boardId,
+        user_id: 0,
         role_id: role.id
       }
   }
@@ -133,14 +170,31 @@ export class UserRoleListComponent implements OnInit{
   /** Fills in the adduserItem with user_name */
   public selectAssignee(user: User) {
     if(this.addUserItem) {
-      this.addUserItem.user_name = user.user_name
+      this.addUserItem.user_id = user.id;
     }
     else {
       this.addUserItem = {
-        id: 0,
-        user_name: user.user_name,
+        board_id: this.boardId,
+        user_id: user.id,
         role_id: 0
       }
     }
+  }
+
+  private checkIfAddUserItemIsValid(): boolean {
+    if(!this.addUserItem)
+      return false;
+
+    if(!this.addUserItem.user_id)
+      return false;
+
+    if(this.addUserItem.board_id !== this.boardId)
+      return false;
+
+    if(!this.rolesAvailable.find(role => role.id === this.addUserItem?.role_id))
+      return false;
+
+
+    return true;
   }
 }
