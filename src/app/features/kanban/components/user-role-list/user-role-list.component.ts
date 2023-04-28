@@ -8,7 +8,7 @@ import { Role } from 'src/app/core/models/role.model';
 import { supabase } from 'src/env/supabase';
 
 export interface User {
-  id: number,
+  user_id: number,
   user_name: string,
   role_id: number
 }
@@ -59,7 +59,7 @@ export class UserRoleListComponent implements OnInit{
 
   /** loads all user for the addAssignee functionality and sets the Observable */
   async loadsNewUser() {
-    const res = await supabase.from('user').select('*');
+    const res = await supabase.from('potential_board_assignees_vw').select('*').eq('board_id', this.boardId);
 
     if(!res.error) {
       const data: User[] = res.data as User[]
@@ -124,7 +124,10 @@ export class UserRoleListComponent implements OnInit{
         console.error(response.error);
       } else {
         this.loadAssignedUser();
+        this.loadsNewUser();
         this.snackBar.open("New user was added successfully", undefined, { duration: 2000 })
+        this.addUserItem = undefined;
+
       }
     }
   }
@@ -132,8 +135,10 @@ export class UserRoleListComponent implements OnInit{
   /** change role for assignee */
   public async changeRoleForAssignee(assignee: BoardAssignee, role: Role) {
     console.log("Change role of user to role");
-
-    const response = await supabase.from('user_board_role').update({ role_id: role.id }).eq( "user_id", assignee.user_id );
+    console.log(assignee);
+    console.log(role);
+    const response = await supabase.from('user_board_role').update({ role_id: role.id }).eq( "user_id", assignee.user_id ).eq("board_id", this.boardId);
+    console.log(response);
     if(response.error) {
       this.snackBar.open("An error occured, please try again later", "close")
       console.error(response.error);
@@ -145,12 +150,13 @@ export class UserRoleListComponent implements OnInit{
 
   /** deletes user from board */
   public async deleteAssignee(assignee: BoardAssignee) {
-    const response = await supabase.from('user_board_role').delete().eq( "user_id", assignee.user_id );
+    const response = await supabase.from('user_board_role').delete().eq( "user_id", assignee.user_id ).eq("board_id", this.boardId);
     if(response.error) {
       this.snackBar.open("An error occured, please try again later", "close")
       console.error(response.error);
     } else {
       this.loadAssignedUser();
+      console.log(response)
       this.snackBar.open("user was successfully deleted from board", undefined, { duration: 2000 })
     }
   }
@@ -170,12 +176,12 @@ export class UserRoleListComponent implements OnInit{
   /** Fills in the adduserItem with user_name */
   public selectAssignee(user: User) {
     if(this.addUserItem) {
-      this.addUserItem.user_id = user.id;
+      this.addUserItem.user_id = user.user_id;
     }
     else {
       this.addUserItem = {
         board_id: this.boardId,
-        user_id: user.id,
+        user_id: user.user_id,
         role_id: 0
       }
     }
