@@ -28,8 +28,6 @@ export class UserRoleListComponent implements OnInit{
   /** used to filter all user which can be invited */
   inviteUserControl = new FormControl<string | User>('');
 
-  public options: User[] = [];
-
   /** list with all user, possible to add */
   public userList!: Observable<User[]>;
 
@@ -47,22 +45,24 @@ export class UserRoleListComponent implements OnInit{
   async ngOnInit(): Promise<void> {
     this.loadAssignedUser();
     this.loadAllRoles();
+    this.loadsNewUser();
+  }
 
-
+  /** loads all user for the addAssignee functionality and sets the Observable */
+  async loadsNewUser() {
     const res = await supabase.from('user').select('*');
 
-    if(!res.error)
-      this.options = res.data as User[]
-
-    this.userList = this.inviteUserControl.valueChanges.pipe(
-      map(value => {
-        console.log(value);
-        if(value)
-          return this.options.filter(f => f.user_name.toLowerCase().startsWith(value.toString().toLowerCase()))
-        else
-          return this.options;
-      })
-    );
+    if(!res.error) {
+      const data: User[] = res.data as User[]
+      this.userList = this.inviteUserControl.valueChanges.pipe(
+        map(value => {
+          if(value)
+            return data.filter(f => f.user_name.toLowerCase().startsWith(value.toString().toLowerCase()))
+          else
+            return [];
+        })
+      );
+    }
   }
 
   /** loads all user colaborating on the current board */
@@ -96,10 +96,12 @@ export class UserRoleListComponent implements OnInit{
     }
   }
 
+  /** used to display the userList user to the html */
   displayUserString(user: User) {
     return user.user_name;
   }
 
+  /** adds user as BoardAssignee to the board (backend call) */
   public addAssignee() {
     console.log("Adding user to Backend");
     console.log(this.addUserItem);
@@ -116,6 +118,7 @@ export class UserRoleListComponent implements OnInit{
     console.log(assignee);
   }
 
+  /** Fills in the addUserItem with role_id */
   public addRoleToAddAssignee(role: Role) {
     if(this.addUserItem)
       this.addUserItem.role_id = role.id;
@@ -126,6 +129,8 @@ export class UserRoleListComponent implements OnInit{
         role_id: role.id
       }
   }
+
+  /** Fills in the adduserItem with user_name */
   public selectAssignee(user: User) {
     if(this.addUserItem) {
       this.addUserItem.user_name = user.user_name
@@ -134,7 +139,7 @@ export class UserRoleListComponent implements OnInit{
       this.addUserItem = {
         id: 0,
         user_name: user.user_name,
-        role_id: 1
+        role_id: 0
       }
     }
   }
