@@ -60,6 +60,16 @@ export class UserRoleListComponent implements OnInit{
     this.loadsNewUser();
   }
 
+  /** shows loading error */
+  private showError(error: any, msg?: string) {
+    console.error(error);
+
+    if(!msg)
+      msg = "An unknown error has occured, please try again later";
+
+    this.snackBar.open(msg, "close");
+  }
+
   /** loads all user for the addAssignee functionality and sets the Observable */
   async loadsNewUser() {
     this.loading++;
@@ -75,6 +85,8 @@ export class UserRoleListComponent implements OnInit{
             return [];
         })
       );
+    } else {
+      this.showError(res.error, "There was an error loading userdata");
     }
     this.loading--;
   }
@@ -82,7 +94,6 @@ export class UserRoleListComponent implements OnInit{
   /** loads all user colaborating on the current board */
   async loadAssignedUser() {
     this.loading++;
-    console.log('Loading all user for board: ' + this.boardId);
 
     const response = await supabase.from('valid_board_assignees_vw')
       .select('*')
@@ -91,16 +102,15 @@ export class UserRoleListComponent implements OnInit{
     if(!response.error) {
       this.boardAssignees = response.data as BoardAssignee[];
     } else {
-      console.error('Could not load all assigned user');
-      console.error(response);
+      this.showError(response.error, 'There was an error loading all assigned user');
     }
+
     this.loading--;
   }
 
   /** laoding all roles available for the current board */
   async loadAllRoles() {
     this.loading++;
-    console.log('Loading all roles');
 
     const response = await supabase.from('role')
       .select('*');
@@ -108,9 +118,9 @@ export class UserRoleListComponent implements OnInit{
     if(!response.error) {
       this.rolesAvailable = response.data as Role[];
     } else {
-      console.error('Could not load all roles');
-      console.error(response);
+      this.showError(response.error, 'There was an error loading all roles');
     }
+
     this.loading--;
   }
 
@@ -122,38 +132,33 @@ export class UserRoleListComponent implements OnInit{
   /** adds user as BoardAssignee to the board (backend call) */
    public async addAssignee() {
     this.loading++;
-    console.log("Adding user to Backend");
-    console.log(this.addUserItem);
 
     if(!this.checkIfAddUserItemIsValid())
       this.snackBar.open("Please check your input!", undefined, {duration: 2000});
     else {
       const response = await supabase.from('user_board_role').insert(this.addUserItem)
+
       if(response.error) {
-        this.snackBar.open("An error occured, please try again later", "close")
-        console.error(response.error);
+        this.showError(response.error, "An error occured, please try again later",);
       } else {
         this.loadAssignedUser();
         this.loadsNewUser();
         this.snackBar.open("New user was added successfully", undefined, { duration: 2000 })
         this.addUserItem = undefined;
-
       }
     }
+
     this.loading--;
   }
 
   /** change role for assignee */
   public async changeRoleForAssignee(assignee: BoardAssignee, role: Role) {
     this.loading++;
-    console.log("Change role of user to role");
-    console.log(assignee);
-    console.log(role);
+
     const response = await supabase.from('user_board_role').update({ role_id: role.id }).eq( "user_id", assignee.user_id ).eq("board_id", this.boardId);
-    console.log(response);
+
     if(response.error) {
-      this.snackBar.open("An error occured, please try again later", "close")
-      console.error(response.error);
+      this.showError(response.error,  "An error occured, please try again later");
     } else {
       this.loadAssignedUser();
       this.snackBar.open("user was successfully updated", undefined, { duration: 2000 })
@@ -164,15 +169,15 @@ export class UserRoleListComponent implements OnInit{
   /** deletes user from board */
   public async deleteAssignee(assignee: BoardAssignee) {
     this.loading++;
+
     const response = await supabase.from('user_board_role').delete().eq( "user_id", assignee.user_id ).eq("board_id", this.boardId);
     if(response.error) {
-      this.snackBar.open("An error occured, please try again later", "close")
-      console.error(response.error);
+      this.showError(response.error,  "An error occured, please try again later");
     } else {
       this.loadAssignedUser();
-      console.log(response)
       this.snackBar.open("user was successfully deleted from board", undefined, { duration: 2000 })
     }
+
     this.loading--;
   }
 
