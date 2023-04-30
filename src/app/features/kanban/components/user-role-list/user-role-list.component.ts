@@ -32,6 +32,9 @@ export class UserRoleListComponent implements OnInit{
   */
   @Input('boardId') boardId!: number;
 
+  /** used to identify if the page is currently loading */
+  public loading: number = 0;
+
   /** used to filter all user which can be invited */
   inviteUserControl = new FormControl<string | User>('');
 
@@ -59,6 +62,7 @@ export class UserRoleListComponent implements OnInit{
 
   /** loads all user for the addAssignee functionality and sets the Observable */
   async loadsNewUser() {
+    this.loading++;
     const res = await supabase.from('potential_board_assignees_vw').select('*').eq('board_id', this.boardId);
 
     if(!res.error) {
@@ -72,10 +76,12 @@ export class UserRoleListComponent implements OnInit{
         })
       );
     }
+    this.loading--;
   }
 
   /** loads all user colaborating on the current board */
   async loadAssignedUser() {
+    this.loading++;
     console.log('Loading all user for board: ' + this.boardId);
 
     const response = await supabase.from('valid_board_assignees_vw')
@@ -88,10 +94,12 @@ export class UserRoleListComponent implements OnInit{
       console.error('Could not load all assigned user');
       console.error(response);
     }
+    this.loading--;
   }
 
   /** laoding all roles available for the current board */
   async loadAllRoles() {
+    this.loading++;
     console.log('Loading all roles');
 
     const response = await supabase.from('role')
@@ -103,6 +111,7 @@ export class UserRoleListComponent implements OnInit{
       console.error('Could not load all roles');
       console.error(response);
     }
+    this.loading--;
   }
 
   /** used to display the userList user to the html */
@@ -112,6 +121,7 @@ export class UserRoleListComponent implements OnInit{
 
   /** adds user as BoardAssignee to the board (backend call) */
    public async addAssignee() {
+    this.loading++;
     console.log("Adding user to Backend");
     console.log(this.addUserItem);
 
@@ -130,10 +140,12 @@ export class UserRoleListComponent implements OnInit{
 
       }
     }
+    this.loading--;
   }
 
   /** change role for assignee */
   public async changeRoleForAssignee(assignee: BoardAssignee, role: Role) {
+    this.loading++;
     console.log("Change role of user to role");
     console.log(assignee);
     console.log(role);
@@ -146,10 +158,12 @@ export class UserRoleListComponent implements OnInit{
       this.loadAssignedUser();
       this.snackBar.open("user was successfully updated", undefined, { duration: 2000 })
     }
+    this.loading--;
   }
 
   /** deletes user from board */
   public async deleteAssignee(assignee: BoardAssignee) {
+    this.loading++;
     const response = await supabase.from('user_board_role').delete().eq( "user_id", assignee.user_id ).eq("board_id", this.boardId);
     if(response.error) {
       this.snackBar.open("An error occured, please try again later", "close")
@@ -159,6 +173,7 @@ export class UserRoleListComponent implements OnInit{
       console.log(response)
       this.snackBar.open("user was successfully deleted from board", undefined, { duration: 2000 })
     }
+    this.loading--;
   }
 
   /** Fills in the addUserItem with role_id */

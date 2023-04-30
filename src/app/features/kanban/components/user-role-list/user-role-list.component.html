@@ -17,7 +17,7 @@
 
         <mat-form-field>
           <mat-label>Select Role</mat-label>
-          <mat-select [value]="addUserItem?.role_id">
+          <mat-select [disabled]="loading !== 0" [value]="addUserItem?.role_id">
             <mat-option [value]="role.id" (click)="addRoleToAddAssignee(role)" *ngFor="let role of rolesAvailable">
               {{ role.name }} 
             </mat-option>
@@ -41,7 +41,7 @@
       <div class="assigneeControlPanel">
         <mat-form-field>
           <mat-label>Role</mat-label>
-          <mat-select [value]="assignee.role_id">
+          <mat-select [disabled]="loading !== 0" [value]="assignee.role_id">
             <mat-option [value]="role.id" (click)="changeRoleForAssignee(assignee, role)" *ngFor="let role of rolesAvailable">
               {{ role.name }}
             </mat-option>
