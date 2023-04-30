@@ -21,7 +21,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserRoleListComponent } from './components/user-role-list/user-role-list.component';
-import { UserRoleTestpageComponent } from './pages/user-role-testpage/user-role-testpage.component';
 import { MatIconModule } from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTableModule} from '@angular/material/table';
@@ -35,7 +34,6 @@ import { MatDividerModule } from '@angular/material/divider';
     DashboardComponent,
     DashboardItemComponent,
     UserRoleListComponent,
-    UserRoleTestpageComponent,
   ],
   imports: [
     CommonModule,
