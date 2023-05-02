@@ -1,1 +1,11 @@
-<p>board-edit works!</p>
+<div class="board-edit-container">
+    <div class="board-edit-header">
+        <h2>Board settings</h2>
+        <button mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="board-edit-content">
+        <app-save-board [boardId]="boardId" [submitLabel]="'Save changes'"></app-save-board>
+    </div>
+</div>

@@ -14,6 +14,7 @@ import { CreateCardComponent } from './components/create-card/create-card.compon
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DashboardItemComponent } from './components/dashboard-item/dashboard-item.component';
 import { DeleteCardComponent } from './components/delete-card/delete-card.component';
+import { SaveBoardComponent } from 'src/app/shared/components/save-board/save-board.component';
 import { UserIconComponent } from 'src/app/shared/components/user-icon/user-icon.component';
 import { UserRoleListComponent } from './components/user-role-list/user-role-list.component';
 import { ViewCardComponent } from './components/view-card/view-card.component';
@@ -51,6 +52,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     KanbanRoutingModule,
     ReactiveFormsModule,
     ContainerComponent,
+    SaveBoardComponent,
     UserIconComponent,
     MatAutocompleteModule,
     MatButtonModule,

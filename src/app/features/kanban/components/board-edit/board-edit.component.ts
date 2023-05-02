@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-board-edit',
@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./board-edit.component.scss']
 })
 export class BoardEditComponent {
-
+    @Input()
+    public boardId?: number
 }
