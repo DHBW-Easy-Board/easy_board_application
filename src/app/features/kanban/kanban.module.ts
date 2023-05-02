@@ -26,7 +26,6 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTableModule} from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 
-
 @NgModule({
   declarations: [
     BoardComponent,

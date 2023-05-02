@@ -62,8 +62,6 @@ export class UserRoleListComponent implements OnInit{
 
   /** shows loading error */
   private showError(error: any, msg?: string) {
-    console.error(error);
-
     if(!msg)
       msg = "An unknown error has occured, please try again later";
 
