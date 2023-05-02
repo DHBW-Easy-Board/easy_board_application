@@ -3,7 +3,7 @@
         <h1>Welcome back!</h1>
         <div class="dashboard-item-list">
             <button class="dashboard-add-item" mat-flat-button color="primary" (click)="openCreateBoard()">+</button>
-            <app-dashboard-item *ngFor="let board of boards" [boardId]="board.board_id" [boardName]="board.board_name" [boardLastUpdated]="board.board_modify_ts"></app-dashboard-item>
+            <app-dashboard-item *ngFor="let board of boards" [boardId]="board.board_id" [boardName]="board.board_name" [boardLastUpdated]="board.board_modify_ts" [imageData]="board.imageData"></app-dashboard-item>
         </div>
     </div>
 </app-container>
