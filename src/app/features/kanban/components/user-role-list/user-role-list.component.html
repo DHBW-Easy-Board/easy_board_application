@@ -8,7 +8,7 @@
         <div class="addAssigneeInputContainer">
           <mat-form-field>
             <mat-label>Assignee</mat-label>
-            <input class="addAssigneeInputField" type="text" matInput [formControl]="inviteUserControl" [matAutocomplete]="auto">
+            <input class="addAssigneeInputField" type="text" matInput [value]='addUserItem?.user_name' [formControl]="inviteUserControl" [matAutocomplete]="auto">
             <mat-autocomplete [displayWith]="displayUserString" #auto="matAutocomplete">
               <mat-option *ngFor="let user of userList | async" [value]="user" (click)="selectAssignee(user)">
                 {{user.user_name}}
