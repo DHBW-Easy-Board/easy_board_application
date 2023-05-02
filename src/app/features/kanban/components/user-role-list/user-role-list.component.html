@@ -5,26 +5,29 @@
     <div class="addAssigneeContainer">
       <h3>Add new collaborator</h3>
       <div class="addAssigneeItemContainer">
-        <mat-form-field>
-          <mat-label>Assignee</mat-label>
-          <input class="addAssigneeInputField" type="text" matInput [formControl]="inviteUserControl" [matAutocomplete]="auto">
-          <mat-autocomplete [displayWith]="displayUserString" #auto="matAutocomplete">
-            <mat-option *ngFor="let user of userList | async" [value]="user" (click)="selectAssignee(user)">
-              {{user.user_name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+        <div class="addAssigneeInputContainer">
+          <mat-form-field>
+            <mat-label>Assignee</mat-label>
+            <input class="addAssigneeInputField" type="text" matInput [formControl]="inviteUserControl" [matAutocomplete]="auto">
+            <mat-autocomplete [displayWith]="displayUserString" #auto="matAutocomplete">
+              <mat-option *ngFor="let user of userList | async" [value]="user" (click)="selectAssignee(user)">
+                {{user.user_name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Select Role</mat-label>
-          <mat-select [disabled]="loading !== 0" [value]="addUserItem?.role_id">
-            <mat-option [value]="role.id" (click)="addRoleToAddAssignee(role)" *ngFor="let role of rolesAvailable">
-              {{ role.name }} 
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <button mat-button (click)="addAssignee()">Add User</button>
+          <mat-form-field>
+            <mat-label>Select Role</mat-label>
+            <mat-select [disabled]="loading !== 0" [value]="addUserItem?.role_id">
+              <mat-option [value]="role.id" (click)="addRoleToAddAssignee(role)" *ngFor="let role of rolesAvailable">
+                {{ role.name }} 
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="addAssigneeAddButton">
+          <button mat-flat-button color="primary" (click)="addAssignee()">Add User</button>
+        </div>
       </div>
     </div>
 

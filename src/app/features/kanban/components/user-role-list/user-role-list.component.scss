@@ -46,8 +46,15 @@
 .addAssigneeItemContainer {
   display: flex;
   gap: 10px;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
-.addAssigneeInputField {
-  width: 250px;
+.addAssigneeInputContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.addAssigneeAddButton {
+  float: right;
 }
