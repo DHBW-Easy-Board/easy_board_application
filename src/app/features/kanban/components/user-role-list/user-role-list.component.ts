@@ -159,7 +159,7 @@ export class UserRoleListComponent implements OnInit{
       this.showError(response.error,  "An error occured, please try again later");
     } else {
       this.loadAssignedUser();
-      this.snackBar.open("user was successfully updated", undefined, { duration: 2000 })
+      this.snackBar.open("User was successfully updated", undefined, { duration: 2000 })
     }
     this.loading--;
   }
@@ -174,7 +174,7 @@ export class UserRoleListComponent implements OnInit{
     } else {
       this.loadAssignedUser();
       this.loadsNewUser();
-      this.snackBar.open("user was successfully deleted from board", undefined, { duration: 2000 })
+      this.snackBar.open("User was successfully deleted from board", undefined, { duration: 2000 })
     }
 
     this.loading--;
