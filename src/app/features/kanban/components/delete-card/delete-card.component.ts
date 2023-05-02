@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {supabase} from "../../../../../env/supabase";
+import { BoardStateService } from '../../services/board-state.service';
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -16,7 +17,11 @@ export class DeleteCardComponent {
    */
   public cardId = 0;
 
-  constructor(public dialogRef: MatDialogRef<DeleteCardComponent>, private snackBar: MatSnackBar) {  }
+  constructor(
+    public dialogRef: MatDialogRef<DeleteCardComponent>,
+    private boardState: BoardStateService,
+    private snackBar: MatSnackBar
+  ) {  }
 
   /**
    * Dialog close function
@@ -31,12 +36,12 @@ export class DeleteCardComponent {
   public async deleteCard() {
     await supabase.from('card').delete().eq('id', this.cardId).then((response) => {
       if(response.error){
-        console.log(response)
         this.snackBar.open('Failed to delete card. Please try again later.', 'Ok')
         this.dialogRef.close();
       } else{
+        this.boardState.onCardsChange();
         this.snackBar.open('Card successfully deleted.', undefined, {
-            duration: 2000
+            duration: 3000
         })
         this.dialogRef.close();
       }

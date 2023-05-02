@@ -57,7 +57,6 @@ export class ViewCardComponent {
       .select('*')
       .eq('card_id', this.cardId)
       .then((response) => {
-        console.log(response)
         if (response.error) {
           this.snackBar.open('Could not load card info.', 'Ok')
           return;
@@ -135,7 +134,7 @@ export class ViewCardComponent {
     dialogRef.componentInstance.isEdit = true
 
     dialogRef.beforeClosed().subscribe(value => {
-      this.updateView()
+      this.updateView();
     })
 
   }

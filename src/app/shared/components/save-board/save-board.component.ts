@@ -48,7 +48,11 @@ export class SaveBoardComponent {
     });
 
     // Inject router to redirect to a new board
-    constructor (private router: Router, private snackbar: MatSnackBar) { }
+    constructor (private router: Router, private snackbar: MatSnackBar) { 
+        this.router.routeReuseStrategy.shouldReuseRoute = () => {
+            return false;
+        };
+    }
 
     // Set user on init
     async ngOnInit() {

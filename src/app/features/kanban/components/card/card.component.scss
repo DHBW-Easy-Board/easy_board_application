@@ -1,0 +1,13 @@
+.card-container {
+    height: 128px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.card-content {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 100%;
+    padding-top: 10px;
+}
