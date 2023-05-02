@@ -173,6 +173,7 @@ export class UserRoleListComponent implements OnInit{
       this.showError(response.error,  "An error occured, please try again later");
     } else {
       this.loadAssignedUser();
+      this.loadsNewUser();
       this.snackBar.open("user was successfully deleted from board", undefined, { duration: 2000 })
     }
 
