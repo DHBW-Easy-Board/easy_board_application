@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { supabase } from 'src/env/supabase';
 import { User } from '@supabase/supabase-js';
+import { BoardStateService } from 'src/app/core/services/board-state.service';
 
 // Material
 import { MatButtonModule } from '@angular/material/button';
@@ -51,7 +52,7 @@ export class SaveBoardComponent {
     });
 
     // Inject router to redirect to a new board
-    constructor (private router: Router, private snackbar: MatSnackBar) { 
+    constructor (private router: Router, private snackbar: MatSnackBar, private boardState: BoardStateService) { 
         this.router.routeReuseStrategy.shouldReuseRoute = () => {
             return false;
         };
@@ -152,5 +153,6 @@ export class SaveBoardComponent {
         }
 
         this.saveBoardForm.enable();
+        this.boardState.onBoardChange();
     }
 }

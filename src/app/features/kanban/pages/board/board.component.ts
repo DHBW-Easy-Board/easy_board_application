@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Column } from 'src/app/core/models/column.model';
 import { supabase } from 'src/env/supabase';
+import { BoardStateService } from 'src/app/core/services/board-state.service';
 import { CreateCardComponent } from '../../components/create-card/create-card.component';
 import { BoardEditComponent } from '../../components/board-edit/board-edit.component';
 
@@ -17,14 +18,22 @@ export class BoardComponent {
     public title = 'Board';
     public columns: Column[] = [];
 
-    constructor (private route: ActivatedRoute, private dialog: MatDialog, private snackbar: MatSnackBar) { }
+    constructor (
+        private boardState: BoardStateService,
+        private route: ActivatedRoute,
+        private dialog: MatDialog, 
+        private snackbar: MatSnackBar
+    ) { 
+        this.boardState.board$.subscribe(() => {
+            this.getBoardData(this.id);
+        });
+    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.id = params['id'];
-
-            if (this.id)
-                this.getBoard(this.id);
+            this.getBoardData(this.id);
+            this.getColumns(this.id);
         });
     }
 
@@ -33,7 +42,7 @@ export class BoardComponent {
      * 
      * @param boardId 
      */
-    private async getBoard(boardId: number) {
+    private async getBoardData(boardId: number|undefined) {
         const response = await supabase.from('board_ov_auth_vw')
             .select('*')
             .eq('board_id', boardId);
@@ -44,7 +53,6 @@ export class BoardComponent {
         }
 
         this.title = response.data[0]['board_name'];
-        this.getColumns(boardId);
     }
 
     /**
@@ -52,7 +60,7 @@ export class BoardComponent {
      * 
      * @param boardId 
      */
-    private async getColumns(boardId: number) {
+    private async getColumns(boardId: number|undefined) {
         const response = await supabase.from('board_column_sm_auth_vw')
             .select('*')
             .eq('board_id', boardId)
