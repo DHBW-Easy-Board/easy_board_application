@@ -67,11 +67,34 @@ export class SaveBoardComponent {
         }
             
         this.user = response.data.user;
+
+        this.getBoardData();
     }
 
     // Getters for the form data for easier access in the template
     get name() { return this.saveBoardForm.get('name'); }
     get description() { return this.saveBoardForm.get('description'); }
+
+    /**
+     * Get board data if the component has a board id.
+     */
+    private async getBoardData() {
+        if (!this.boardId)
+            return;
+
+        const response = await supabase.from('board_ov_auth_vw')
+            .select('board_name, board_description')
+            .eq('board_id', this.boardId);
+
+        if (response.error) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
+        
+        const data = response.data[0];
+        this.name?.setValue(data.board_name);
+        this.description?.setValue(data.board_description);
+    }
 
     /**
      * Toggle between create and update board.
@@ -110,9 +133,24 @@ export class SaveBoardComponent {
     }
 
     /**
-     * ToDo
+     * Updates a board.
+     * 
+     * ToDo Needs update function from backend
      */
     private async updateBoard() {
-        alert('UPDATE');
+        const response = await supabase.from('board').
+            update({ 
+                name: this.name?.value,
+                description: this.description?.value, 
+            })
+            .eq('id', this.boardId);
+
+        if (!response.error) {
+            this.snackbar.open('Board updated successfully.', undefined, { duration: 3000 });
+        } else {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+        }
+
+        this.saveBoardForm.enable();
     }
 }
