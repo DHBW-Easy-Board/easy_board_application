@@ -32,10 +32,13 @@ export class SaveBoardComponent {
     ];
 
     @Input()
-    public create: boolean = true;
+    public boardId: number | undefined;
 
     @Input()
     public title: string = 'Create Board';
+
+    @Input()
+    public submitLabel: string = 'Create Board';
 
     // Form
     public saveBoardForm = new FormGroup({
@@ -79,7 +82,7 @@ export class SaveBoardComponent {
 
         this.saveBoardForm.disable();
 
-        if (this.create) {
+        if (!this.boardId) {
             this.createBoard();
         } else {
             this.updateBoard();
