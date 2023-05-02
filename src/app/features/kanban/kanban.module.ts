@@ -13,6 +13,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DeleteCardComponent } from './components/delete-card/delete-card.component';
 import { ContainerComponent } from 'src/app/shared/components/container/container.component';
 import { DashboardItemComponent } from './components/dashboard-item/dashboard-item.component';
+import { UserIconComponent } from 'src/app/shared/components/user-icon/user-icon.component';
 import { ViewCardComponent } from './components/view-card/view-card.component';
 
 // Material
@@ -44,6 +45,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     RouterModule,
     KanbanRoutingModule,
     ContainerComponent,
+    UserIconComponent,
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,

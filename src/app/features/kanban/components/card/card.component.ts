@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })
-export class CardComponent implements OnChanges {
+export class CardComponent {
     @Input()
     public id?: number;
 
@@ -18,22 +18,7 @@ export class CardComponent implements OnChanges {
     @Input()
     public username?: string;
 
-    public usernameInitial?: string;
-
     constructor(private dialog: MatDialog, private snackbar: MatSnackBar) {}
-
-    ngOnChanges(changes: SimpleChanges) {
-        this.setInitial(changes?.['username'].currentValue);
-    }
-
-    /**
-     * Use the first character of an email/username to display on a card.
-     * 
-     * @param username 
-     */
-    private setInitial(username: string) {
-        this.usernameInitial = username.charAt(0).toUpperCase();
-    }
 
     /**
      * Open card details.
