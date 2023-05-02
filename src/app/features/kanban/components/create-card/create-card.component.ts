@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 import {MatDialogRef} from "@angular/material/dialog";
 import {supabase} from "src/env/supabase";
+import { BoardStateService } from '../../services/board-state.service';
 import {CardModel} from "../../../../core/models/cardModel";
 import {BoardAssigneeModel} from "../../../../core/models/board.assignee.model";
 import {BoardColumn} from "../../../../core/models/board-column.model";
@@ -71,8 +72,12 @@ export class CreateCardComponent {
     this.dialogRef.close();
   }
 
-  constructor(public dialogRef: MatDialogRef<CreateCardComponent>, private formBuilder: FormBuilder,
-              private snackBar: MatSnackBar) {  }
+  constructor(
+    public dialogRef: MatDialogRef<CreateCardComponent>,
+    private boardState: BoardStateService,
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar
+  ) {  }
 
   /**
    * important for expandle form label for the description
@@ -106,12 +111,14 @@ export class CreateCardComponent {
           if(response.error){
             this.snackBar.open('Failed to update card (everything except column). Please try again later.', 'Ok')
           } else{
+            this.boardState.onCardsChange();
             this.snackBar.open('Card update successful', undefined, { duration: 3000 })
           }
         }))
       await supabase
         .rpc('update_card_status' , {
           card_id: this.cardId, new_columns_id: this.addCardForm.value.fColumn}).then((response => {
+          this.boardState.onCardsChange();
           if(response.error){
             this.snackBar.open('Failed to update card column. Please try again later.', 'Ok')
           }
@@ -128,7 +135,8 @@ export class CreateCardComponent {
         if(response.error) {
           this.snackBar.open('Failed to create new card. Please try again later.', 'Ok')
         } else{
-          this.snackBar.open('Card creation successful', undefined, { duration: 3000 })
+          this.boardState.onCardsChange();
+          this.snackBar.open('Card creation successful', undefined, { duration: 3000 });
         }
       }));
     }

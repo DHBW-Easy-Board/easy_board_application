@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Card } from 'src/app/core/models/card.model';
 import { supabase } from 'src/env/supabase';
+import { BoardStateService } from '../../services/board-state.service';
 
 @Component({
   selector: 'app-column',
@@ -20,7 +21,11 @@ export class ColumnComponent {
 
     public cards: Card[] = [];
 
-    constructor (private snackbar: MatSnackBar) { }
+    constructor (private boardState: BoardStateService, private snackbar: MatSnackBar) {
+        this.boardState.cards$.subscribe(() => {
+            this.getCards();
+        });
+    }
 
     ngOnInit() {
         if (this.boardId)
