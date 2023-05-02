@@ -26,6 +26,8 @@ interface addAssignee {
 })
 export class UserRoleListComponent implements OnInit{
 
+  @Input('title') componentTitle: string = 'role selection'
+
   /**
     * The boardId, used to identify the board.
     * provided by parent page
