@@ -1,0 +1,50 @@
+.upload-box {
+    font-size: 16px;
+    background: white;
+    width: 350px;
+    outline: none;
+    padding-right: 10px;
+}
+
+.componentRow {
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.imageSize {
+    width: 60px;
+    height: 60px;
+}
+
+.spinnerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input {
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+::-webkit-file-upload-button {
+    color: white;
+    background: #3f51b5;
+    padding: 20px;
+    border: none;
+    outline: none;
+}
+
+::-webkit-file-upload-button:hover {
+    background: #5563b8;
+}
+
+.buttonContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

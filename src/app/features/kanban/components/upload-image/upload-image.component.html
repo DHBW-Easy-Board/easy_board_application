@@ -1,0 +1,18 @@
+<div class="componentRow">
+    <span class="input">
+        <img class="imageSize" [src]="imageSrc" *ngIf="imageSrc">
+        <span class="imageSize spinnerContainer" *ngIf="!imageSrc">
+            <mat-spinner [diameter]="40"></mat-spinner>
+        </span>
+        <input type="file" (change)="onFileSelected($event)" class="upload-box" accept=".png">
+    </span>
+    <mat-error *ngIf="operationFailed">{{errorMsg}}</mat-error>
+    <div #tooltip="matTooltip" [matTooltip]="!isOwner ? 'You must be owner to change the image' : ''">
+        <button mat-button (click)="onSubmit()" [disabled]="isUploading || !isOwner">
+            <span class="buttonContent">
+                <mat-spinner *ngIf="isUploading" [diameter]="20" style="padding-right: 10px;"></mat-spinner>
+                Upload
+            </span>
+        </button>
+    </div>
+</div>
