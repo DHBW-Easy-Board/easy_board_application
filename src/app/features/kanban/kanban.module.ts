@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 // Components
 import { BoardComponent } from './pages/board/board.component';
+import { BoardEditComponent } from './components/board-edit/board-edit.component';
 import { CardComponent } from './components/card/card.component';
 import { ColumnComponent } from './components/column/column.component';
 import { ContainerComponent } from 'src/app/shared/components/container/container.component';
@@ -34,6 +35,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     BoardComponent,
+    BoardEditComponent,
     CardComponent,
     ColumnComponent,
     CreateCardComponent,

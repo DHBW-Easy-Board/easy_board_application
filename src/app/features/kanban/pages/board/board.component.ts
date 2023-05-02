@@ -6,6 +6,7 @@ import { Column } from 'src/app/core/models/column.model';
 import { supabase } from 'src/env/supabase';
 import { CreateCardComponent } from '../../components/create-card/create-card.component';
 import { SaveBoardComponent } from 'src/app/shared/components/save-board/save-board.component';
+import { BoardEditComponent } from '../../components/board-edit/board-edit.component';
 
 @Component({
   selector: 'app-board',
@@ -86,6 +87,13 @@ export class BoardComponent {
      * Open settings.
      */
     public openSettings() {
-        alert('ToDo');
+        if (!this.id) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
+
+        const dialogRef = this.dialog.open(BoardEditComponent, {
+            width: '50vw',
+        });
     }
 }
