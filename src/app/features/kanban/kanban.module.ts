@@ -20,11 +20,14 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserRoleListComponent } from './components/user-role-list/user-role-list.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTableModule } from '@angular/material/table';
+import { MatDividerModule } from '@angular/material/divider';
 import { DeleteCardComponent } from './components/delete-card/delete-card.component';
 import { ViewCardComponent } from './components/view-card/view-card.component';
-import {MatMenuModule} from "@angular/material/menu";
-import {MatIconModule} from "@angular/material/icon";
-import {MatDividerModule} from "@angular/material/divider";
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -33,25 +36,28 @@ import {MatDividerModule} from "@angular/material/divider";
     DashboardComponent,
     DashboardItemComponent,
     DeleteCardComponent,
+    UserRoleListComponent,
     ViewCardComponent,
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        KanbanRoutingModule,
-        ContainerComponent,
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatCardModule,
-        MatDatepickerModule,
-        MatDialogModule,
-        MatInputModule,
-        MatNativeDateModule,
-        MatSelectModule,
-        MatSnackBarModule,
-        MatMenuModule,
-        MatIconModule,
-        MatDividerModule,
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    KanbanRoutingModule,
+    ContainerComponent,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatInputModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatTableModule,
+    MatDividerModule,
+  ]
 })
 export class KanbanModule { }
