@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {CdkTextareaAutosize} from "@angular/cdk/text-field";
 import {MatDialogRef} from "@angular/material/dialog";
 import {supabase} from "src/env/supabase";
-import { BoardStateService } from '../../services/board-state.service';
+import { BoardStateService } from 'src/app/core/services/board-state.service';
 import {CardModel} from "../../../../core/models/cardModel";
 import {BoardAssigneeModel} from "../../../../core/models/board.assignee.model";
 import {BoardColumn} from "../../../../core/models/board-column.model";
