@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class BoardEditComponent {
     @Input()
-    public boardId?: number
+    public boardId!: number
 }

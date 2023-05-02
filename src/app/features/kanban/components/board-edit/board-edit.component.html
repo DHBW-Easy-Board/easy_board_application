@@ -7,5 +7,7 @@
     </div>
     <div class="board-edit-content">
         <app-save-board [boardId]="boardId" [submitLabel]="'Save changes'"></app-save-board>
+        <mat-divider></mat-divider>
+        <app-user-role-list [boardId]="boardId" [title]="'User management'"></app-user-role-list>
     </div>
 </div>

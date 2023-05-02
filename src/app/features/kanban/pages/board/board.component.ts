@@ -101,7 +101,7 @@ export class BoardComponent {
 
         const dialogRef = this.dialog.open(BoardEditComponent, {
             maxHeight: '90vh',
-            width: '50vw',
+            width: '75vw',
         });
         dialogRef.componentInstance.boardId = this.id;
     }
