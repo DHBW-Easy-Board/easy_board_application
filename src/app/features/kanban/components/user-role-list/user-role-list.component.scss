@@ -1,0 +1,58 @@
+.assigneeContainer {
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.assignee {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 5px;
+  padding: 30px;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.assignee:hover {
+  background-color: lightgray;
+}
+
+.assigneeItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.assigneeControlPanel {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  padding-top: 20px;
+}
+
+
+.addAssigneeContainer {
+  padding: 15px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.addAssigneeItemContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.addAssigneeInputContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.addAssigneeAddButton {
+  float: right;
+}

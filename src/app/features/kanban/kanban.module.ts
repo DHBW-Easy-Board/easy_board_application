@@ -8,15 +8,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BoardComponent } from './pages/board/board.component';
 import { CardComponent } from './components/card/card.component';
 import { ColumnComponent } from './components/column/column.component';
+import { ContainerComponent } from 'src/app/shared/components/container/container.component';
 import { CreateCardComponent } from './components/create-card/create-card.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { DeleteCardComponent } from './components/delete-card/delete-card.component';
-import { ContainerComponent } from 'src/app/shared/components/container/container.component';
 import { DashboardItemComponent } from './components/dashboard-item/dashboard-item.component';
+import { DeleteCardComponent } from './components/delete-card/delete-card.component';
 import { UserIconComponent } from 'src/app/shared/components/user-icon/user-icon.component';
+import { UserRoleListComponent } from './components/user-role-list/user-role-list.component';
 import { ViewCardComponent } from './components/view-card/view-card.component';
 
 // Material
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -38,15 +40,17 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     DashboardComponent,
     DashboardItemComponent,
     DeleteCardComponent,
+    UserRoleListComponent,
     ViewCardComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     KanbanRoutingModule,
+    ReactiveFormsModule,
     ContainerComponent,
     UserIconComponent,
-    ReactiveFormsModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
     MatDatepickerModule,

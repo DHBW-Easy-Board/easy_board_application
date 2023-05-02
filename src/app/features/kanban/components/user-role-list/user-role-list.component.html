@@ -1,0 +1,59 @@
+<div>
+  <h2>{{componentTitle}}</h2>
+
+  <div>
+    <div class="addAssigneeContainer">
+      <h3>Add new collaborator</h3>
+      <div class="addAssigneeItemContainer">
+        <div class="addAssigneeInputContainer">
+          <mat-form-field>
+            <mat-label>Assignee</mat-label>
+            <input class="addAssigneeInputField" type="text" matInput [value]='addUserItem?.user_name' [formControl]="inviteUserControl" [matAutocomplete]="auto">
+            <mat-autocomplete [displayWith]="displayUserString" #auto="matAutocomplete">
+              <mat-option *ngFor="let user of userList | async" [value]="user" (click)="selectAssignee(user)">
+                {{user.user_name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Select Role</mat-label>
+            <mat-select [disabled]="loading !== 0 || !addUserItem" [value]="addUserItem?.role_id">
+              <mat-option [value]="role.id" (click)="addRoleToAddAssignee(role)" *ngFor="let role of rolesAvailable">
+                {{ role.name }} 
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="addAssigneeAddButton">
+          <button mat-flat-button color="primary" (click)="addAssignee()">Add User</button>
+        </div>
+      </div>
+    </div>
+
+  <div class="assigneeContainer">
+    <div class="assignee" *ngFor="let assignee of boardAssignees">
+      <div class="assigneeMail assigneeItem">
+        <div>
+          Email:
+        </div>
+        <div>
+          {{ assignee.user_name }}
+        </div>
+      </div>
+      <div class="assigneeControlPanel">
+        <mat-form-field>
+          <mat-label>Role</mat-label>
+          <mat-select [disabled]="loading !== 0" [value]="assignee.role_id">
+            <mat-option [value]="role.id" (click)="changeRoleForAssignee(assignee, role)" *ngFor="let role of rolesAvailable">
+              {{ role.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-icon-button (click)="deleteAssignee(assignee)">
+          <mat-icon color="warn">delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
