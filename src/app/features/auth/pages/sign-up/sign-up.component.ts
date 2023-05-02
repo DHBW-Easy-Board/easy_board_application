@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
+import { checkPassword, confirmPasswordFormControl, emailFormControl, passwordFormControl } from 'src/app/core/utils/input.validation';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { supabase } from 'src/env/supabase';
 
@@ -15,19 +16,10 @@ export class SignUpComponent implements OnInit {
 
     // Form with validators
     public signUpForm = new FormGroup({
-        email: new FormControl('', [
-            Validators.required,
-            Validators.email
-        ]),
-        password: new FormControl('', [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.pattern(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!$%&()?*_])/)
-        ]),
-        confirmPassword: new FormControl('', [
-            Validators.required
-        ])
-    }, { validators: this.checkPassword });
+        email: emailFormControl(),
+        password: passwordFormControl(),
+        confirmPassword: confirmPasswordFormControl(),
+    }, { validators: checkPassword });
 
     constructor (private router: Router, private snackbar: MatSnackBar) { }
 
@@ -43,24 +35,6 @@ export class SignUpComponent implements OnInit {
     get email() { return this.signUpForm.get('email'); }
     get password() { return this.signUpForm.get('password'); }
     get confirmPassword() { return this.signUpForm.get('confirmPassword'); }
-
-    /**
-     * Custom validator.
-     * Compares if the password value matches the confirmPassword value.
-     * 
-     * @param control 
-     * @returns ValidationErrors | null
-     */
-    private checkPassword(control: AbstractControl): ValidationErrors | null {
-        const password = control.get('password')?.value;
-        const confirmPassword = control.get('confirmPassword')?.value;
-
-        // Set the error on the FormControl element to display the error message 
-        if (password !== confirmPassword)
-            control.get('confirmPassword')?.setErrors({ passwordUnconfirmed: true });
-
-        return password === confirmPassword ? null : { passwordUnconfirmed: true };
-    }
 
     /**
      * Signs up the user.

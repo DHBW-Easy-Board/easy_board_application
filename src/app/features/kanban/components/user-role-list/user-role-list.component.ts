@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
-import { BoardAssignee } from 'src/app/core/models/boardAssignee';
+import { BoardAssigneeModel } from 'src/app/core/models/board.assignee.model';
 import { Role } from 'src/app/core/models/role.model';
 import { supabase } from 'src/env/supabase';
 
@@ -33,13 +33,13 @@ export class UserRoleListComponent implements OnInit{
   public loading: number = 0;
 
   /** used to filter all user which can be invited */
-  inviteUserControl = new FormControl<string | BoardAssignee>('');
+  inviteUserControl = new FormControl<string | BoardAssigneeModel>('');
 
   /** list with all user, possible to add */
-  public userList!: Observable<BoardAssignee[]>;
+  public userList!: Observable<BoardAssigneeModel[]>;
 
   /** current assigned user with its corresponding role */
-  public boardAssignees: BoardAssignee[] = [];
+  public boardAssignees: BoardAssigneeModel[] = [];
 
   /** all roles which are available in this board */
   public rolesAvailable: Role[] = [];
@@ -72,7 +72,7 @@ export class UserRoleListComponent implements OnInit{
     const res = await supabase.from('potential_board_assignees_vw').select('*').eq('board_id', this.boardId);
 
     if(!res.error) {
-      const data: BoardAssignee[] = res.data as BoardAssignee[]
+      const data: BoardAssigneeModel[] = res.data as BoardAssigneeModel[]
       this.userList = this.inviteUserControl.valueChanges.pipe(
         map(value => {
           if(value)
@@ -96,7 +96,7 @@ export class UserRoleListComponent implements OnInit{
       .eq('board_id', this.boardId);
 
     if(!response.error) {
-      this.boardAssignees = response.data as BoardAssignee[];
+      this.boardAssignees = response.data as BoardAssigneeModel[];
     } else {
       this.showError(response.error, 'There was an error loading all assigned user');
     }
@@ -121,7 +121,7 @@ export class UserRoleListComponent implements OnInit{
   }
 
   /** used to display the userList user to the html */
-  displayUserString(user: BoardAssignee) {
+  displayUserString(user: BoardAssigneeModel) {
     return user.user_name;
   }
 
@@ -150,7 +150,7 @@ export class UserRoleListComponent implements OnInit{
   }
 
   /** change role for assignee */
-  public async changeRoleForAssignee(assignee: BoardAssignee, role: Role) {
+  public async changeRoleForAssignee(assignee: BoardAssigneeModel, role: Role) {
     this.loading++;
 
     const response = await supabase.from('user_board_role').update({ role_id: role.id }).eq( "user_id", assignee.user_id ).eq("board_id", this.boardId);
@@ -165,7 +165,7 @@ export class UserRoleListComponent implements OnInit{
   }
 
   /** deletes user from board */
-  public async deleteAssignee(assignee: BoardAssignee) {
+  public async deleteAssignee(assignee: BoardAssigneeModel) {
     this.loading++;
 
     const response = await supabase.from('user_board_role').delete().eq( "user_id", assignee.user_id ).eq("board_id", this.boardId);
@@ -192,7 +192,7 @@ export class UserRoleListComponent implements OnInit{
   }
 
   /** Fills in the adduserItem with user_name */
-  public selectAssignee(user: BoardAssignee) {
+  public selectAssignee(user: BoardAssigneeModel) {
     if(this.addUserItem) {
       this.addUserItem.user_id = user.user_id;
     }

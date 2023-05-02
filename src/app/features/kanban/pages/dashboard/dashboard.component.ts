@@ -41,16 +41,4 @@ export class DashboardComponent implements OnInit {
     public openCreateBoard() {
         this.slideService.openSlide()
     }
-
-    // Testing sign out
-    public async signOut() {
-        await supabase.auth.signOut()
-            .then((response) => {
-                if (response.error === null) {
-                    this.router.navigate(['']);
-                } else {
-                    console.log(response);
-                }
-            });
-    }
 }

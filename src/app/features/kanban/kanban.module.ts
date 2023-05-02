@@ -22,9 +22,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserRoleListComponent } from './components/user-role-list/user-role-list.component';
 import { MatIconModule } from '@angular/material/icon';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatTableModule} from '@angular/material/table';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
+import { DeleteCardComponent } from './components/delete-card/delete-card.component';
+import { ViewCardComponent } from './components/view-card/view-card.component';
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { MatDividerModule } from '@angular/material/divider';
     CreateCardComponent,
     DashboardComponent,
     DashboardItemComponent,
+    DeleteCardComponent,
     UserRoleListComponent,
+    ViewCardComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +50,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDatepickerModule,
     MatDialogModule,
     MatInputModule,
+    MatMenuModule,
     MatNativeDateModule,
     MatSelectModule,
     MatSnackBarModule,
