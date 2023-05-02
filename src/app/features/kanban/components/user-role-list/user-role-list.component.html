@@ -18,7 +18,7 @@
 
           <mat-form-field>
             <mat-label>Select Role</mat-label>
-            <mat-select [disabled]="loading !== 0" [value]="addUserItem?.role_id">
+            <mat-select [disabled]="loading !== 0 || !addUserItem" [value]="addUserItem?.role_id">
               <mat-option [value]="role.id" (click)="addRoleToAddAssignee(role)" *ngFor="let role of rolesAvailable">
                 {{ role.name }} 
               </mat-option>
