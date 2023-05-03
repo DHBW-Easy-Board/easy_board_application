@@ -1,17 +1,19 @@
 <div mat-dialog-content>
   <div class="headerContent">
-    <h1 mat-dialog-title>{{cardContext.name}}</h1>
-    <div class="contextButtons">
-      <button mat-icon-button *ngIf="viewAuth" (click)="openEditCardDialog()">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button *ngIf="viewAuth" (click)="openDeleteCardDialog()">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button mat-icon-button mat-dialog-close aria-label="back button">
-        <mat-icon>close</mat-icon>
-      </button>
+    <div class="control-container">
+        <div class="edit-container">
+            <h3>{{cardContext.name}}</h3>
+            <button mat-icon-button *ngIf="viewAuth" (click)="openEditCardDialog()">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+        <button mat-icon-button *ngIf="viewAuth" (click)="openDeleteCardDialog()">
+            <mat-icon>delete</mat-icon>
+        </button>
     </div>
+    <button mat-icon-button mat-dialog-close aria-label="back button">
+        <mat-icon>close</mat-icon>
+    </button>
   </div>
   <mat-divider class="horizontal"></mat-divider>
   <div class="parent-view-card">

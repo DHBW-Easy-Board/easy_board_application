@@ -11,6 +11,22 @@
   align-items: center;
 }
 
+.control-container {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.edit-container {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.control-container h3 {
+    padding: 0;
+}
+
 .parent-view-card{
   display: flex;
   padding: 20px;
