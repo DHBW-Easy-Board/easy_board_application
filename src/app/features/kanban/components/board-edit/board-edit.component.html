@@ -6,6 +6,9 @@
         </button>
     </div>
     <div class="board-edit-content">
+        <div class="image-upload">
+            <app-upload-image [boardId]="boardId"></app-upload-image>
+        </div>
         <app-save-board [boardId]="boardId" [submitLabel]="'Save changes'"></app-save-board>
         <mat-divider></mat-divider>
         <app-user-role-list [boardId]="boardId" [title]="'User management'"></app-user-role-list>
