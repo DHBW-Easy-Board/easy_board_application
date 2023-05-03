@@ -150,6 +150,7 @@ export class CreateCardComponent {
     return supabase.from('valid_board_assignees_vw')
       .select('*')
       .eq('board_id', this.boardId)
+      .neq('role_id', 3)
       .then((response) => {
       if (response.error) {
         this.snackBar.open('Could not preload assignees.', 'Ok')

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {supabase} from "../../../../../env/supabase";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {CardModel} from "../../../../core/models/cardModel";
-import {DeleteCardComponent} from "../delete-card/delete-card.component";
-import {CreateCardComponent} from "../create-card/create-card.component";
+import { supabase } from "../../../../../env/supabase";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { CardModel } from "../../../../core/models/cardModel";
+import { DeleteCardComponent } from "../delete-card/delete-card.component";
+import { CreateCardComponent } from "../create-card/create-card.component";
 
 @Component({
   selector: 'app-view-card',
@@ -41,6 +41,15 @@ export class ViewCardComponent {
    */
   boardId: number = 0
 
+  /**
+   * User ID for checking authorization
+   */
+  userId: string = ''
+
+  /**
+   * Boolean for authorization (Owener/Collaborator = true, Watcher = false)
+   */
+  viewAuth: boolean = false
 
   /**
    * Card Context for preloading information
@@ -52,7 +61,7 @@ export class ViewCardComponent {
   /**
    * Gets the card context for the edit view (is done for presetting values)
    */
-  public getCardInfo() {
+  public async getCardInfo() {
     return supabase.from('board_card_sm_vw')
       .select('*')
       .eq('card_id', this.cardId)
@@ -73,7 +82,7 @@ export class ViewCardComponent {
       })
   }
 
-  public getUserName() {
+  public async getUserName() {
     return supabase.from('user_ov_vw')
       .select('*')
       .eq('user_id', this.cardContext.assigned_to)
@@ -87,7 +96,7 @@ export class ViewCardComponent {
       })
   }
 
-  public getColumnName() {
+  public async getColumnName() {
     return supabase.from('board_column_ov_sm_vw')
       .select('*')
       .eq('column_id', this.cardContext.columns_id)
@@ -102,16 +111,9 @@ export class ViewCardComponent {
   }
 
   /**
-   * Dialog close function
-   */
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  /**
    * open delete card dialog function
    */
-  openDeleteCardDialog() {
+  public openDeleteCardDialog() {
     const dialogRef = this.dialog.open(DeleteCardComponent,
       {
         width: '35vw'
@@ -123,7 +125,7 @@ export class ViewCardComponent {
     })
   }
 
-  openEditCardDialog() {
+  public openEditCardDialog() {
     const dialogRef = this.dialog.open(CreateCardComponent,
       {
         width: '50vw'
@@ -136,7 +138,35 @@ export class ViewCardComponent {
     dialogRef.beforeClosed().subscribe(value => {
       this.updateView();
     })
+  }
 
+  private async checkUserAuthorization(){
+    return supabase.auth.getUser().then((response) => {
+      if (response.error) {
+        this.snackBar.open("Can't authenticate user.");
+        return;
+      }
+        
+      this.userId = response.data.user.id;
+
+      supabase.from('valid_board_assignees_vw')
+        .select('*')
+        .eq('board_id', this.boardId)
+        .eq('user_id', this.userId)
+        .then((response) => {
+          if (response.error) {
+            this.snackBar.open("Can't authenticate user.");
+            return;
+          }
+
+          if(response.data[0]['role_id'] != 3){
+            this.viewAuth = true;
+            return;
+          }
+
+          this.viewAuth = false;
+        })
+    });
   }
 
   async updateView(){
@@ -149,5 +179,6 @@ export class ViewCardComponent {
     await this.getCardInfo()
     await this.getColumnName()
     await this.getUserName()
+    await this.checkUserAuthorization()
   }
 }
