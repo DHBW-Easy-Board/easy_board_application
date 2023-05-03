@@ -1,5 +1,7 @@
 <mat-card class="dashboard-item" [routerLink]="['/app/boards', boardId]">
-    <img class="dashboard-item-thumbnail" mat-card-image src="assets/img/thumbnail.png" alt="Dashboard item">
+    <img *ngIf="!imageData" class="dashboard-item-thumbnail" mat-card-image src="assets/img/thumbnail.png" alt="Dashboard item">
+    <img *ngIf="imageData" class="dashboard-item-thumbnail" mat-card-image [src]="imageData" alt="Dashboard item">
+    <mat-progress-bar *ngIf="imageData === undefined" mode="indeterminate"></mat-progress-bar>
     <mat-card-content>
         <p class="dashboard-item-title">{{ boardName }}</p>
         <p class="dashboard-item-info">Last updated: {{ boardLastUpdated | date:"dd.MM.yy" }}</p>

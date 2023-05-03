@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import {supabase} from "../../../../../env/supabase";
-import { BoardStateService } from '../../services/board-state.service';
+import { BoardStateService } from 'src/app/core/services/board-state.service';
 import {MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({

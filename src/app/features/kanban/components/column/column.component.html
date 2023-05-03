@@ -1,7 +1,7 @@
 <mat-card class="column">
     <mat-card-title>{{ title }}</mat-card-title>
     <mat-divider></mat-divider>
-    <div class="column-content">
+    <div class="column-content" cdkDropList [cdkDropListData]="cards" (cdkDropListDropped)="moveCard($event)">
         <app-card *ngFor="let card of cards" [id]="card.card_id" [title]="card.card_name" [username]="card.card_assignee_user_name"></app-card>
     </div>
 </mat-card>
