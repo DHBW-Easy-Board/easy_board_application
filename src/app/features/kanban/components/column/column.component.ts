@@ -47,7 +47,8 @@ export class ColumnComponent {
         const response = await supabase.from('board_card_sm_auth_vw')
             .select('*')
             .eq('board_id', this.boardId)
-            .eq('columns_id', this.id);
+            .eq('columns_id', this.id)
+            .order('position', { ascending: true });
 
         if (response.error) {
             this.snackbar.open('An error occurred. Please try again later.', 'Close');
@@ -63,7 +64,23 @@ export class ColumnComponent {
      * 
      * @param event Drag and drop event
      */
-    public dropCard(event: CdkDragDrop<Card[]>) {
+    public async moveCard(event: CdkDragDrop<Card[]>) {
+        // Card which got moved
+        const card = event.previousContainer.data[event.previousIndex];
+
+        // Update model in database first
+        let response = await supabase.rpc('card_drag_and_drop', {
+            in_card_id: card.card_id,
+            new_columns_id: this.id,
+            new_position: event.currentIndex + 1
+        });
+
+        if (response.error) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
+
+        // Update view on success
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         } else {
