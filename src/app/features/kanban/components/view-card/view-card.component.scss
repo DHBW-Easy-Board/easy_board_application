@@ -1,3 +1,9 @@
+.authBox{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .headerContent{
   display: flex;
   flex-direction: row;

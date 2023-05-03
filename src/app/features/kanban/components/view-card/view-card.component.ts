@@ -5,6 +5,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {CardModel} from "../../../../core/models/cardModel";
 import {DeleteCardComponent} from "../delete-card/delete-card.component";
 import {CreateCardComponent} from "../create-card/create-card.component";
+import {getMatInputUnsupportedTypeError} from "@angular/material/input";
 
 @Component({
   selector: 'app-view-card',
@@ -41,6 +42,15 @@ export class ViewCardComponent {
    */
   boardId: number = 0
 
+  /**
+   * User ID for checking authorization
+   */
+  userId: string = ''
+
+  /**
+   * Boolean for authorization (Owener/Collaborator = true, Watcher = false)
+   */
+  viewAuth: boolean = false
 
   /**
    * Card Context for preloading information
@@ -136,7 +146,32 @@ export class ViewCardComponent {
     dialogRef.beforeClosed().subscribe(value => {
       this.updateView();
     })
+  }
 
+  checkUserAuthorization(){
+    return supabase.auth.getUser().then((response => {
+      if(response.error){
+        this.snackBar.open("Cant load user auth")
+        return
+      }
+      this.userId = response.data.user.id
+      supabase.from('valid_board_assignees_vw')
+        .select('*')
+        .eq('board_id', this.boardId)
+        .eq('user_id', this.userId)
+        .then((response => {
+          if(response.error){
+            this.snackBar.open("Cant load user auth")
+            return
+          }
+          if(response.data[0]['role_id'] != 3){
+            this.viewAuth = false
+            return
+          }
+          this.viewAuth = false
+          return
+      }))
+    }))
   }
 
   async updateView(){
@@ -149,5 +184,6 @@ export class ViewCardComponent {
     await this.getCardInfo()
     await this.getColumnName()
     await this.getUserName()
+    await this.checkUserAuthorization()
   }
 }

@@ -2,19 +2,12 @@
   <div class="headerContent">
     <h1 mat-dialog-title>{{cardContext.name}}</h1>
     <div class="contextButtons">
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu button">
-        <mat-icon>more_vert</mat-icon>
+      <button mat-icon-button *ngIf="viewAuth" (click)="openEditCardDialog()">
+        <mat-icon>edit</mat-icon>
       </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="openEditCardDialog()">
-          <mat-icon>edit</mat-icon>
-          <span>Edit card</span>
-        </button>
-        <button mat-menu-item (click)="openDeleteCardDialog()">
-          <mat-icon>delete</mat-icon>
-          <span>Delete Card</span>
-        </button>
-      </mat-menu>
+      <button mat-icon-button *ngIf="viewAuth" (click)="openDeleteCardDialog()">
+        <mat-icon>delete</mat-icon>
+      </button>
       <button mat-icon-button mat-dialog-close aria-label="back button">
         <mat-icon>close</mat-icon>
       </button>
