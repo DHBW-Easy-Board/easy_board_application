@@ -1,11 +1,9 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { supabase } from 'src/env/supabase';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
 import { SlideService } from '../../services/slide.service';
-import { Buffer } from 'buffer';
-
 
 // Material
 import { MatButtonModule } from '@angular/material/button';
@@ -36,10 +34,10 @@ export class NavBarComponent {
     public latestBoards: Board[] = [];
 
     // Customization
-    public standardLogoUrl: string = 'assets/img/logo.png';
+    public logoUrl: string = 'assets/img/logo.png';
 
     // Inject slide service to emit open slide events
-    constructor(private slideService: SlideService, private router: Router, private snackbar: MatSnackBar, private route: ActivatedRoute) { }
+    constructor(private slideService: SlideService, private router: Router, private snackbar: MatSnackBar) { }
 
     ngOnInit() {
         this.getLatestBoards();
