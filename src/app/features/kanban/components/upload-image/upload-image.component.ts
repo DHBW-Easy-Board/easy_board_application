@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { supabase } from 'src/env/supabase';
+import { BoardStateService } from 'src/app/core/services/board-state.service';
 
 @Component({
   selector: 'app-upload-image',
@@ -11,7 +12,7 @@ export class UploadImageComponent {
   @Input()
   public boardId: number | undefined;
 
-  constructor (private snackBar: MatSnackBar) {};
+  constructor (private boardState: BoardStateService, private snackBar: MatSnackBar) {};
   
   imageSrc?: string;
   noImage = false;
@@ -150,6 +151,8 @@ export class UploadImageComponent {
         this.isUploading = false;
         this.imageSrc = imageData;
         this.noImage = false;
+        
+        this.boardState.onBoardChange();
         this.snackBar.open("Image successfully uploaded!", "", {duration: 3000});
         return;
       }
@@ -174,6 +177,7 @@ export class UploadImageComponent {
         return;
       }
 
+      this.boardState.onBoardChange();
       this.snackBar.open("Image successfully uploaded!", "", {duration: 3000});
   }
 }

@@ -1,8 +1,18 @@
 <app-container>
     <div class="board-container">
         <div class="board-header">
-            <h1>{{ title }}</h1>
-            <button mat-flat-button color="primary" (click)="addCard()">Add a card</button>
+            <div class="info-container">
+                <div class="board-logo">
+                    <app-board-image [boardId]="id"></app-board-image>
+                </div>
+                <h1>{{ title }}</h1>
+            </div>
+            <div class="control-container">
+                <button mat-flat-button color="primary" (click)="addCard()">Add a card</button>
+                <button mat-icon-button color="primary" (click)="openSettings()">
+                    <mat-icon>settings</mat-icon>
+                </button>
+            </div>
         </div>
         <div class="board-content">
             <app-column *ngFor="let column of columns" [id]="column.columns_id" [title]="column.name" [boardId]="id"></app-column>

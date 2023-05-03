@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { supabase } from 'src/env/supabase';
 import { User } from '@supabase/supabase-js';
+import { BoardStateService } from 'src/app/core/services/board-state.service';
 
 // Material
 import { MatButtonModule } from '@angular/material/button';
@@ -32,10 +33,13 @@ export class SaveBoardComponent {
     ];
 
     @Input()
-    public create: boolean = true;
+    public boardId: number | undefined;
 
     @Input()
     public title: string = 'Create Board';
+
+    @Input()
+    public submitLabel: string = 'Create Board';
 
     // Form
     public saveBoardForm = new FormGroup({
@@ -48,7 +52,7 @@ export class SaveBoardComponent {
     });
 
     // Inject router to redirect to a new board
-    constructor (private router: Router, private snackbar: MatSnackBar) { 
+    constructor (private router: Router, private snackbar: MatSnackBar, private boardState: BoardStateService) { 
         this.router.routeReuseStrategy.shouldReuseRoute = () => {
             return false;
         };
@@ -64,11 +68,34 @@ export class SaveBoardComponent {
         }
             
         this.user = response.data.user;
+
+        this.getBoardData();
     }
 
     // Getters for the form data for easier access in the template
     get name() { return this.saveBoardForm.get('name'); }
     get description() { return this.saveBoardForm.get('description'); }
+
+    /**
+     * Get board data if the component has a board id.
+     */
+    private async getBoardData() {
+        if (!this.boardId)
+            return;
+
+        const response = await supabase.from('board_ov_auth_vw')
+            .select('board_name, board_description')
+            .eq('board_id', this.boardId);
+
+        if (response.error) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
+        
+        const data = response.data[0];
+        this.name?.setValue(data.board_name);
+        this.description?.setValue(data.board_description);
+    }
 
     /**
      * Toggle between create and update board.
@@ -79,7 +106,7 @@ export class SaveBoardComponent {
 
         this.saveBoardForm.disable();
 
-        if (this.create) {
+        if (!this.boardId) {
             this.createBoard();
         } else {
             this.updateBoard();
@@ -107,9 +134,23 @@ export class SaveBoardComponent {
     }
 
     /**
-     * ToDo
+     * Updates a board.
      */
     private async updateBoard() {
-        alert('UPDATE');
+        const response = await supabase.from('board').
+            update({ 
+                name: this.name?.value,
+                description: this.description?.value, 
+            })
+            .eq('id', this.boardId);
+
+        if (!response.error) {
+            this.snackbar.open('Board updated successfully.', undefined, { duration: 3000 });
+        } else {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+        }
+
+        this.saveBoardForm.enable();
+        this.boardState.onBoardChange();
     }
 }

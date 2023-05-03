@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { supabase } from 'src/env/supabase';
+import { BoardStateService } from 'src/app/core/services/board-state.service';
 
 @Component({
   selector: 'app-board-image',
@@ -12,6 +13,12 @@ export class BoardImageComponent {
   public boardId?: number;
 
   public imageSrc?: string | null;
+
+  constructor(private boardState: BoardStateService) {
+    this.boardState.board$.subscribe(() => {
+        this.getCurrentImage();
+    });
+  }
 
   ngOnInit() {
     this.getCurrentImage();
@@ -32,5 +39,4 @@ export class BoardImageComponent {
       this.imageSrc = null;
     }       
   }
-
 }

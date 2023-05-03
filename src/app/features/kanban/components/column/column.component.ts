@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Card } from 'src/app/core/models/card.model';
 import { supabase } from 'src/env/supabase';
-import { BoardStateService } from '../../services/board-state.service';
+import { BoardStateService } from 'src/app/core/services/board-state.service';
 
 @Component({
   selector: 'app-column',
