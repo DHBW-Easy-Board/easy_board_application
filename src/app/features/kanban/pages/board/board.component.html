@@ -7,6 +7,5 @@
         <div class="board-content">
             <app-column *ngFor="let column of columns" [id]="column.columns_id" [title]="column.name" [boardId]="id"></app-column>
         </div>
-        <app-upload-image [boardId]="103"></app-upload-image>
     </div>
 </app-container>
