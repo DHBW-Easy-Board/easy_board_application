@@ -6,3 +6,7 @@ export interface Board {
     board_created_at: Date;
     board_modify_ts: Date;
 }
+
+export interface BoardWithImage extends Board {
+    imageData?: string | null;
+}

@@ -32,6 +32,12 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UploadImageComponent } from './components/upload-image/upload-image.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
+
 
 @NgModule({
   declarations: [
@@ -45,6 +51,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     DeleteCardComponent,
     UserRoleListComponent,
     ViewCardComponent,
+    UploadImageComponent,
   ],
   imports: [
     CommonModule,
@@ -66,6 +73,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatNativeDateModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+    MatProgressBarModule
   ]
 })
 export class KanbanModule { }

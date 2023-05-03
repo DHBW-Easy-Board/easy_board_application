@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Board } from 'src/app/core/models/board.model';
+import { BoardWithImage } from 'src/app/core/models/board.model';
 import { SlideService } from 'src/app/shared/services/slide.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { supabase } from 'src/env/supabase';
@@ -11,7 +11,7 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    public boards: Board[] = [];
+    public boards: BoardWithImage[] = [];
 
     constructor (private router: Router, private slideService: SlideService, private snackbar: MatSnackBar) { }
 
@@ -32,7 +32,17 @@ export class DashboardComponent implements OnInit {
             return;
         }
 
-        this.boards = response.data as Board[];
+        this.boards = response.data as BoardWithImage[];
+
+        const imagePromises = this.boards.map(async board => {
+            const entries = await supabase.from('board_image').select('*').eq('board_id', board.board_id);
+            
+            if (entries && entries.data && entries.data.length > 0) {
+                board.imageData = entries.data[0]["img_storage"];
+            } else {
+                board.imageData = null;
+            }
+        });
     }
 
     /**
