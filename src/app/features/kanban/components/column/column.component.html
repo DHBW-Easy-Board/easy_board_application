@@ -2,6 +2,6 @@
     <mat-card-title>{{ title }}</mat-card-title>
     <mat-divider></mat-divider>
     <div class="column-content">
-        <app-card *ngFor="let card of cards" [id]="card.card_id" [title]="card.card_name" [username]="card.card_assignee_user_name"></app-card>
+        <app-card *ngFor="let card of cards" [cardId]="card.card_id" [title]="card.card_name" [username]="card.card_assignee_user_name"></app-card>
     </div>
 </mat-card>

@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CardComponent {
     @Input()
-    public id?: number;
+    public cardId?: number;
 
     @Input()
     public title?: string;
@@ -24,7 +24,7 @@ export class CardComponent {
      * Open card details.
      */
     public openDetails() {
-        if (!this.id) {
+        if (!this.cardId) {
             this.snackbar.open('An error occurred. Please try again later.', 'Close');
             return;
         }
@@ -32,6 +32,6 @@ export class CardComponent {
         const dialogRef = this.dialog.open(ViewCardComponent, {
             width: '50vw',
         });
-        dialogRef.componentInstance.cardId = this.id;
+        dialogRef.componentInstance.cardId = this.cardId;
     }
 }
