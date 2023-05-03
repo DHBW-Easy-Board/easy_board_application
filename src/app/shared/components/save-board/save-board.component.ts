@@ -135,8 +135,6 @@ export class SaveBoardComponent {
 
     /**
      * Updates a board.
-     * 
-     * WIP Needs update function from backend
      */
     private async updateBoard() {
         const response = await supabase.from('board').
