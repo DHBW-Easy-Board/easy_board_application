@@ -1,0 +1,3 @@
+<img *ngIf="!imageSrc" class="dashboard-item-thumbnail" mat-card-image src="assets/img/thumbnail.png" alt="Dashboard item">
+<img *ngIf="imageSrc" class="dashboard-item-thumbnail" mat-card-image [src]="imageSrc" alt="Dashboard item">
+<mat-progress-bar *ngIf="imageSrc === undefined" mode="indeterminate"></mat-progress-bar>

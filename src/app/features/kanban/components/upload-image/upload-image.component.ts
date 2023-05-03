@@ -148,16 +148,14 @@ export class UploadImageComponent {
           .update({img_storage: imageData})
           .eq('id', entry["id"]);
         this.isUploading = false;
-
         this.imageSrc = imageData;
-
+        this.noImage = false;
         this.snackBar.open("Image successfully uploaded!", "", {duration: 3000});
         return;
       }
 
       //If no entry exists insert new data
-      this.imageSrc = undefined;
-      this.isUploading = false;
+      
       const {data, error} = await supabase
         .from('board_image')
         .insert([
@@ -167,10 +165,8 @@ export class UploadImageComponent {
           },
         ]);
       this.isUploading = false;
-
-        if (data != null)
-          this.imageSrc = data[0]["img_storage"];
-
+      this.imageSrc = imageData;
+      this.noImage = false;
       
       //Error handling and user feedback
       if (error != null) {
