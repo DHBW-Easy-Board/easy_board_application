@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Card } from 'src/app/core/models/card.model';
 import { supabase } from 'src/env/supabase';
 import { BoardStateService } from '../../services/board-state.service';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-column',
@@ -54,5 +55,24 @@ export class ColumnComponent {
         }
 
         this.cards = response.data as Card[];
+    }
+
+    /**
+     * Drag and drop functionality.
+     * Drop a card at a specific position in the respective column.
+     * 
+     * @param event Drag and drop event
+     */
+    public dropCard(event: CdkDragDrop<Card[]>) {
+        if (event.previousContainer === event.container) {
+            moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+        } else {
+            transferArrayItem(
+                event.previousContainer.data,
+                event.container.data,
+                event.previousIndex,
+                event.currentIndex,
+            );
+        }
     }
 }

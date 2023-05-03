@@ -4,7 +4,7 @@
             <h1>{{ title }}</h1>
             <button mat-flat-button color="primary" (click)="addCard()">Add a card</button>
         </div>
-        <div class="board-content">
+        <div class="board-content" cdkDropListGroup>
             <app-column *ngFor="let column of columns" [id]="column.columns_id" [title]="column.name" [boardId]="id"></app-column>
         </div>
     </div>
