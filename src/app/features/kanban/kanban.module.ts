@@ -34,6 +34,7 @@ import { UploadImageComponent } from './components/upload-image/upload-image.com
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { BoardImageComponent } from './components/board-image/board-image.component';
 
 
 
@@ -49,6 +50,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     UserRoleListComponent,
     ViewCardComponent,
     UploadImageComponent,
+    BoardImageComponent,
   ],
   imports: [
     CommonModule,
