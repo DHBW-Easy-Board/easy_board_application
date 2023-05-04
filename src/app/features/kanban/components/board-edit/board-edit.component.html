@@ -12,5 +12,9 @@
         <app-save-board [boardId]="boardId" [submitLabel]="'Save changes'"></app-save-board>
         <mat-divider></mat-divider>
         <app-user-role-list [boardId]="boardId" [title]="'User management'"></app-user-role-list>
+        <mat-divider></mat-divider>
+        <h2>Archive board</h2>
+        <p>Once you archive a board, it can still be restored within 30 days. There is no going back after 30 days though, so please be certain.</p>
+        <button class="full-width" mat-flat-button color="warn" (click)="archiveBoard()">Archive board</button>
     </div>
 </div>

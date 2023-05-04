@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 // Components
 import { BoardComponent } from './pages/board/board.component';
 import { BoardImageComponent } from './components/board-image/board-image.component';
+import { BoardDeleteComponent } from './components/board-delete/board-delete.component';
 import { BoardEditComponent } from './components/board-edit/board-edit.component';
 import { CardComponent } from './components/card/card.component';
 import { ColumnComponent } from './components/column/column.component';
@@ -42,6 +43,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     BoardComponent,
+    BoardDeleteComponent,
     BoardEditComponent,
     BoardImageComponent,
     CardComponent,
