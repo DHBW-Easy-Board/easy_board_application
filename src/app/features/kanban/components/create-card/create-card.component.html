@@ -10,7 +10,8 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Select assignee</mat-label>
-        <mat-select formControlName="fAssignee" [value]="cardContext.assigned_to" (selectionChange)="checkDirty()">
+        <mat-select formControlName="fAssignee" [(value)]="formAssignee" (selectionChange)="checkDirty()">
+          <mat-option value="unassigned">unassigned</mat-option>
           <mat-option *ngFor="let assignee of assignees" [value]="assignee.user_id">
             {{ assignee.user_name }}
           </mat-option>

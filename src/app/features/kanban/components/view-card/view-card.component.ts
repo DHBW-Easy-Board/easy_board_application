@@ -146,7 +146,7 @@ export class ViewCardComponent {
         this.snackBar.open("Can't authenticate user.");
         return;
       }
-        
+
       this.userId = response.data.user.id;
 
       supabase.from('valid_board_assignees_vw')
@@ -172,13 +172,22 @@ export class ViewCardComponent {
   async updateView(){
     await this.getCardInfo()
     await this.getColumnName()
-    await this.getUserName()
+    if(this.cardContext.assigned_to != null){
+      await this.getUserName()
+      return
+    }
+    this.userName = 'unassigned'
   }
 
   async ngOnInit(){
     await this.getCardInfo()
     await this.getColumnName()
-    await this.getUserName()
+    if(this.cardContext.assigned_to != null){
+      await this.getUserName()
+    }
+    else{
+      this.userName = 'unassigned'
+    }
     await this.checkUserAuthorization()
   }
 }

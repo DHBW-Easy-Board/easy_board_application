@@ -52,7 +52,6 @@ export class CreateCardComponent {
   responseColumns: BoardColumn[] = [];
   boardColumns: BoardColumn[] = [];
 
-
   /**
    * Card Context for preloading information
    */
@@ -61,9 +60,14 @@ export class CreateCardComponent {
     due_date: null, position: 1};
 
   /**
-   * this is need so that front end works
+   * this is needed so that front end works
    */
   cardColumnContext = 0
+
+  /**
+   * Supporting Variable for submit card
+   */
+  formAssignee: any = ''
 
   /**
    * Dialog close function
@@ -96,42 +100,54 @@ export class CreateCardComponent {
     }
   );
 
+
   /**
    * Submits the card form (edit or creation of a card)
    */
   public async submitCardForm() {
+    //Incase unassigned
+    if(this.addCardForm.value.fAssignee != 'unassigned'){
+      this.formAssignee = <string>this.addCardForm.value.fAssignee
+    }
+    else{
+      this.formAssignee = null
+    }
+    //Edit exisiting card
     if (this.isEdit) {
       await supabase
         .from('card')
         .update({
           name: this.addCardForm.value.fName, description: this.addCardForm.value.fDescription,
-          assigned_to: this.addCardForm.value.fAssignee, due_date: this.addCardForm.value.fDueDate,
+          assigned_to: this.formAssignee, due_date: this.addCardForm.value.fDueDate,
         })
-        .eq('id', this.cardId).then((response => {
-          if(response.error){
+        .eq('id', this.cardId).then((response) => {
+          if (response.error) {
             this.snackBar.open('Failed to update card (everything except column). Please try again later.', 'Ok')
-          } else{
+          } else {
             this.boardState.onCardsChange();
-            this.snackBar.open('Card update successful', undefined, { duration: 3000 })
+            this.snackBar.open('Card update successful', undefined, {duration: 3000})
           }
-        }))
+        })
       await supabase
-        .rpc('update_card_status' , {
-          card_id: this.cardId, new_columns_id: this.addCardForm.value.fColumn}).then((response => {
+        .rpc('update_card_status', {
+          card_id: this.cardId, new_columns_id: this.addCardForm.value.fColumn
+        })
+        .then((response) => {
           this.boardState.onCardsChange();
-          if(response.error){
+          if (response.error) {
             this.snackBar.open('Failed to update card column. Please try again later.', 'Ok')
+            return
           }
-        }))
-    } else {
-      const element = {
+        })
+      }
+      //Submit new card
+      else {
+      await supabase.from('card').insert({
         name: this.addCardForm.value.fName,
-        assigned_to: this.addCardForm.value.fAssignee,
+        assigned_to: this.formAssignee,
         description: this.addCardForm.value.fDescription,
         columns_id: this.addCardForm.value.fColumn,
-        due_date: this.addCardForm.value.fDueDate,
-      }
-      await supabase.from('card').insert([element]).then((response =>{
+        due_date: this.addCardForm.value.fDueDate}).then((response =>{
         if(response.error) {
           this.snackBar.open('Failed to create new card. Please try again later.', 'Ok')
         } else{
@@ -169,17 +185,23 @@ export class CreateCardComponent {
       .eq('id', this.cardId)
       .then((response) => {
       if (response.error) {
+
         this.snackBar.open('Could not preload card info.', 'Ok')
         return;
       }
-      this.cardContext.id = response.data[0]['id']
-      this.cardContext.assigned_to = response.data[0]['assigned_to']
-      this.cardContext.description = response.data[0]['description']
-      this.cardContext.name = response.data[0]['name']
-      this.cardContext.due_date = response.data[0]['due_date']
-      this.cardContext.columns_id = response.data[0]['columns_id']
-      this.cardContext.position = response.data[0]['position']
-    })
+        this.cardContext.id = response.data[0]['id']
+        this.cardContext.description = response.data[0]['description']
+        this.cardContext.name = response.data[0]['name']
+        this.cardContext.due_date = response.data[0]['due_date']
+        this.cardContext.columns_id = response.data[0]['columns_id']
+        this.cardContext.position = response.data[0]['position']
+        if(response.data[0]['assigned_to'] == null){
+          this.cardContext.assigned_to = 'unassigned'
+          return
+        }
+        this.cardContext.assigned_to = response.data[0]['assigned_to']
+      }
+    )
   }
 
   /**
@@ -207,7 +229,7 @@ export class CreateCardComponent {
 
   async ngOnInit(){
     this.cardContext = {
-      id: 0, name: '', description: '', assigned_to: '0', columns_id: this.columnId,
+      id: 0, name: '', description: '', assigned_to: '', columns_id: this.columnId,
       created_at: null,due_date: null, position: 1}
 
     await this.getValidBoardColumns();
@@ -235,6 +257,10 @@ export class CreateCardComponent {
             this.boardColumns.push(value);
         }
       });
+      if(this.cardContext.assigned_to == null){
+        this.formAssignee = 'unassigned'
+      }
+      this.formAssignee = this.cardContext.assigned_to
     }
     else{
       this.responseColumns.forEach((value, index) => {
@@ -247,6 +273,7 @@ export class CreateCardComponent {
             this.boardColumns.push(value);
         }
       });
+      this.formAssignee = 'unassigned'
     }
     this.addCardForm.patchValue({fName: this.cardContext.name})
     this.addCardForm.patchValue({fDescription: this.cardContext.description})
