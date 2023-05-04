@@ -49,6 +49,7 @@ export class NavBarComponent {
     private async getLatestBoards() {
         const response = await supabase.from('board_ov_auth_vw')
             .select('*')
+            .eq('board_is_active', 1)
             .limit(3)
             .order('board_modify_ts', { ascending: false });
 
