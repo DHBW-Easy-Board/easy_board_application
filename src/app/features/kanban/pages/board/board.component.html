@@ -8,13 +8,13 @@
                 <h1>{{ title }}</h1>
             </div>
             <div class="control-container">
-                <button mat-flat-button color="primary" (click)="addCard()">Add a card</button>
-                <button mat-icon-button color="primary" (click)="openSettings()">
+                <button *ngIf="userRole !== roles.Watcher" mat-flat-button color="primary" (click)="addCard()">Add a card</button>
+                <button *ngIf="userRole === roles.Owner" mat-icon-button color="primary" (click)="openSettings()">
                     <mat-icon>settings</mat-icon>
                 </button>
             </div>
         </div>
-        <div class="board-content" cdkDropListGroup>
+        <div class="board-content" cdkDropListGroup [cdkDropListGroupDisabled]="userRole === roles.Watcher">
             <app-column *ngFor="let column of columns" [id]="column.columns_id" [title]="column.name" [boardId]="id"></app-column>
         </div>
     </div>

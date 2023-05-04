@@ -2,6 +2,6 @@
     <mat-card-title>{{ title }}</mat-card-title>
     <mat-divider></mat-divider>
     <div class="card-content">
-        <app-user-icon [username]="username"></app-user-icon>
+        <app-user-icon *ngIf="username" [username]="username"></app-user-icon>
     </div>
 </mat-card>
