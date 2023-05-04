@@ -5,7 +5,7 @@
         <mat-label>{{nameLabel}}</mat-label>
         <input matInput formControlName="fName" (keyup)="checkDirty()">
         <mat-error>
-          Enter a card name, max. 50 characaters long!
+          Enter a card name, max. 50 characters long!
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
@@ -43,6 +43,9 @@
         <mat-label>{{descriptionLabel}}</mat-label>
         <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
                   cdkAutosizeMaxRows="20" formControlName="fDescription" (keyup)="checkDirty()"></textarea>
+        <mat-error>
+          Enter a description, max. 2000 characters long!
+        </mat-error>
       </mat-form-field>
       <div mat-dialog-actions class="centerButtons">
         <button type="button" mat-raised-button color="primary" [disabled]="!addCardForm.valid || dirty" (click)="submitCardForm()">{{buttonText}}</button>

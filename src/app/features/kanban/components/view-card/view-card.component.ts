@@ -47,7 +47,7 @@ export class ViewCardComponent {
   userId: string = ''
 
   /**
-   * Boolean for authorization (Owener/Collaborator = true, Watcher = false)
+   * Boolean for authorization (Owner/Collaborator = true, Watcher = false)
    */
   viewAuth: boolean = false
 
