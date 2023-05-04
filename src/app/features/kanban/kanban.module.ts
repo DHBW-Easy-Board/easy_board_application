@@ -5,6 +5,7 @@ import { KanbanRoutingModule } from './kanban-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Components
+import { ArchiveComponent } from './pages/archive/archive.component';
 import { BoardComponent } from './pages/board/board.component';
 import { BoardImageComponent } from './components/board-image/board-image.component';
 import { BoardDeleteComponent } from './components/board-delete/board-delete.component';
@@ -42,6 +43,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
+    ArchiveComponent,
     BoardComponent,
     BoardDeleteComponent,
     BoardEditComponent,
