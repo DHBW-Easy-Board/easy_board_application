@@ -65,6 +65,11 @@ export class CreateCardComponent {
   cardColumnContext = 0
 
   /**
+   * this is needed so that front end works
+   */
+  cardAssigneeContext: any = ''
+
+  /**
    * Supporting Variable for submit card
    */
   formAssignee: any = ''
@@ -258,9 +263,9 @@ export class CreateCardComponent {
         }
       });
       if(this.cardContext.assigned_to == null){
-        this.formAssignee = 'unassigned'
+        this.cardAssigneeContext = 'unassigned'
       }
-      this.formAssignee = this.cardContext.assigned_to
+      this.cardAssigneeContext = this.cardContext.assigned_to
     }
     else{
       this.responseColumns.forEach((value, index) => {
@@ -273,7 +278,7 @@ export class CreateCardComponent {
             this.boardColumns.push(value);
         }
       });
-      this.formAssignee = 'unassigned'
+      this.cardAssigneeContext = 'unassigned'
     }
     this.addCardForm.patchValue({fName: this.cardContext.name})
     this.addCardForm.patchValue({fDescription: this.cardContext.description})
