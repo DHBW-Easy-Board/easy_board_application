@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Column } from 'src/app/core/models/column.model';
@@ -25,6 +25,7 @@ export class BoardComponent {
 
     constructor (
         private boardState: BoardStateService,
+        private router: Router,
         private route: ActivatedRoute,
         private dialog: MatDialog, 
         private snackbar: MatSnackBar
@@ -59,10 +60,12 @@ export class BoardComponent {
     private async getBoardData(boardId: number|undefined) {
         const response = await supabase.from('board_ov_auth_vw')
             .select('*')
+            .eq('board_is_active', 1)
             .eq('board_id', boardId);
 
-        if (response.error) {
-            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+        if (response.error || response.data.length === 0) {
+            this.snackbar.open('Board doesn\'t exist.', 'Close');
+            this.router.navigate(['app/dashboard']);
             return;
         }
 
@@ -81,7 +84,7 @@ export class BoardComponent {
             .order('position');
 
         if (response.error) {
-            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            this.snackbar.open('Board doesn\'t exist.', 'Close');
             return;
         }
 

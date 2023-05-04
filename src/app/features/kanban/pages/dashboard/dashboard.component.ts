@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
     public async getBoards() {
         const response = await supabase.from('board_ov_auth_vw')
             .select('*')
+            .eq('board_is_active', 1)
             .order('board_modify_ts', { ascending: false });
 
         if (response.error) {

@@ -1,1 +1,14 @@
-<p>board-delete works!</p>
+<div class="delete-container">
+    <h3 *ngIf="!isHardDelete">Archive board</h3>
+    <h3 *ngIf="isHardDelete">Delete board</h3>
+    <p *ngIf="!isHardDelete">
+        Once you archive a board, it can still be restored within 30 days. There is no going back after 30 days though, so please be certain.
+    </p>
+    <p *ngIf="isHardDelete">
+        Once you delete a board, there is no going back. Please be certain.
+    </p>
+    <div class="control-container">
+        <button mat-flat-button color="warn" (click)="deleteBoard()">Confirm delete</button>
+        <button mat-flat-button mat-dialog-close>Cancel</button>
+    </div>
+</div>

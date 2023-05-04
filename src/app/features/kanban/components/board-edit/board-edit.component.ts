@@ -13,7 +13,12 @@ export class BoardEditComponent {
 
     constructor(private dialog: MatDialog) { }
 
+    /**
+     * Opens a dialog to archive a board.
+     */
     public archiveBoard() {
-        const dialgoRef = this.dialog.open(BoardDeleteComponent);
+        const dialogRef = this.dialog.open(BoardDeleteComponent);
+        dialogRef.componentInstance.boardId = this.boardId;
+        dialogRef.componentInstance.isHardDelete = false;
     }
 }
