@@ -124,8 +124,6 @@ export class SaveBoardComponent {
             col: this.defaultColumns
         });
 
-        console.log(response)
-
         if (response.data)
             this.router.navigate(['app/boards', response.data]);
 
