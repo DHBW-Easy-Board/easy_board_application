@@ -60,9 +60,6 @@ export class BoardDeleteComponent {
             in_board_id: this.boardId
         });
 
-        // ToDo / Debug - Endpoint is currently broken
-        console.log(response);
-
         if (response.error) {
             this.snackbar.open('An error occurred. Please try again later.', 'Close');
             this.dialog.closeAll();
