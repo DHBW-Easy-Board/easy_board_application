@@ -1,13 +1,11 @@
 <div mat-dialog-content>
   <div class="headerContent">
     <div class="control-container">
-        <div class="edit-container">
-            <h3 class="card-title">{{cardContext.name}}</h3>
-            <button mat-icon-button *ngIf="viewAuth" (click)="openEditCardDialog()">
-                <mat-icon>edit</mat-icon>
-            </button>
-        </div>
-        <button mat-icon-button *ngIf="viewAuth" (click)="openDeleteCardDialog()">
+        <h3 class="card-title">{{cardContext.name}}</h3>
+        <button mat-icon-button *ngIf="viewAuth" (click)="openEditCardDialog()">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" *ngIf="viewAuth" (click)="openDeleteCardDialog()">
             <mat-icon>delete</mat-icon>
         </button>
     </div>
