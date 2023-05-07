@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+// Components
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+
 // Guards
 import { authGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
-    { 
-        path: '', 
-        pathMatch: 'full', 
-        redirectTo: 'auth/sign-in'
-    },
     {
         path: 'auth', 
         loadChildren: () => import('./features/auth/auth.module')
@@ -26,7 +24,17 @@ const routes: Routes = [
         loadChildren: () => import('./features/kanban/kanban.module')
             .then(m => m.KanbanModule),
         canActivateChild: [authGuard]
-    }
+    },
+    { 
+        path: '', 
+        pathMatch: 'full', 
+        redirectTo: 'auth/sign-in'
+    },
+    { 
+        path: '**',
+        pathMatch: 'full', 
+        component: NotFoundComponent
+    },
 ];
 
 @NgModule({
