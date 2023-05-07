@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { supabase } from 'src/env/supabase';
 import { Board } from 'src/app/core/models/board.model';
+import { BoardRestoreComponent } from '../../components/board-restore/board-restore.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BoardDeleteComponent } from '../../components/board-delete/board-delete.component';
 
 @Component({
   selector: 'app-archive',
@@ -15,9 +17,9 @@ export class ArchiveComponent implements OnInit{
 
     constructor (private dialog: MatDialog, private snackbar: MatSnackBar) { }
 
-    async ngOnInit(): Promise<void>
+    ngOnInit(): void
     {
-        await this.getArchivedBoards();
+        this.getArchivedBoards();
     }
 
     /**
@@ -36,11 +38,34 @@ export class ArchiveComponent implements OnInit{
         this.boards = response.data as Board[];
     }
 
+    /**
+     * Opens the board restore dialog.
+     * 
+     * @param boardId The given board id
+     */
     public async restoreBoard(boardId: number) {
-        console.log(boardId);
+        const dialogRef = this.dialog.open(BoardRestoreComponent);
+        dialogRef.componentInstance.boardId = boardId;
+
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === undefined)
+                this.getArchivedBoards();
+        });
     }
 
+    /**
+     * Openes the board delete dialog.
+     * 
+     * @param boardId The given board id
+     */
     public async deleteBoard(boardId: number) {
-        console.log(boardId);
+        const dialogRef = this.dialog.open(BoardDeleteComponent);
+        dialogRef.componentInstance.boardId = boardId;
+        dialogRef.componentInstance.isHardDelete = true;
+
+        dialogRef.afterClosed().subscribe(result => {
+            if(result === undefined)
+                this.getArchivedBoards();
+        });
     }
 }
