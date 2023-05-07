@@ -1,5 +1,7 @@
 <mat-card class="card-container" (click)="openDetails()" cdkDrag>
-    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-title>
+        <span class="card-title">{{ title }}</span>
+    </mat-card-title>
     <mat-divider></mat-divider>
     <div class="card-content">
         <app-user-icon *ngIf="username" [username]="username"></app-user-icon>
