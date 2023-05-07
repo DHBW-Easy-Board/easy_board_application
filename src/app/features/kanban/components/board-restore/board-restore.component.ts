@@ -25,6 +25,7 @@ export class BoardRestoreComponent {
 
         if (response.error) {
             this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            this.dialog.closeAll();
             return;
         }
 
