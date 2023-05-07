@@ -40,11 +40,17 @@ mat-divider.vertical{
   margin: 0 20px;
 }
 
+.card-title {
+    width: 100%;
+    word-break: break-word;
+}
+
 .card-desc{
   display: flex;
   flex-direction: column;
   justify-content: left;
   width: 60%;
+  word-break: break-word;
 }
 
 .rest-info{
