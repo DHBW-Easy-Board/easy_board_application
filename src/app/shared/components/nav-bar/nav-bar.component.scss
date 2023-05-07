@@ -29,3 +29,10 @@
     color: grey;
     padding: 16px;
 }
+
+.item-label {
+    display:block;
+    width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
