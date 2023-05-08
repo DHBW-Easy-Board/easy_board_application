@@ -9,7 +9,7 @@ import { NotFoundComponent } from 'src/app/shared/components/not-found/not-found
 const routes: Routes = [
     { path: 'boards/:id', component: BoardComponent },
     { path: 'dashboard', component: DashboardComponent },
-    { path: '', component: NotFoundComponent },
+    { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
