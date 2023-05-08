@@ -46,7 +46,7 @@ export class SaveBoardComponent {
         name: new FormControl('', [
             Validators.required,
             Validators.maxLength(30),
-            Validators.pattern('^[a-zA-ZäÄöÖüÜß0-9_-]+'),
+            Validators.pattern('^[a-zA-ZäÄöÖüÜß0-9 _-]+'),
         ]),
         description: new FormControl(''),
     });
