@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit{
   /**
    * Opens delete account dialog.
    */
-  public deleteAccount() {
+  public deleteAccountDialog() {
     this.dialog.open(UserDeleteComponent);
   }
 }

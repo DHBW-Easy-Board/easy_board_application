@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ContainerComponent } from 'src/app/shared/components/container/container.component';
+import { UserDeleteComponent } from './components/user-delete/user-delete.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +20,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     ProfileComponent,
-    EditDialogComponent
+    EditDialogComponent,
+    UserDeleteComponent,
   ],
   imports: [
     CommonModule,
