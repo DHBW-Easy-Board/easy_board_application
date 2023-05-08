@@ -47,7 +47,8 @@ export class BoardComponent {
                 this.userRole = userRole;
             })
             .catch(() => {
-                this.snackbar.open('Couldn\'t get user permissions. Please try again later.', 'Close');
+                this.snackbar.open('Board doesn\'t exist.', 'Close');
+                this.router.navigate(['app/dashboard']);
                 return;
             });
     }
