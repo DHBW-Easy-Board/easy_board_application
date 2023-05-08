@@ -48,7 +48,9 @@ export class SaveBoardComponent {
             Validators.maxLength(30),
             Validators.pattern('^[a-zA-ZäÄöÖüÜß0-9 _-]+'),
         ]),
-        description: new FormControl(''),
+        description: new FormControl('', [
+            Validators.maxLength(2000),
+        ]),
     });
 
     // Inject router to redirect to a new board
