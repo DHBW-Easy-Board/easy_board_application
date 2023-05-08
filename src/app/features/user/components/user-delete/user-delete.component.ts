@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { supabase } from 'src/env/supabase';
 
 @Component({
@@ -8,7 +10,7 @@ import { supabase } from 'src/env/supabase';
   styleUrls: ['./user-delete.component.scss']
 })
 export class UserDeleteComponent {
-    constructor (private snackbar: MatSnackBar) {}
+    constructor (private dialog: MatDialog, private snackbar: MatSnackBar, private router: Router) {}
     
     /**
      * Delete account.
@@ -18,12 +20,20 @@ export class UserDeleteComponent {
 
         if (user.error) {
             this.snackbar.open('An error occured. Please try again later.', 'Ok');
+            return;
         }
 
         const response = await supabase.rpc('delete_user_fc', {
             in_user_id: user.data.user?.id
         });
-        
-        console.log(response);
+
+        if (response.error) {
+            this.snackbar.open('An error occured. Please try again later.', 'Ok');
+            return;
+        }
+
+        localStorage.clear();
+        this.dialog.closeAll();
+        this.router.navigate(['']);
     }
 }
