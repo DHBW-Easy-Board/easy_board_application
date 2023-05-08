@@ -5,10 +5,12 @@ import { KanbanRoutingModule } from './kanban-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 // Components
+import { ArchiveComponent } from './pages/archive/archive.component';
 import { BoardComponent } from './pages/board/board.component';
 import { BoardImageComponent } from './components/board-image/board-image.component';
 import { BoardDeleteComponent } from './components/board-delete/board-delete.component';
 import { BoardEditComponent } from './components/board-edit/board-edit.component';
+import { BoardRestoreComponent } from './components/board-restore/board-restore.component';
 import { CardComponent } from './components/card/card.component';
 import { ColumnComponent } from './components/column/column.component';
 import { ContainerComponent } from 'src/app/shared/components/container/container.component';
@@ -38,13 +40,16 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
+    ArchiveComponent,
     BoardComponent,
     BoardDeleteComponent,
     BoardEditComponent,
+    BoardRestoreComponent,
     BoardImageComponent,
     CardComponent,
     ColumnComponent,
@@ -79,6 +84,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatTableModule,
     MatTooltipModule,
   ]
 })

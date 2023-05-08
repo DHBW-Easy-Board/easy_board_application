@@ -13,14 +13,8 @@
 
 .control-container {
   display: flex;
-  gap: 30px;
+  gap: 5px;
   align-items: center;
-}
-
-.edit-container {
-    display: flex;
-    gap: 5px;
-    align-items: center;
 }
 
 .control-container h3 {
@@ -40,11 +34,17 @@ mat-divider.vertical{
   margin: 0 20px;
 }
 
+.card-title {
+    width: 100%;
+    word-break: break-word;
+}
+
 .card-desc{
   display: flex;
   flex-direction: column;
   justify-content: left;
   width: 60%;
+  word-break: break-word;
 }
 
 .rest-info{

@@ -4,6 +4,13 @@
     cursor: pointer;
 }
 
+.card-title {
+    display: block;
+    width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .card-content {
     display: flex;
     justify-content: flex-end;

@@ -13,6 +13,8 @@
 
 .dashboard-item-title {
     font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .dashboard-item-info {

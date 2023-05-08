@@ -1,0 +1,32 @@
+<app-container>
+    <div class="archive-container">
+        <h1>Archive</h1>
+        <p>Archived boards can still be restored within 30 days.</p>
+        <mat-divider></mat-divider>
+        <table mat-table [dataSource]="boards">
+            <ng-container matColumnDef="board_name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let board">{{ board.board_name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="board_deleted_at">
+                <th mat-header-cell *matHeaderCellDef>Archived at</th>
+                <td mat-cell *matCellDef="let board">{{ board.board_deleted_at | date: "dd.MM.yy" }}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <mat-cell *matCellDef="let board">
+                    <div class="action-container">
+                        <button mat-icon-button color="primary" value="{{ board.board_id }}" (click)="restoreBoard(board.board_id)">
+                            <mat-icon>undo</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" value="{{ board.board_id }}" (click)="deleteBoard(board.board_id)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                  </mat-cell>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+        </table>
+    </div>
+</app-container>

@@ -9,11 +9,16 @@
     <mat-menu #boardMenu="matMenu">
         <span class="menu-section-title">RECENT</span>
         <span *ngIf="latestBoards.length === 0" class="menu-section-info">No boards yet...</span>
-        <button *ngFor="let board of latestBoards" mat-menu-item [routerLink]="['/app/boards', board.board_id]">{{ board.board_name }}</button>
+        <button *ngFor="let board of latestBoards" mat-menu-item [routerLink]="['/app/boards', board.board_id]">
+            <span class="item-label">
+                {{ board.board_name }}
+            </span>
+        </button>
         <mat-divider></mat-divider>
         <button mat-menu-item [routerLink]="['/app/dashboard']">View all boards</button>
         <button mat-menu-item (click)="openCreateBoard()">Create board</button>
     </mat-menu>
+    <button mat-button [routerLink]="['/app/archive']">Archive</button>
     <span class="nav-bar-spacer"></span>
     <button mat-icon-button [routerLink]="['/user/profile']">
         <mat-icon>person</mat-icon>

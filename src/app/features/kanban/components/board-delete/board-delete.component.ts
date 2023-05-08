@@ -43,6 +43,7 @@ export class BoardDeleteComponent {
 
         if (response.error) {
             this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            this.dialog.closeAll();
             return;
         }
 
@@ -55,6 +56,17 @@ export class BoardDeleteComponent {
      * Hard delete a board.
      */
     private async hardDeleteBoard() {
-        alert('ToDo');
+        const response = await supabase.rpc('hard_delete_board', {
+            in_board_id: this.boardId
+        });
+
+        if (response.error) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            this.dialog.closeAll();
+            return;
+        }
+
+        this.snackbar.open('Board sucessfully deleted.', undefined, { duration: 3000 });
+        this.dialog.closeAll();
     }
 }
