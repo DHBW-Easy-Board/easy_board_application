@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { supabase } from 'src/env/supabase';
+import { User } from '@supabase/supabase-js';
 import { Router, RouterModule } from '@angular/router';
 import { Board } from 'src/app/core/models/board.model';
 import { SlideService } from '../../services/slide.service';
@@ -32,6 +33,7 @@ import { signOut } from 'src/app/core/utils/user.actions';
 })
 export class NavBarComponent {
     public latestBoards: Board[] = [];
+    public user: User|undefined;
 
     // Customization
     public logoUrl: string = 'assets/img/logo.png';
@@ -40,7 +42,19 @@ export class NavBarComponent {
     constructor(private slideService: SlideService, private router: Router, private snackbar: MatSnackBar) { }
 
     ngOnInit() {
+        this.getUser();
         this.getLatestBoards();
+    }
+
+    private async getUser() {
+        const response = await supabase.auth.getUser();
+
+        if (response.error) {
+            this.snackbar.open('Couldn\'t load user data.', 'Ok', { duration: 3000 });
+            return;
+        }
+        
+        this.user = response.data.user;
     }
 
     /**
