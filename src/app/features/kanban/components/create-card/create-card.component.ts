@@ -46,7 +46,7 @@ export class CreateCardComponent {
   dirty: boolean = true
 
   /**
-   * Column and assigne values for view
+   * Column and assignee values for view
    */
   assignees: BoardAssigneeModel[] = [];
   responseColumns: BoardColumn[] = [];
@@ -89,7 +89,7 @@ export class CreateCardComponent {
   ) {  }
 
   /**
-   * important for expandle form label for the description
+   * important for expandable form label for the description
    */
   @ViewChild('autosize') autosize: CdkTextareaAutosize | undefined;
 
@@ -101,7 +101,7 @@ export class CreateCardComponent {
       fAssignee: new FormControl('', Validators.required),
       fColumn: new FormControl('', Validators.required),
       fDueDate: new FormControl('', Validators.required),
-      fDescription: new FormControl('', [Validators.pattern("(.|\\n)*")]),
+      fDescription: new FormControl('', [Validators.pattern("(.|\\n)*"), Validators.maxLength(2000)]),
     }
   );
 
@@ -110,14 +110,14 @@ export class CreateCardComponent {
    * Submits the card form (edit or creation of a card)
    */
   public async submitCardForm() {
-    //Incase unassigned
+    //In case unassigned
     if(this.addCardForm.value.fAssignee != 'unassigned'){
       this.formAssignee = <string>this.addCardForm.value.fAssignee
     }
     else{
       this.formAssignee = null
     }
-    //Edit exisiting card
+    //Edit existing card
     if (this.isEdit) {
       await supabase
         .from('card')
