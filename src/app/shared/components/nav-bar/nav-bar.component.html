@@ -20,6 +20,7 @@
     </mat-menu>
     <button mat-button [routerLink]="['/app/archive']">Archive</button>
     <span class="nav-bar-spacer"></span>
+    <span class="username">{{ user?.email }}</span>
     <button mat-icon-button [routerLink]="['/user/profile']">
         <mat-icon>person</mat-icon>
     </button>

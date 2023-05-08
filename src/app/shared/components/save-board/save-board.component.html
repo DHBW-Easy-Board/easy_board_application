@@ -10,7 +10,18 @@
         </mat-form-field>
         <mat-form-field class="full-width">
             <mat-label>Description</mat-label>
-            <input id="description" type="text" matInput formControlName="description">
+            <textarea
+                id="description"
+                type="text"
+                matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="100"
+                formControlName="description" 
+                wrap="hard">
+            </textarea>
+            <mat-error *ngIf="description?.errors?.['maxlength']">Board description can't be longer than 2000 characters.</mat-error>
         </mat-form-field>
         <button type="submit" class="full-width" mat-flat-button color="primary" [disabled]="saveBoardForm.disabled">{{ submitLabel }}</button>
     </form>
