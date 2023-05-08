@@ -3,6 +3,7 @@ import { User } from '@supabase/supabase-js';
 import { supabase } from 'src/env/supabase';
 import {MatDialog} from '@angular/material/dialog';
 import { EditDialogComponent } from '../../components/edit-dialog/edit-dialog.component';
+import { UserDeleteComponent } from '../../components/user-delete/user-delete.component';
 
 
 @Component({
@@ -22,10 +23,21 @@ export class ProfileComponent implements OnInit{
     });
   }
 
-  openDialog(type: string): void {
+  /**
+   * Opens edit dialog.
+   * 
+   * @param type Edit type 
+   */
+  public openDialog(type: string): void {
     this.dialog.open(EditDialogComponent, {
       data: {type: type},
     });
   }
 
+  /**
+   * Opens delete account dialog.
+   */
+  public deleteAccount() {
+    this.dialog.open(UserDeleteComponent);
+  }
 }
