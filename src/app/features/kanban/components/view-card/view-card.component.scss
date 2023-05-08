@@ -47,6 +47,10 @@ mat-divider.vertical{
   word-break: break-word;
 }
 
+.assignee-label {
+    word-break: break-all;
+}
+
 .rest-info{
   display: flex;
   flex-direction: column;
