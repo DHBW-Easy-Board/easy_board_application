@@ -32,8 +32,10 @@ export async function getRole(boardId: number|undefined): Promise<Roles> {
         .eq('board_id', boardId)
         .eq('user_id', user.data.user.id);
 
-    if (role.error)
+    if (role.error) {
+        console.log(role.error);
         throw role.error;
+    }
 
     const roleName = role.data[0].role_name;
 

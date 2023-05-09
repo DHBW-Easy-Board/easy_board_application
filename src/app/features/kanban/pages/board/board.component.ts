@@ -46,7 +46,9 @@ export class BoardComponent {
             .then((userRole) => {
                 this.userRole = userRole;
             })
-            .catch(() => {
+            .catch((error) => {
+                console.log('USER');
+                console.log(error);
                 this.snackbar.open('Board doesn\'t exist.', 'Close');
                 this.router.navigate(['app/dashboard']);
                 return;
@@ -65,6 +67,8 @@ export class BoardComponent {
             .eq('board_id', boardId);
 
         if (response.error || response.data.length === 0) {
+            console.log('BOARD');
+            console.log(response.error);
             this.snackbar.open('Board doesn\'t exist.', 'Close');
             this.router.navigate(['app/dashboard']);
             return;
@@ -85,6 +89,8 @@ export class BoardComponent {
             .order('position');
 
         if (response.error) {
+            console.log('COLUMNS');
+            console.log(response.error);
             this.snackbar.open('Board doesn\'t exist.', 'Close');
             return;
         }
