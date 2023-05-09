@@ -6,5 +6,8 @@
             <button style="margin-right: 10px;" mat-flat-button color="primary" (click)="openDialog('email')">Edit mail</button>
             <button style="margin-right: 10px;" mat-flat-button color="primary" (click)="openDialog('password')">Change Password</button>
         </div>
+        <mat-divider></mat-divider>
+        <p>Deleting your Account, deletes all boards, columns, cards. This can't be reverted.</p>
+        <button mat-flat-button color="warn" (click)="deleteAccountDialog()">Delete Account</button>
     </div>    
 </app-container>

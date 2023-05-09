@@ -157,6 +157,7 @@ export class UserRoleListComponent implements OnInit{
 
     if(response.error) {
       this.showError(response.error,  "An error occured, please try again later");
+      this.loadAssignedUser();
     } else {
       this.loadAssignedUser();
       this.snackBar.open("User was successfully updated", undefined, { duration: 2000 })

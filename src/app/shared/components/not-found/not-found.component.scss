@@ -1,0 +1,15 @@
+.not-found-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.not-found-container p {
+    color: #000000;
+    font-size: 64px;
+    font-weight: bold;
+}

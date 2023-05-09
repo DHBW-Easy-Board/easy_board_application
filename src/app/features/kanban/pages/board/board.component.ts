@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Column } from 'src/app/core/models/column.model';
+import { Roles, getRole } from 'src/app/core/models/role.model';
 import { supabase } from 'src/env/supabase';
+import { BoardStateService } from 'src/app/core/services/board-state.service';
 import { CreateCardComponent } from '../../components/create-card/create-card.component';
+import { BoardEditComponent } from '../../components/board-edit/board-edit.component';
 
 @Component({
   selector: 'app-board',
@@ -16,15 +19,38 @@ export class BoardComponent {
     public title = 'Board';
     public columns: Column[] = [];
 
-    constructor (private route: ActivatedRoute, private dialog: MatDialog, private snackbar: MatSnackBar) { }
+    // Access to the roles enum in the html template 
+    public roles: typeof Roles = Roles;
+    public userRole: Roles = Roles.Watcher;
+
+    constructor (
+        private boardState: BoardStateService,
+        private router: Router,
+        private route: ActivatedRoute,
+        private dialog: MatDialog, 
+        private snackbar: MatSnackBar
+    ) { 
+        this.boardState.board$.subscribe(() => {
+            this.getBoardData(this.id);
+        });
+    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.id = params['id'];
-
-            if (this.id)
-                this.getBoard(this.id);
+            this.getBoardData(this.id);
+            this.getColumns(this.id);
         });
+
+        getRole(this.id)
+            .then((userRole) => {
+                this.userRole = userRole;
+            })
+            .catch(() => {
+                this.snackbar.open('Board doesn\'t exist.', 'Close');
+                this.router.navigate(['app/dashboard']);
+                return;
+            });
     }
 
     /**
@@ -32,18 +58,19 @@ export class BoardComponent {
      * 
      * @param boardId 
      */
-    private async getBoard(boardId: number) {
+    private async getBoardData(boardId: number|undefined) {
         const response = await supabase.from('board_ov_auth_vw')
             .select('*')
+            .eq('board_is_active', 1)
             .eq('board_id', boardId);
 
-        if (response.error) {
-            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+        if (response.error || response.data.length === 0) {
+            this.snackbar.open('Board doesn\'t exist.', 'Close');
+            this.router.navigate(['app/dashboard']);
             return;
         }
 
         this.title = response.data[0]['board_name'];
-        this.getColumns(boardId);
     }
 
     /**
@@ -51,14 +78,14 @@ export class BoardComponent {
      * 
      * @param boardId 
      */
-    private async getColumns(boardId: number) {
+    private async getColumns(boardId: number|undefined) {
         const response = await supabase.from('board_column_sm_auth_vw')
             .select('*')
             .eq('board_id', boardId)
             .order('position');
 
         if (response.error) {
-            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            this.snackbar.open('Board doesn\'t exist.', 'Close');
             return;
         }
 
@@ -79,5 +106,21 @@ export class BoardComponent {
         });
         dialogRef.componentInstance.boardId = this.id;
         dialogRef.componentInstance.isEdit = false;
+    }
+
+    /**
+     * Open settings.
+     */
+    public openSettings() {
+        if (!this.id) {
+            this.snackbar.open('An error occurred. Please try again later.', 'Close');
+            return;
+        }
+
+        const dialogRef = this.dialog.open(BoardEditComponent, {
+            maxHeight: '90vh',
+            width: '75vw',
+        });
+        dialogRef.componentInstance.boardId = this.id;
     }
 }

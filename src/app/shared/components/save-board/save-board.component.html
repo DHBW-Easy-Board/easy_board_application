@@ -1,20 +1,31 @@
 <div class="save-board-container">
-    <h1>{{ title }}</h1>
+    <h1 *ngIf="!boardId">{{ title }}</h1>
     <form [formGroup]="saveBoardForm" (ngSubmit)="saveBoard()">
         <mat-form-field class="full-width">
             <mat-label>Name</mat-label>
             <input id="name" type="text" matInput formControlName="name" required>
             <mat-error *ngIf="name?.errors?.['required']">Name is required.</mat-error>
             <mat-error *ngIf="name?.errors?.['maxlength']">Board name can't be longer than 30 characters.</mat-error>
-            <mat-error *ngIf="name?.errors?.['pattern']">Only alphanumeric and the special characters _- are allowed.</mat-error>
+            <mat-error *ngIf="name?.errors?.['pattern']">Only alphanumeric, the special characters _ - and spaces are allowed.</mat-error>
         </mat-form-field>
         <mat-form-field class="full-width">
             <mat-label>Description</mat-label>
-            <input id="description" type="text" matInput formControlName="description">
+            <textarea
+                id="description"
+                type="text"
+                matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="100"
+                formControlName="description" 
+                wrap="hard">
+            </textarea>
+            <mat-error *ngIf="description?.errors?.['maxlength']">Board description can't be longer than 2000 characters.</mat-error>
         </mat-form-field>
-        <button type="submit" class="full-width" mat-flat-button color="primary" [disabled]="saveBoardForm.disabled">Create Board</button>
+        <button type="submit" class="full-width" mat-flat-button color="primary" [disabled]="saveBoardForm.disabled">{{ submitLabel }}</button>
     </form>
-    <p class="disclaimer">
+    <p *ngIf="!boardId" class="disclaimer">
         The current version of EasyBoard doesn't support creating custom columns yet. Instead a board gets
         created with the default columns ToDo, In Progress and Done.
     </p>

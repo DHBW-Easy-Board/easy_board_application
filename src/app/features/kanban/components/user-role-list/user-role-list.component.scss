@@ -1,6 +1,6 @@
 .assigneeContainer {
   display: flex;
-  padding: 10px;
+  margin-top: 10px;
   gap: 10px;
   flex-wrap: wrap;
 }
@@ -12,6 +12,7 @@
   padding: 30px;
   align-items: center;
   background-color: white;
+  border: 1px solid lightgray;
   border-radius: 10px;
 }
 
@@ -39,6 +40,7 @@
 .addAssigneeContainer {
   padding: 15px;
   background-color: white;
+  border: 1px solid lightgray;
   border-radius: 10px;
 }
 

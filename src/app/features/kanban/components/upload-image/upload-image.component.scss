@@ -1,0 +1,60 @@
+.upload-box {
+    font-size: 16px;
+    background: white;
+    width: 350px;
+    outline: none;
+    padding-right: 10px;
+}
+
+.uploadComponent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    width:fit-content;
+}
+
+.imageSize {
+    width: 200px;
+    height: 200px;
+}
+
+.spinnerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input {
+    height: 60px;
+    display: flex;
+    justify-content:space-around;
+    align-items: center;
+}
+
+::-webkit-file-upload-button {
+    color: white;
+    background: #3f51b5;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    margin-right: 20px;
+}
+
+::-webkit-file-upload-button:hover {
+    background: #5563b8;
+}
+
+.buttonContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.imagePlaceholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gainsboro;
+}

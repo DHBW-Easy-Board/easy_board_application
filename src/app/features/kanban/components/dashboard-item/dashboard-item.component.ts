@@ -14,4 +14,7 @@ export class DashboardItemComponent {
 
     @Input()
     public boardLastUpdated: Date = new Date();
+
+    @Input()
+    public imageData?: string | null;
 }

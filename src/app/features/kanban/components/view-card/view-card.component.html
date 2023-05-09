@@ -1,24 +1,17 @@
 <div mat-dialog-content>
   <div class="headerContent">
-    <h1 mat-dialog-title>{{cardContext.name}}</h1>
-    <div class="contextButtons">
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu button">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="openEditCardDialog()">
-          <mat-icon>edit</mat-icon>
-          <span>Edit card</span>
+    <div class="control-container">
+        <h3 class="card-title">{{cardContext.name}}</h3>
+        <button mat-icon-button *ngIf="viewAuth" (click)="openEditCardDialog()">
+            <mat-icon>edit</mat-icon>
         </button>
-        <button mat-menu-item (click)="openDeleteCardDialog()">
-          <mat-icon>delete</mat-icon>
-          <span>Delete Card</span>
+        <button mat-icon-button color="warn" *ngIf="viewAuth" (click)="openDeleteCardDialog()">
+            <mat-icon>delete</mat-icon>
         </button>
-      </mat-menu>
-      <button mat-icon-button mat-dialog-close aria-label="back button">
-        <mat-icon>close</mat-icon>
-      </button>
     </div>
+    <button mat-icon-button mat-dialog-close aria-label="back button">
+        <mat-icon>close</mat-icon>
+    </button>
   </div>
   <mat-divider class="horizontal"></mat-divider>
   <div class="parent-view-card">
@@ -29,11 +22,11 @@
     <mat-divider [vertical]="true" class="vertical"></mat-divider>
     <div class="rest-info">
       <div class="assigne">
-        <h3>Assigne:</h3>
-        <p>{{userName}}</p>
+        <h3>Assignee:</h3>
+        <p class="assignee-label">{{userName}}</p>
       </div>
       <div class="column">
-        <h3>Card column/status:</h3>
+        <h3>Card status:</h3>
         <p>{{columnName}}</p>
       </div>
       <div class="due-date">

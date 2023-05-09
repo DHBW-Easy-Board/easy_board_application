@@ -1,8 +1,24 @@
+.authBox{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .headerContent{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.control-container {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.control-container h3 {
+    padding: 0;
 }
 
 .parent-view-card{
@@ -18,11 +34,21 @@ mat-divider.vertical{
   margin: 0 20px;
 }
 
+.card-title {
+    width: 100%;
+    word-break: break-word;
+}
+
 .card-desc{
   display: flex;
   flex-direction: column;
   justify-content: left;
   width: 60%;
+  word-break: break-word;
+}
+
+.assignee-label {
+    word-break: break-all;
 }
 
 .rest-info{

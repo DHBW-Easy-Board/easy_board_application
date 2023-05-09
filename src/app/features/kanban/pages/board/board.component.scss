@@ -10,9 +10,21 @@
     justify-content: space-between;
 }
 
-.board-header button {
-    font-size: 24px;
-    padding: 40px;
+.info-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.board-logo {
+    height: 50px;
+    width: 50px;
+}
+
+.control-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .board-content {

@@ -50,6 +50,11 @@ export class EditDialogComponent implements OnInit {
      * @returns Promise<void>
      */
   public async changeEmail(): Promise<void> {
+    if (this.currentUser?.email === this.email?.value) {
+        this.snackBar.open('Email didn\'t change.', undefined, { duration: 3000 });
+        return;
+    }
+
     if (this.email?.errors || !this.email?.value)
       return;
     
@@ -60,7 +65,7 @@ export class EditDialogComponent implements OnInit {
       this.errorMsg = error;
     });
 
-    if (result != null && result.data != null) {
+    if (result?.data.user) {
       this.snackBar.open("Confirmation mail has been send to your new mail address", "", {
         duration: 3000
       });
@@ -68,9 +73,9 @@ export class EditDialogComponent implements OnInit {
       return;
     }
       
-      this.snackBar.open("Mail address could not be changed", "", {
-        duration: 3000
-      });
+    this.snackBar.open("Mail address could not be changed", "", {
+    duration: 3000
+    });
   }
 
   /**
@@ -92,7 +97,7 @@ export class EditDialogComponent implements OnInit {
       this.errorMsg = error;
     });
 
-    if (result != null && result.data != null) {
+    if (result?.data.user) {
       this.snackBar.open("Your password has been changed", "", {
         duration: 3000
       });
