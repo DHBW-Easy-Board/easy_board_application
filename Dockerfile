@@ -7,7 +7,7 @@ FROM node:18 as build
 WORKDIR /usr/local/easyboard
 
 # Add the source code to app
-RUN git clone https://github.com/DHBW-Easy-Board/easy_board_application.git ./
+RUN git clone -b EB-132_Docker https://github.com/DHBW-Easy-Board/easy_board_application.git ./
 
 # Install all the dependencies
 RUN npm install
