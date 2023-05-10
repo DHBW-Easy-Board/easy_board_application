@@ -9,12 +9,12 @@ version: "3.8"
 services:
   easyboard:
     container_name: easyboard
-    image: ebt
+    image: metaemk/easyboard:latest
     ports:
       - 80:80
     environment:
       API_URL: ${API_EXTERNAL_URL}
-      API_TOKEN: ${ANON_KEY} 
+      API_TOKEN: ${ANON_KEY}
 
   studio:
     container_name: supabase-studio
