@@ -1,51 +1,30 @@
-# EasyBoard
-An easy to use Kanban Webapp. Start planning your projects today!
+# Easy Board
+An easy to use open source Kanban web application. Start planning your projects today!
 
-## Install with Docker (recommended)
-### Requirements
-- docker installed
-- pgadmin installed
-- git cli (heavily recommended)
+Easy Board ships as Docker containers. This allows for easy and fast deployment which allows you to host it on premise or with the help of a cloud provider! 
 
-### Installation
+## Getting started
+1. If not already done, install the latest version of Docker and pgAdmin
+2. Clone this repository or download and extract the .zip file
+3. Navigate to `easy_board_application/docker`
+4. Copy `.env.example` to `.env` 
+5. Change all enviroment variables as required (You can use the default values for testing purposes on localhost)
+6. Run `docker compose up` and wait until all containers are up and running
+7. Go to pgAdmin and register your server. Set your connection values as declared in your .env:
+    - Port: `POSTGRES_PORT` 
+    - Username: `POSTGRES_DB`
+    - Password: `POSTGRES_PASSWORD`
+8. After successful registration open YourServerName > Databases > postgres
+9. Right click postgres and choose `Restore...`
+10. Select the file `nodata.backup`
+11. Under Data/Objects select Type of objects > `Only schema`
+12. Click `Restore` - IMPORTANT: This job will fail due to the preconfigured database. This is correct and the error can be ignored.
+13. Now open YourServerName > Schemas > public > Tables
+14. Right click `role` and choose `Restore...`
+15. Select the file `roledata.backup`
+16. Under Data/Objects select Type of objects > `Only data`
+17. Click `Restore`
+18. Well done! You successfully configured your Easy Board application!
 
-1. Go to your installation folder
-2. run `git clone https://github.com/DHBW-Easy-Board/easy_board_application.git` or download and extract .zip file
-3. `cd easy_board_application/docker`
-4. cp .env.example .env 
-5. change all enviroment variables nessesary for your installation (passwords)
-6. `docker compose up` (add `-d` for detached mode)
-7. Wait until all docker container are up and running
-
-8. open pgadmin
-9. register your server (default: on port 5432)
-- `POSTGRES_DB`: as username
-- `POSTGRES_PORT`: as port
-- `POSTGRES_PASSWORD`: as password
-
-10. after successfull registration unfold your server > Databases > postgres
-11. right click on postgres and choose `restore`
-12. select `nodata.backup` file
-13. Go to `Data/Objects` and select `only schema` (under type of objects)
-14. click restore (!!!NOTICE: this job will fail due to the preconfiged database, this is totally fine!!!)
-15. when the job fails, unfold `Schemas/public/Tables`
-16. right click on `role` and click `restore`
-17. select `roledata.backup` file
-18. under `Data/Objects` check if `Only Data` is selected
-19. click `restore` (this job should not fail)
-20. well done! You successfully configured your database. You can now use the app!
-
-## Install locally
-
-### Getting started
-1. If not already done, install the latest version of node and npm
-2. Run `npm install`
-
-### Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-### Build
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-### Further help
+## Further help
 To get more help on EasyBoard visit our [helpdesk](https://kanbanappdhbw.atlassian.net/wiki/spaces/EBH/overview)!.
