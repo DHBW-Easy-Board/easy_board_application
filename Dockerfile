@@ -1,13 +1,13 @@
 # Stage 1: Compile and Build angular codebase
 
 # Use official node image as the base image
-FROM node:18 as build
+FROM node:20.1.0-alpine3.17 as build
 
 # Set the working directory
 WORKDIR /usr/local/easyboard
 
 # Add the source code to app
-RUN git clone -b EB-132_Docker https://github.com/DHBW-Easy-Board/easy_board_application.git ./
+COPY . .
 
 # Install all the dependencies
 RUN npm install
